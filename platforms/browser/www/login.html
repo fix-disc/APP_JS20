@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Iniciar sesión</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="body_vid" style="z-index: 0;"></div>
+    <a href="index.html" class="home-icon" aria-label="Ir al inicio" style="z-index: 1;">
+        <img src="img/JS sin fondo.png" alt="Logo sin fondo" width="60" height="60" />
+    </a>
+    <div class="login-container" style="z-index: 10;">
+        <h2>Iniciar sesión</h2>
+        <input id="email" type="email" placeholder="Correo electrónico" autocomplete="username" required>
+        <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+        <a href="recuperar.html" class="forgot-link">¿SE TE OLVIDO TU CONTRASEÑA?</a>
+        <button class="ingresa-btn" onclick="login_user()">INGRESAR</button>
+    </div>
+    
+</body>
+</html>
+
+<script src="js/api.js"></script>
+<script src="js/behaviour.js"></script>
+<script>
+
+    async function login_user(){
+        usuario = document.getElementById("email").value;
+        password = document.getElementById("password").value;
+        res = await login_usuario(usuario, password);
+        if(res.length > 0){
+            abre_pag('reclamo.html');
+        }
+        alert("RES: " + JSON.stringify(res))
+    }
+
+</script>

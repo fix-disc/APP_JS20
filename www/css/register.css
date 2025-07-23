@@ -1,0 +1,113 @@
+body {
+    background: #E4E4E4;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.register-container {
+    width: 75%;
+    max-width: 340px;
+    margin: 80px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 32px 24px 24px 24px;
+    position: relative;
+}
+.register-container h2 {
+    color: #129be5;
+    margin-top: 0;
+}
+.register-container input {
+    width: 95%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+.register-container button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #129be5;
+    color: #fff;
+    font-size: 16px;
+    margin-top: 12px;
+    cursor: pointer;
+}
+.home-icon {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background: none;
+}
+.home-icon svg {
+    display: block;
+    stroke: #129be5;
+    transition: stroke 0.2s;
+}
+.home-icon:hover svg {
+    stroke: #0d7bbd;
+}
+.phone-group {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    margin: 10px 0;
+}
+.country-code {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px 8px;
+    font-size: 16px;
+    background: #f8f8f8;
+    min-width: 110px;
+    outline: none;
+}
+.phone-group input[type="tel"] {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+.phone-group-chile {
+    display: flex;
+    align-items: center;
+    width: 93%;
+    gap: 8px;
+    margin: 10px 0;
+    background: #f8f8f8;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+}
+.flag-chile {
+    display: flex;
+    align-items: center;
+    margin-right: 4px;
+}
+.prefix {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    margin-right: 4px;
+    min-width: 32px;
+}
+.phone-group-chile input[type="tel"] {
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    outline: none;
+    flex: 1;
+    padding: 8px 0;
+}
+.phone-group-chile input[type="tel"]::placeholder {
+    color: #aaa;
+} 

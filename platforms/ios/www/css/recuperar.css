@@ -1,0 +1,75 @@
+body {
+    background: #E4E4E4;
+    font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.recuperar-container {
+    max-width: 340px;
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 32px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.recuperar-container h2 {
+    color: #129be5;
+    margin-top: 0;
+}
+.recuperar-container p {
+    color: #444;
+    font-size: 15px;
+    text-align: center;
+    margin-bottom: 18px;
+}
+.recuperar-container input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+.recuperar-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background: #129be5;
+    color: #fff;
+    font-size: 18px;
+    margin-top: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+}
+.recuperar-btn:hover {
+    background: #0d7bbd;
+}
+.home-icon {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background: none;
+}
+.home-icon svg {
+    display: block;
+    stroke: #129be5;
+    transition: stroke 0.2s;
+}
+.home-icon:hover svg {
+    stroke: #0d7bbd;
+} 

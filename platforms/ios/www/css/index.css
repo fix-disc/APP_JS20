@@ -1,0 +1,228 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#E4E4E4;
+    background-image:linear-gradient(to bottom, #A7A7A7 0%, #E4E4E4 51%);
+    font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
+    font-size:12px;
+    height:100vh;
+    margin:0px;
+    padding:0px;
+    /* Padding to avoid the "unsafe" areas behind notches in the screen */
+    padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+    text-transform:uppercase;
+    width:100%;
+}
+
+/* Portrait layout (default) */
+.app {
+    /* background:url(../img/planorecoleta.mp4) no-repeat center top; /* 170px x 200px */
+    position:absolute;          
+    left:50%;
+    top:30%;
+    height:150px;                   
+    width:200px;                 
+    text-align: center;
+                                   
+    border: 1px solid red;
+}
+
+
+
+h1 {
+    font-size:24px;
+    color: #095076;
+    font-weight:normal;
+    margin:0px;
+    overflow:visible;
+    padding:0px;
+    text-align:center;
+}
+
+.event {
+    border-radius:4px;
+    color:#FFFFFF;
+    font-size:12px;
+    margin:0px 30px;
+    padding:2px 0px;
+}
+
+.event.listening {
+    background-color:#333333;
+    display:block;
+}
+
+.event.received {
+    background-color:#129be5;
+    display:none;
+}
+
+#deviceready.ready .event.listening { display: none; }
+#deviceready.ready .event.received { display: block; }
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+
+.blink {
+    animation:fade 1500ms infinite;
+    -webkit-animation:fade 1500ms infinite;
+}
+
+
+.body_vid{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: brightness(2.8);
+    background:url(../img/fondo.gif) no-repeat center top;
+    bottom: 0px;
+    background-size: cover;
+}
+
+.body_flat{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: brightness(2.8);
+    bottom: 0px;
+    background-size: cover;
+}
+
+#logo-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.7s cubic-bezier(0.77,0,0.175,1);
+    z-index: 10;
+}
+#logo-container.moved {
+    left: 50%;
+    top: 60px;
+    transform: translate(-50%, 0) scale(0.5);
+}
+#main-logo {
+    cursor: pointer;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+    background: white;
+}
+
+#welcome-modal {
+    position: fixed;
+    left: 0; right: 0; top: 0; bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.4);
+    z-index: 20;
+    opacity: 1;
+    transition: opacity 1.2s;
+}
+#welcome-modal.hidden {
+    display: none;
+    opacity: 0;
+}
+#welcome-modal .welcome-content {
+    transform: translateY(95vh);
+    opacity: 0;
+    transition: transform 0.7s cubic-bezier(0.77,0,0.175,1), opacity 0.5s;
+}
+#welcome-modal.show .welcome-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+.welcome-content {
+    position: relative;
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 24px 24px 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    text-align: center;
+    min-width: 260px;
+    max-width: 350px;
+    margin-top: 32px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.welcome-content h2 {
+    margin-top: 0;
+    color: #095076;
+}
+
+.welcome-content button {
+    margin: 12px 8px 0 8px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    background: #129be5;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.welcome-content button:hover {
+    background: #0d7bbd;
+}
+.close-btn {
+    position: absolute;
+    top: 8px;
+    right: -18px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #000;
+    cursor: pointer;
+    z-index: 30;
+    box-shadow: none;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.close-btn:hover {
+    color: #129be5;
+    background: none;
+}
+
+#click-hint {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight:bold;
+    color: #ffffff;
+    text-align: center;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    user-select: none;
+    font-family: 'Segoe UI', 'Arial Narrow', Arial, sans-serif;
+    font-stretch: expanded;
+    font-weight: 500;
+    line-height: 1.5;
+}
