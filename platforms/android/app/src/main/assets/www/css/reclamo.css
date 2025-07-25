@@ -1,0 +1,361 @@
+body {
+    background-image: url('../img/FondoReclamo.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+textarea{
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 8px;
+    width: 97%;
+    height: 60%;
+}
+
+.reclamo-container {
+    max-width: 340px;
+    width: 75%;
+    height: 60%;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 32px 24px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.reclamo-container h2 {
+    color: #129be5;
+    margin-top: 0;
+}
+
+.reclamo-container h3 {
+    color: black;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    font-weight: 300;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+.reclamo-container input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+.reclamo-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background: #129be5;;
+    color: #fff;
+    font-size: 18px;
+    margin-top: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+}
+.reclamo-btn:hover {
+    background: #0d7bbd;
+}
+
+.reclamo-btn-can {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background: #e55c12;
+    color: #fff;
+    font-size: 18px;
+    margin-top: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+}
+.reclamo-btn-can:hover {
+    background: #bd390d;
+}
+
+.ingresa-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background: #129be5;;
+    color: #fff;
+    font-size: 18px;
+    margin-top: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.2s;
+}
+.ingresa-btn:hover {
+    background: #0d7bbd;
+}
+
+.forgot-link {
+    display: block;
+    margin: 8px 0 0 0;
+    text-align: center;
+    color: #129be5;
+    text-decoration: underline;
+    font-size: 15px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.forgot-link:hover {
+    color: #0d7bbd;
+    text-decoration: underline;
+}
+.home-icon {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background: none;
+}
+.home-icon svg {
+    display: block;
+    stroke: #129be5;
+    transition: stroke 0.2s;
+}
+.home-icon:hover svg {
+    stroke: #2dfff8;
+    box-shadow: #ccc;
+}
+
+/* Microphone container */
+.mic-container {
+    margin-top: 20px;
+    width: 100%;
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Microphone image */
+.mic-container img {
+    transition: filter 0.3s ease;
+}
+
+/* Recording state: microphone icon green */
+.mic-container.recording img {
+    filter: drop-shadow(0 0 5px #00ff00) saturate(2);
+}
+
+.recording-text {
+    display: none;
+    color: #00cc00;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 8px;
+    user-select: none;
+}
+
+/* Mostrar texto de grabacion hacia abajo */
+.mic-container.recording .recording-text {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reclamo-confirmation {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 128, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideUp {
+    0% {
+        bottom: 0;
+        opacity: 0;
+        transform: translateX(-50%) translateY(100%);
+    }
+    100% {
+        bottom: 50%;
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes glowOn {
+    0% {
+        box-shadow: 0 0 0 rgba(0, 128, 0, 0);
+    }
+    100% {
+        box-shadow: 0 0 40px 20px rgba(0, 128, 0, 1);
+    }
+}
+
+@keyframes glowOff {
+    0% {
+        box-shadow: 0 0 40px 20px rgba(0, 128, 0, 1);
+    }
+    100% {
+        box-shadow: 0 0 0 rgba(0, 128, 0, 0);
+    }
+}
+
+@keyframes slideDownFade {
+    0% {
+        bottom: 50%;
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        bottom: 0;
+        opacity: 0;
+        transform: translateX(-50%) translateY(100%);
+    }
+}
+
+.aprobado-icon {
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+    transition: transform 0.5s ease;
+}
+
+.scale-up {
+    transform: scale(1.15);
+}
+
+.scale-down {
+    transform: scale(1);
+}
+
+@keyframes moveUpAndFade {
+    0% {
+        bottom: 0;
+        opacity: 1;
+        box-shadow: 0 0 20px rgba(0, 128, 0, 0.7);
+        transform: translateX(-50%) translateY(100%);
+    }
+    40% {
+        bottom: 50%;
+        opacity: 1;
+        box-shadow: 0 0 40px 20px rgba(0, 128, 0, 1);
+        transform: translateX(-50%) translateY(0);
+    }
+    85% {
+        bottom: 50%;
+        opacity: 1;
+        box-shadow: 0 0 40px 20px rgba(0, 128, 0, 1);
+        transform: translateX(-50%) translateY(0);
+    }
+    90% {
+        box-shadow: 0 0 0 rgba(0, 128, 0, 0);
+    }
+    95% {
+        box-shadow: 0 0 40px 20px rgba(0, 128, 0, 1);
+    }
+    100% {
+        bottom: 0;
+        opacity: 0;
+        box-shadow: 0 0 0 rgba(0, 128, 0, 0);
+        transform: translateX(-50%) translateY(100%);
+    }
+}
+
+.aprobado-icon {
+    width: 100px;
+    height: 100px;
+    margin-top:20px;
+}
+
+@keyframes moveUp {
+    0% {
+        bottom: 0;
+        opacity: 0;
+        transform: translateX(-50%) translateY(100%);
+    }
+    100% {
+        bottom: 50%;
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+@keyframes sparkle {
+    0% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 40px 20px rgba(255, 255, 255, 1);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 30px 15px rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.3);
+    }
+}
+
+.reclamo-confirmation .checkmark {
+    font-size: 48px;
+}
+
+.mic-container {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mic-container img {
+    width: 100px !important;
+    height: 100px !important;
+    display: block;
+}
+
+.reclamo-btn {
+    margin-left: 50%;
+    margin-right: 50%;
+    font-size: 24px;
+    padding: 20px;
+    width: auto;
+    max-width: 300px;
+}

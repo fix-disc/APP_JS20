@@ -27,7 +27,6 @@
       "PACKAGE_NAME": "io.cordova.hellocordova"
     },
     "cordova-plugin-media-capture": {
-      "ANDROIDX_WEBKIT_VERSION": "1.4.0",
       "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },

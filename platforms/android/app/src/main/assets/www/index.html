@@ -7,12 +7,13 @@
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
-        <title>Inicio</title>
+        <title>Justicia-Sociapp</title>
+        <link rel="icon" type="image/png" href="img/JS sin fondo.png">
     </head>
     <body>
-        <div class="body_flat"></div>
+        <div class="body_vid"></div>
         <div id="logo-container">
-            <img id="main-logo" src="img/LogoRecortadoa.png" width="200px" alt="Logo">
+            <img id="main-logo" src="img/JS sin fondo.png" width="200px" alt="Logo">
             <div id="click-hint">CLICKEAME! :D</div>
         </div>
         <div id="welcome-modal" class="hidden">
@@ -30,3 +31,26 @@
         <script src="js/behaviour.js"></script>
     </body>
 </html>  
+
+<script>
+
+var uuid = "";
+var fabrica = "";
+var modelo = "";
+var platform = "";
+
+async function valida_usuario(){
+    try{
+        alert(uuid);
+        if(uuid == ""){uuid = "25"}
+        res = await get_users(uuid);
+        alert("RES: " + JSON.stringify(res))
+        if (res.length == 0){
+            abre_pag("error_uuid.html");
+        }
+    }catch(e){
+        alert("ERROR: " + e)
+    }
+}
+
+</script>
