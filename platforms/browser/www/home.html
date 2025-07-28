@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Página de Inicio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/home.css" />
+</head>
+<body>
+    <div id="background-carousel">
+        <div class="carousel-bg-image" style="background-image: url('img/FondoHome1.jpg');"></div>
+        <div class="carousel-bg-image" style="background-image: url('img/FondoHome2.jpg');"></div>
+        <div class="carousel-bg-image" style="background-image: url('img/FondoHome3.jpg');"></div>
+        <div class="carousel-bg-image" style="background-image: url('img/FondoHome4.jpg');"></div>
+        <div class="carousel-bg-image" style="background-image: url('img/FondoHome5.jpeg');"></div>
+    </div>
+    <div id="content-container">
+        <div class="header-logos">
+            <img src="img/LogoRecortadoa.png" alt="Logo Recortadoa" class="header-logo" />
+            <img src="img/LogoMunicipalidadSinFondo.png" alt="Logo Municipalidad" class="header-logo" />
+        </div>
+        <div class="button-container">
+            <button class="emergency-button" onclick="location.href='reclamo.html'">
+                <img src="img/emergency.png" alt="Reclamos" />
+                RECLAMOS
+            </button>
+            <button class="news-button" onclick="location.href='#'">
+                <img src="img/newspaper.png" alt="Noticias" />
+                NOTICIAS
+            </button>
+            <button class="user-button" onclick="location.href='#'">
+                <img src="img/user.png" alt="Perfil" />
+                 MI PERFIL
+            </button>
+        </div>
+    </div>
+<script>
+    const images = document.querySelectorAll('.carousel-bg-image');
+    let current = 0;
+    function showImage(idx) {
+      images.forEach((img, i) => {
+        img.classList.toggle('active', i === idx);
+      });
+    }
+    function nextImage() {
+      current = (current + 1) % images.length;
+      showImage(current);
+    }
+    showImage(current);
+    setInterval(nextImage, 8000);
+</script>
+</body>
+</html>

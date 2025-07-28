@@ -1,0 +1,221 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Raleway', sans-serif;
+    overflow-x: hidden;
+    background: #f5f5f5;
+}
+
+#background-carousel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.carousel-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-size: auto 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+    z-index: 0;
+}
+
+.carousel-bg-image.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+#content-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.button-container {
+    width: 90%;
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.footer-logos {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background: transparent;
+    padding: 5px 0;
+    box-sizing: border-box;
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.footer-logo {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+}
+
+.header-logos {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    background: transparent;
+    padding: 5px 0;
+    box-sizing: border-box;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.header-logo {
+    height: 70px;
+    width: auto;
+    object-fit: contain;
+}
+
+@media (max-width: 480px) {
+    .button-container {
+        width: 95%;
+        padding: 0 5px;
+    }
+    .emergency-button, .news-button, .user-button {
+        font-size: 1.8rem;
+        padding: 25px 0;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .button-container {
+        width: 80%;
+    }
+    .emergency-button, .news-button, .user-button {
+        font-size: 2rem;
+        padding: 30px 0;
+    }
+}
+
+@media (min-width: 769px) {
+    .button-container {
+        width: 60%;
+    }
+    .emergency-button, .news-button, .user-button {
+        font-size: 2.2rem;
+        padding: 35px 0;
+    }
+}
+
+.emergency-button {
+    background-color: #50008d;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    border: none;
+    border-radius: 12px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+.emergency-button:hover {
+    background-color: #320059;
+}
+.emergency-button:active {
+    background-color: #390085;
+}
+.emergency-button img {
+    width: 50px;
+    height: 51px;
+    margin-right: 40px;
+    align-self: center;
+}
+
+.news-button {
+    background-color: #50008d;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    border: none;
+    border-radius: 12px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+.news-button:hover {
+    background-color: #320059;
+}
+.news-button:active {
+    background-color: #390085;
+}
+.news-button img {
+    width: 50px;
+    height: 51px;
+    margin-right: 50px;
+}
+
+.user-button {
+    background-color: #50008d;
+    color: white;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    border: none;
+    border-radius: 12px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+.user-button:hover {
+    background-color: #320059;
+}
+.user-button:active {
+    background-color: #390085;
+}
+.user-button img {
+    width: 50px;
+    height: 51px;
+    margin-right: 60px;
+    align-self: center;
+}

@@ -27,14 +27,14 @@
 <script src="js/behaviour.js"></script>
 <script>
 
-    async function login_user(){
-        usuario = document.getElementById("email").value;
-        password = document.getElementById("password").value;
-        res = await login_usuario(usuario, password);
-        if(res.length > 0){
-            abre_pag('reclamo.html');
+        async function login_user(){
+            usuario = document.getElementById("email").value;
+            password = document.getElementById("password").value;
+            res = await login_usuario(usuario, password);
+            if(res.length > 0){
+                abre_pag('home.html');
+            }
+            alert("RES: " + JSON.stringify(res))
         }
-        alert("RES: " + JSON.stringify(res))
-    }
 
 </script>
