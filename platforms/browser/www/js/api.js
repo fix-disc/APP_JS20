@@ -14,20 +14,23 @@ async function get_users(id){
     return data; 
 }
 
-async function post_reclamo(reclamo){
-    url = base_url
-    url = base_url + "reclamos.php?reclamo=" + reclamo;
+async function get_tipo_reclamo(){
+    url = base_url + "tipo_reclamos.php";
+    let response = await fetch(url);
+    let data = await response.json();
+    return data; 
+}
 
-    var data1 = {reclamo    : reclamo};
+async function post_reclamo(reclamo, tipo){
+    url = base_url
+    url = base_url + "reclamos.php";
+    var data1 = {reclamo: reclamo, tipo: tipo};
     options={
         method:"POST",
-        headers:{
-            'Content-Type': 'application/json'
-        },
         body: JSON.stringify(data1)
     };
     alert("URL: " + url);
-    let response = await fetch(url,{method: "POST"});
+    let response = await fetch(url, options);
     let data = await response.json();
     alert(JSON.stringify(data));
     return data; 

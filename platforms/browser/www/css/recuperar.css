@@ -9,6 +9,7 @@ body {
     justify-content: center;
 }
 .recuperar-container {
+    max-height: 500px;
     max-width: 340px;
     width: 100%;
     background: #fff;
@@ -64,6 +65,8 @@ body {
     align-items: center;
     text-decoration: none;
     background: none;
+    margin-top: 250px;
+    margin-left: -23px;
 }
 .home-icon svg {
     display: block;

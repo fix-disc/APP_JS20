@@ -7,8 +7,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/register.css" />
+    <style>
+    #form-slide-container {
+      position: fixed;
+      top: 100vh;
+      left: 0;
+      width: 100vw;
+      z-index: 20;
+      transition: top 0.6s cubic-bezier(.77,0,.18,1);
+    }
+    #form-slide-container.active {
+      top: 0;
+    }
+    </style>
 </head>
 <body>
+    <div id="form-slide-container"></div>
     <div id="background-carousel">
         <div class="carousel-bg-image" style="background-image: url('img/FondoHome1.jpg');"></div>
         <div class="carousel-bg-image" style="background-image: url('img/FondoHome2.jpg');"></div>
@@ -22,17 +38,17 @@
             <img src="img/LogoMunicipalidadSinFondo.png" alt="Logo Municipalidad" class="header-logo" />
         </div>
         <div class="button-container">
-            <button class="emergency-button" onclick="location.href='reclamo.html'">
-                <img src="img/emergency.png" alt="Reclamos" />
-                RECLAMOS
+            <button class="user-button" onclick="loadForm('register.html')">
+                <img src="img/user.png" alt="Perfil" />
+                 MI PERFIL
             </button>
-            <button class="news-button" onclick="location.href='#'">
+            <button class="news-button" onclick="loadForm('login.html')">
                 <img src="img/newspaper.png" alt="Noticias" />
                 NOTICIAS
             </button>
-            <button class="user-button" onclick="location.href='#'">
-                <img src="img/user.png" alt="Perfil" />
-                 MI PERFIL
+            <button class="emergency-button" onclick="location.href='reclamo.html'">
+                <img src="img/emergency.png" alt="Reclamos" />
+                RECLAMOS
             </button>
         </div>
     </div>
@@ -50,6 +66,22 @@
     }
     showImage(current);
     setInterval(nextImage, 8000);
+</script>
+<script>
+function loadForm(formUrl) {
+  fetch(formUrl)
+    .then(res => res.text())
+    .then(html => {
+      const container = document.getElementById('form-slide-container');
+      container.innerHTML = html;
+      setTimeout(() => container.classList.add('active'), 10);
+    });
+}
+function closeForm() {
+  const container = document.getElementById('form-slide-container');
+  container.classList.remove('active');
+  setTimeout(() => { container.innerHTML = ''; }, 600);
+}
 </script>
 </body>
 </html>
