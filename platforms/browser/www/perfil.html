@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mi Perfil</title>
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/perfil.css" />
+    <style>
+        .perfil-container {
+            max-width: 340px;
+            margin: 32px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+        }
+        .perfil-foto {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #50008d;
+            margin-bottom: 8px;
+        }
+        .perfil-foto-btn {
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: none;
+            background: #50008d;
+            color: #fff;
+            cursor: pointer;
+            margin-bottom: 12px;
+        }
+        .perfil-info {
+            width: 100%;
+            font-size: 15px;
+            color: #333;
+            background: #f7f7fa;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .docs-section {
+            width: 100%;
+            margin-top: 18px;
+        }
+        .docs-title {
+            font-size: 1em;
+            color: #50008d;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .docs-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .docs-list {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .doc-item {
+            background: #f7f7fa;
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .doc-item a {
+            color: #50008d;
+            text-decoration: underline;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="perfil-container">
+        <div class="header-logos" style="width:100%; justify-content:center; margin-bottom:10px;">
+            <img src="img/LogoRecortadoa.png" alt="Logo Innova Blanco" class="header-logo" style="background:none; height:70px; width:auto; margin-right:12px;" />
+            <img src="img/LogoMunicipalidadSinFondo.png" alt="Logo Municipalidad" class="header-logo" style="background:none; height:70px; width:auto;" />
+        </div>
+        <h2>Mi Perfil</h2>
+        <img src="img/user.png" alt="Foto de perfil" class="perfil-foto" id="perfilFoto" />
+        <input type="file" accept="image/*" id="fotoInput" style="display:none" />
+        <button class="perfil-foto-btn" onclick="document.getElementById('fotoInput').click()">Cambiar foto</button>
+        <div class="perfil-info" id="perfilInfo">
+            <strong>Nombre:</strong> <span id="nombreUsuario">Cargando...</span><br>
+            <strong>Email:</strong> <span id="emailUsuario">Cargando...</span><br>
+            <strong>Teléfono:</strong> <span id="telefonoUsuario">Cargando...</span><br>
+            <strong>RUT:</strong> <span id="rutUsuario">Cargando...</span>
+        </div>
+        <div class="docs-section">
+            <div class="docs-title">MIS DOCUMENTOS</div>
+            <div class="docs-upload">
+                <input type="file" id="docInput" accept="application/pdf" multiple />
+                <button class="perfil-foto-btn" onclick="subirDocumentos()">Subir PDF</button>
+            </div>
+            <div class="docs-list" id="docsList">
+                <!-- Lista de documentos subidos -->
+            </div>
+        </div>
+    </div>
+    <div style="width:100%; display:flex; justify-content:center; position:fixed; left:0; bottom:18px; z-index:100;">
+        <button class="home-btn" onclick="location.href='home.html'">Volver a Inicio</button>
+    </div>
+    <script src="js/api.js"></script>
+    <script src="js/behaviour.js"></script>
+    <script>
+        // Cargar datos del usuario al cargar la página
+        window.addEventListener('load', cargarDatosUsuario);
+        
+        async function cargarDatosUsuario() {
+            try {
+                // Primero intentar obtener datos del localStorage
+                const userEmail = localStorage.getItem('userEmail');
+                const userName = localStorage.getItem('userName');
+                const userPhone = localStorage.getItem('userPhone');
+                const userRut = localStorage.getItem('userRut');
+                
+                if (userEmail || userName) {
+                    // Si hay datos en localStorage, mostrarlos
+                    document.getElementById('nombreUsuario').textContent = userName || 'No disponible';
+                    document.getElementById('emailUsuario').textContent = userEmail || 'No disponible';
+                    document.getElementById('telefonoUsuario').textContent = userPhone || 'No disponible';
+                    document.getElementById('rutUsuario').textContent = userRut || 'No disponible';
+                } else {
+                    // Si no hay datos en localStorage, intentar obtener de la API
+                    const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
+                    
+                    if (userId) {
+                        const userData = await get_users(userId);
+                        
+                        if (userData && userData.length > 0) {
+                            const usuario = userData[0];
+                            
+                            document.getElementById('nombreUsuario').textContent = usuario.nombre || 'No disponible';
+                            document.getElementById('emailUsuario').textContent = usuario.email || 'No disponible';
+                            document.getElementById('telefonoUsuario').textContent = usuario.telefono || 'No disponible';
+                            document.getElementById('rutUsuario').textContent = usuario.rut || 'No disponible';
+                        } else {
+                            mostrarDatosNoDisponibles();
+                        }
+                    } else {
+                        mostrarDatosNoDisponibles();
+                    }
+                }
+            } catch (error) {
+                console.error('Error al cargar datos del usuario:', error);
+                mostrarDatosNoDisponibles();
+            }
+        }
+        
+        function mostrarDatosNoDisponibles() {
+            document.getElementById('nombreUsuario').textContent = 'No disponible';
+            document.getElementById('emailUsuario').textContent = 'No disponible';
+            document.getElementById('telefonoUsuario').textContent = 'No disponible';
+            document.getElementById('rutUsuario').textContent = 'No disponible';
+        }
+
+        // Foto de perfil modificable
+        const fotoInput = document.getElementById('fotoInput');
+        const perfilFoto = document.getElementById('perfilFoto');
+        fotoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    perfilFoto.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        // Documentos PDF
+        function subirDocumentos() {
+            const docInput = document.getElementById('docInput');
+            const docsList = document.getElementById('docsList');
+            for (const file of docInput.files) {
+                if (file.type === 'application/pdf') {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        const div = document.createElement('div');
+                        div.className = 'doc-item';
+                        div.innerHTML = `<span>${file.name}</span> <a href='${ev.target.result}' target='_blank'>Ver PDF</a>`;
+                        docsList.appendChild(div);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+            docInput.value = '';
+        }
+    </script>
+</body>
+</html>

@@ -33,9 +33,18 @@
             password = document.getElementById("password").value;
             res = await login_usuario(usuario, password);
             if(res.length > 0){
+                // Guardar los datos del usuario en localStorage
+                const userData = res[0]; // Tomar el primer usuario de la respuesta
+                localStorage.setItem('userId', userData.id || userData.usuario_id || '');
+                localStorage.setItem('userEmail', userData.email || usuario);
+                localStorage.setItem('userName', userData.nombre || '');
+                localStorage.setItem('userPhone', userData.fono || '');
+                localStorage.setItem('userRut', userData.rut || '');
+                
                 abre_pag('home.html');
+            } else {
+                alert("Usuario o contraseña incorrectos");
             }
-            alert("RES: " + JSON.stringify(res))
         }
 
 </script>

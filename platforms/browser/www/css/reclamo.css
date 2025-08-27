@@ -1,98 +1,105 @@
 body {
-    background-image: url('../img/FondoReclamo.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    font-family: 'Roboto', sans-serif;
+    background: #129be5;
+    font-family: 'Raleway', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh;
     min-height: 100vh;
-    overflow: hidden;
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 textarea{
-    font-family: 'Georgia', serif;
-    font-size: 20px;
-    padding: 5px;
-    border-radius: 8px;
-    width: 97%;
-    height: 60%;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 6px;
+    border-radius: 6px;
+    width: 98%;
+    height: 60px;
+    min-height: 60px;
+    max-height: 80px;
+    resize: none;
+    border: 1px solid #e0e0e0;
 }
 
 .reclamo-container {
-    /* max-height: 650px; */
-    max-width: 287px;
+    max-width: 320px;
+    max-height: 90vh;
     background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-    padding: 115px 18px 24px 24px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 24px 16px 16px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 85px auto 16px auto;
+    margin: 0 auto;
     position: relative;
-    height: 100vh;
     box-sizing: border-box;
+    gap: 12px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .reclamo-container h2 {
-    align-items: center;
-    width: 290px;
-    color: #129be5;
-    margin-top: -55px;
+    text-align: center;
+    color: #50008d;
+    font-size: 1.1em;
+    margin: 0 0 8px 0;
+    font-weight: 600;
 }
 
 .reclamo-container h3 {
-    color: black;
-    font-size: 14px;
-    margin-top: 4px;
-    margin-bottom: 12px;
-    font-weight: 300;
+    color: #50008d;
+    font-size: 1em;
+    margin: 0 0 6px 0;
+    font-weight: 500;
     text-align: center;
-    font-family: 'Arial', sans-serif;
+    font-family: inherit;
 }
 .reclamo-container input {
     width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
+    margin: 6px 0;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    font-size: 13px;
     box-sizing: border-box;
 }
 .reclamo-btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 8px;
+    border-radius: 7px;
     border: none;
-    background: #129be5;;
+    background: #129be5;
     color: #fff;
-    font-size: 18px;
-    margin-top: 18px;
+    margin-top: 0;
     cursor: pointer;
-    font-weight: bold;
-    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
     transition: background 0.2s;
+    min-height: 32px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .reclamo-btn:hover {
     background: #0d7bbd;
 }
 
 .reclamo-btn-can {
-    width: 100%;
-    padding: 14px;
-    border-radius: 8px;
+    border-radius: 7px;
     border: none;
     background: #e51212;
     color: #fff;
-    font-size: 18px;
-    margin-top: 18px;
+    margin-top: 0;
     cursor: pointer;
-    font-weight: bold;
-    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
     transition: background 0.2s;
+    min-height: 32px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .reclamo-btn-can:hover {
     background: #bd390d;
@@ -133,7 +140,7 @@ textarea{
 .home-icon {
     position: absolute;
     top: 60px;
-    left: 12px;
+    left: 27px;
     z-index: 100;
     display: flex;
     align-items: center;
@@ -189,7 +196,7 @@ textarea{
 
 .reclamo-confirmation {
     position: fixed;
-    bottom: 0;
+    bottom: -400px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #4CAF50;
@@ -267,10 +274,10 @@ textarea{
 
 @keyframes moveUpAndFade {
     0% {
-        bottom: 0;
-        opacity: 1;
+        bottom: -400px;
+        opacity: 0;
         box-shadow: 0 0 20px rgba(0, 128, 0, 0.7);
-        transform: translateX(-50%) translateY(100%);
+        transform: translateX(-50%) translateY(0);
     }
     40% {
         bottom: 50%;
@@ -291,10 +298,10 @@ textarea{
         box-shadow: 0 0 40px 20px rgba(0, 128, 0, 1);
     }
     100% {
-        bottom: 0;
+        bottom: -400px;
         opacity: 0;
         box-shadow: 0 0 0 rgba(0, 128, 0, 0);
-        transform: translateX(-50%) translateY(100%);
+        transform: translateX(-50%) translateY(0);
     }
 }
 

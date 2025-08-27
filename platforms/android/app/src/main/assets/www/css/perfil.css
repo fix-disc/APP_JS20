@@ -1,0 +1,123 @@
+body {
+    min-height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    background: #129be5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil-container {
+    max-width: 340px;
+    width: 94vw;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    padding: 32px 18px 24px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.perfil-container h2 {
+    color: #50008d;
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.perfil-foto {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #50008d;
+    margin-bottom: 8px;
+}
+
+.perfil-foto-btn {
+    font-size: 13px;
+    padding: 6px 16px;
+    border-radius: 8px;
+    border: none;
+    background: #50008d;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(80,0,141,0.08);
+    transition: background 0.2s;
+}
+.perfil-foto-btn:hover {
+    background: #320059;
+}
+
+.perfil-info {
+    width: 100%;
+    font-size: 15px;
+    color: #333;
+    background: #f7f7fa;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(80,0,141,0.08);
+}
+
+.docs-section {
+    width: 100%;
+    margin-top: 18px;
+}
+.docs-title {
+    font-size: 1em;
+    color: #50008d;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-align: left;
+}
+.docs-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.docs-list {
+    margin-top: 10px;
+    font-size: 14px;
+}
+.doc-item {
+    background: #f7f7fa;
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.doc-item a {
+    color: #50008d;
+    text-decoration: underline;
+    font-size: 13px;
+}
+
+.home-btn {
+    margin-top: 18px;
+    padding: 10px 24px;
+    background: #50008d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(80,0,141,0.08);
+    transition: background 0.2s;
+}
+.home-btn:hover {
+    background: #320059;
+}

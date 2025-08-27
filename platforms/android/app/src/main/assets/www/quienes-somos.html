@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quienes Somos - Innova Recoleta</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/quienes-somos.css">
+</head>
+<body>
+    <!-- Top Buttons -->
+    <div class="top-buttons">
+        <a href="home.html" class="home-icon" aria-label="Volver al inicio">
+            <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="28" cy="28" r="28" fill="white"/>
+            </svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#129be5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="home-icon-svg">
+                <path d="M3 12L12 3l9 9"/>
+                <path d="M9 21V9h6v12"/>
+            </svg>
+        </a>
+        
+        <div class="dropdown-container">
+            <button class="dropdown-btn" onclick="toggleDropdown('info')">INFO</button>
+            <div class="dropdown-content" id="info-dropdown">
+                <h3>Información de Contacto</h3>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <svg class="info-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        <span>+56 2 2777 8500</span>
+                    </div>
+                    <div class="info-item">
+                        <svg class="info-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        <span>+56 2 2777 8600</span>
+                    </div>
+                    <div class="info-item">
+                        <svg class="info-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Av. Recoleta 2774<br>6º Piso, Edificio Consistorial</span>
+                    </div>
+                    <div class="info-item">
+                        <svg class="info-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <span>Fray Andresito 3125 (Metro Dorsal)<br>Recoleta, Santiago. Chile</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="dropdown-container">
+            <button class="dropdown-btn" onclick="toggleDropdown('gente')">GENTE</button>
+            <div class="dropdown-content" id="gente-dropdown">
+                <!-- Botones de navegación -->
+                <div class="gente-buttons">
+                    <button class="gente-btn" onclick="toggleSubDropdown('alcalde')">
+                        <span>ALCALDE</span>
+                        <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 10L12 15L17 10H7Z"/>
+                        </svg>
+                    </button>
+                    <div class="sub-dropdown-content" id="alcalde-dropdown">
+                        <!-- Carta de presentación del Alcalde -->
+                        <div class="alcalde-card">
+                            <div class="alcalde-image">
+                                <img src="img/gente/Alcalde.png" alt="Alcalde" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="alcalde-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="alcalde-info">
+                                <h4 class="alcalde-nombre">Daniel Jadue Jadue</h4>
+                                <p class="alcalde-cargo">Alcalde de Recoleta</p>
+                                <p class="alcalde-bio">Alcalde de la comuna de Recoleta desde 2012. Licenciado en Sociología y Magíster en Desarrollo Urbano. Ha liderado importantes transformaciones en la comuna, enfocándose en políticas públicas inclusivas, desarrollo social y modernización municipal.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="gente-btn" onclick="toggleSubDropdown('directorio')">
+                        <span>DIRECTORIO</span>
+                        <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 10L12 15L17 10H7Z"/>
+                        </svg>
+                    </button>
+                    <div class="sub-dropdown-content" id="directorio-dropdown">
+                        <h4>Directorio Municipal</h4>
+                        
+                        <!-- Director Marcela -->
+                        <div class="director-card">
+                            <div class="director-image">
+                                <img src="img/gente/MarcelaDirectora.png" alt="Marcela Directora" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="director-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="director-info">
+                                <h5 class="director-nombre">Marcela Hernández</h5>
+                                <p class="director-cargo">Directora</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Director Marcelo -->
+                        <div class="director-card">
+                            <div class="director-image">
+                                <img src="img/gente/MarceloDirector.png" alt="Marcelo Director" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="director-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="director-info">
+                                <h5 class="director-nombre">Marcelo González</h5>
+                                <p class="director-cargo">Director</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Directora Jacqueline -->
+                        <div class="director-card">
+                            <div class="director-image">
+                                <img src="img/gente/JacquelineDirectora.png" alt="Jacqueline Directora" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="director-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="director-info">
+                                <h5 class="director-nombre">Jacqueline Torres</h5>
+                                <p class="director-cargo">Directora</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="gente-btn" onclick="toggleSubDropdown('equipo')">
+                        <span>EQUIPO</span>
+                        <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 10L12 15L17 10H7Z"/>
+                        </svg>
+                    </button>
+                    <div class="sub-dropdown-content" id="equipo-dropdown">
+                        <h4>Equipo Municipal</h4>
+                        
+                        <!-- Alberto -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Alberto.jpeg" alt="Alberto" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Alberto</h5>
+                                <p class="equipo-cargo">Geógrafo PUC</p>
+                                <p class="equipo-puesto">Director Ejecutivo</p>
+                                <p class="equipo-email">alberto@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Marcela -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Marcela.jpeg" alt="Marcela" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Marcela Gonzales Ramirez</h5>
+                                <p class="equipo-cargo">Geógrafa</p>
+                                <p class="equipo-puesto">Coordinadora de Proyectos y Encargada Escuela Municipal de Capacitación</p>
+                                <p class="equipo-email">marcela@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Verónica -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Veronica.png" alt="Verónica" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Verónica Paz Hurtado</h5>
+                                <p class="equipo-cargo">Periodista</p>
+                                <p class="equipo-puesto">Encargada de Comunicaciones y RR.PP.</p>
+                                <p class="equipo-email">veronica@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Julio -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/julio.png" alt="Julio" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Julio Ramos Abadie</h5>
+                                <p class="equipo-cargo"></p>
+                                <p class="equipo-puesto">Encargado de Administración y Finanzas</p>
+                                <p class="equipo-email">julio@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Andrés -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Andres.jpeg" alt="Andrés" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Andrés Pascal Beausire</h5>
+                                <p class="equipo-cargo">Arquitecto</p>
+                                <p class="equipo-puesto">Encargado Inmobiliaria Popular de Recoleta</p>
+                                <p class="equipo-email">andres@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Claudia -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Claudia.jpeg" alt="Claudia" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Claudia Martinez Salamanca</h5>
+                                <p class="equipo-cargo">Ingeniera Comercial y Técnico en Turismo</p>
+                                <p class="equipo-puesto">Encargada Unidad de Turismo</p>
+                                <p class="equipo-email">claudia@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Marcelo -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Marcelo.jpeg" alt="Marcelo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Marcelo Risso Rivas</h5>
+                                <p class="equipo-cargo">Técnico Químico</p>
+                                <p class="equipo-puesto">Encargado Estaciona Recoleta</p>
+                                <p class="equipo-email">marcelo.risso@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Patricio -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/patricio.png" alt="Patricio" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Patricio Reyes Negrete</h5>
+                                <p class="equipo-cargo">Ingeniero en Energía y Sustentabilidad</p>
+                                <p class="equipo-puesto">Encargado Programa Energía Popular</p>
+                                <p class="equipo-email">patricio@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Dario -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Dario.jpg" alt="Dario" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Dario Cariaga Flores</h5>
+                                <p class="equipo-cargo">Ingeniero Comercial</p>
+                                <p class="equipo-puesto">Encargado de Unidad de Emprendimiento</p>
+                                <p class="equipo-email"></p>
+                            </div>
+                        </div>
+                        
+                        <!-- René -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Rene.jpeg" alt="René" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">René Alles Cid</h5>
+                                <p class="equipo-cargo"></p>
+                                <p class="equipo-puesto">Encargado de Contabilidad</p>
+                                <p class="equipo-email">rene@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- María Soledad -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Sole.jpeg" alt="María Soledad" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">María Soledad Vallejos Antías</h5>
+                                <p class="equipo-cargo">Contadora</p>
+                                <p class="equipo-puesto">Encargada de Transparencia y Rendiciones</p>
+                                <p class="equipo-email">soledad@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Bruno -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Bruno.png" alt="Bruno" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Bruno Castelli Guerra</h5>
+                                <p class="equipo-cargo">Ingeniero Civil Industrial</p>
+                                <p class="equipo-puesto">Encargado de Puntos Limpios</p>
+                                <p class="equipo-email"></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Silvia -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Silvia.jpeg" alt="Silvia" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Silvia Araya Navarro</h5>
+                                <p class="equipo-cargo">Asistente Social</p>
+                                <p class="equipo-puesto">Inmobiliaria Popular de Recoleta</p>
+                                <p class="equipo-email">silvia@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Gabriela -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Gabriela.jpeg" alt="Gabriela" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Gabriela Villarroel Ramirez</h5>
+                                <p class="equipo-cargo">Periodista</p>
+                                <p class="equipo-puesto">Comunicaciones</p>
+                                <p class="equipo-email">gabriela@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Natalia -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Natalia.jpeg" alt="Natalia" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Natalia Cuadra Voisin</h5>
+                                <p class="equipo-cargo"></p>
+                                <p class="equipo-puesto">Asistente Administrativo</p>
+                                <p class="equipo-email">natalia@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Bastián -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Bastian.jpeg" alt="Bastián" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Bastián Pallero Arce</h5>
+                                <p class="equipo-cargo">Arquitecto</p>
+                                <p class="equipo-puesto">Asistente técnico, Inmobiliaria Popular de Recoleta</p>
+                                <p class="equipo-email">bastian@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Rodrigo -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Rodrigo.jpeg" alt="Rodrigo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Rodrigo Valenzuela Jimenez</h5>
+                                <p class="equipo-cargo">Técnico en Turismo</p>
+                                <p class="equipo-puesto">Asistente Escuela Municipal de Capacitación</p>
+                                <p class="equipo-email">rodrigo@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Diego -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/Diego.jpeg" alt="Diego" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Diego Sandoval Flores</h5>
+                                <p class="equipo-cargo">Arquitecto en práctica</p>
+                                <p class="equipo-puesto">Asistente técnico, Inmobiliaria Popular de Recoleta</p>
+                                <p class="equipo-email">diego@innovarecoleta.cl</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Karina -->
+                        <div class="equipo-card">
+                            <div class="equipo-image">
+                                <img src="img/gente/karina.png" alt="Karina" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <div class="equipo-placeholder" style="display: none;">
+                                    <svg viewBox="0 0 100 100" class="person-icon">
+                                        <circle cx="50" cy="35" r="15" fill="#129be5"/>
+                                        <path d="M20 85 C20 70, 35 60, 50 60 C65 60, 80 70, 80 85 Z" fill="#129be5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="equipo-info">
+                                <h5 class="equipo-nombre">Karina Quezada Hernandez</h5>
+                                <p class="equipo-cargo">Socióloga</p>
+                                <p class="equipo-puesto">Apoyo Profesional</p>
+                                <p class="equipo-email"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>¿QUIÉNES SOMOS?</h1>
+        
+        <div class="content">
+            <p>
+                <strong>Innova Recoleta</strong> es una plataforma digital desarrollada por la Municipalidad de Recoleta que busca modernizar y mejorar la comunicación entre los ciudadanos y la administración municipal.
+            </p>
+            
+            <p>
+                Nuestra misión es facilitar la gestión de reclamos, consultas y mantener informada a la comunidad sobre las noticias y acontecimientos más relevantes del territorio.
+            </p>
+            
+            <p>
+                A través de esta aplicación, los vecinos pueden realizar reclamos de manera rápida y eficiente, acceder a noticias municipales actualizadas y gestionar su perfil personal, todo desde la comodidad de su dispositivo móvil.
+            </p>
+            
+            <p>
+                Trabajamos día a día para construir una comuna más conectada, transparente y participativa, donde cada ciudadano tenga las herramientas necesarias para formar parte activa de su comunidad.
+            </p>
+        </div>
+
+        <div class="logos-container">
+            <img src="img/LogoRecortadoa.png" alt="Logo Innova Recoleta" class="logo">
+            <img src="img/LogoMunicipalidadSinFondo.png" alt="Logo Municipalidad" class="logo">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logos">
+                <!-- X (Twitter) -->
+                <div class="footer-item">
+                    <svg class="footer-logo" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    <span class="footer-text">Innovarecoleta</span>
+                </div>
+                
+                <!-- Facebook -->
+                <div class="footer-item">
+                    <svg class="footer-logo" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    <span class="footer-text">InnovaRecoleta</span>
+                </div>
+                
+                <!-- Instagram -->
+                <div class="footer-item">
+                    <svg class="footer-logo" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    <span class="footer-text">Innovarecoleta</span>
+                </div>
+                
+                <!-- YouTube -->
+                <div class="footer-item">
+                    <svg class="footer-logo" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
+                    <span class="footer-text">corporacioninnovarecoleta</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleDropdown(type) {
+            const dropdown = document.getElementById(type + '-dropdown');
+            const btn = event.target;
+            
+            // Cerrar otros dropdowns
+            const allDropdowns = document.querySelectorAll('.dropdown-content');
+            const allBtns = document.querySelectorAll('.dropdown-btn');
+            
+            allDropdowns.forEach(d => {
+                if (d.id !== type + '-dropdown') {
+                    d.classList.remove('active');
+                }
+            });
+            
+            allBtns.forEach(b => {
+                if (b !== btn) {
+                    b.classList.remove('active');
+                }
+            });
+            
+            // Toggle actual dropdown
+            dropdown.classList.toggle('active');
+            btn.classList.toggle('active');
+        }
+
+        function toggleSubDropdown(type) {
+            const dropdown = document.getElementById(type + '-dropdown');
+            const btn = event.target.closest('.gente-btn');
+            
+            // Toggle actual sub-dropdown
+            dropdown.classList.toggle('show');
+            btn.classList.toggle('active');
+            
+            // Cerrar otros sub-dropdowns
+            const allSubDropdowns = document.querySelectorAll('.sub-dropdown-content');
+            const allSubBtns = document.querySelectorAll('.gente-btn');
+            
+            allSubDropdowns.forEach(d => {
+                if (d.id !== type + '-dropdown') {
+                    d.classList.remove('show');
+                }
+            });
+            
+            allSubBtns.forEach(b => {
+                if (b !== btn) {
+                    b.classList.remove('active');
+                }
+            });
+        }
+
+        // Cerrar dropdowns al hacer click fuera
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown-container')) {
+                document.querySelectorAll('.dropdown-content').forEach(d => d.classList.remove('active'));
+                document.querySelectorAll('.dropdown-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.sub-dropdown-content').forEach(d => d.classList.remove('show'));
+                document.querySelectorAll('.gente-btn').forEach(b => b.classList.remove('active'));
+            }
+        });
+    </script>
+</body>
+</html>

@@ -18,10 +18,15 @@
         </div>
         <div id="welcome-modal" class="hidden">
             <div id="deviceready" class="welcome-content">
-                <h2>¡Bienvenido a tu portal de reclamos y avisos de Justicia Social!</h2>
-                <p>Tienes una cuenta?Deseas crearla? elige:</p>
-                <button id="login-btn">Iniciar sesión</button>
-                <button id="register-btn">Registrarse</button>
+                <h2>¡Bienvenido a tu portal de reclamos y avisos!</h2>
+                <p>Inicia sesión para continuar:</p>
+                
+                <div class="login-form">
+                    <input id="email" type="email" placeholder="Correo electrónico" autocomplete="username" required>
+                    <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+                    <a href="recuperar.html" class="forgot-link">¿SE TE OLVIDO TU CONTRASEÑA?</a>
+                    <button class="ingresa-btn" onclick="login_user()">INGRESAR</button>
+                </div>
             </div>
             <button id="close-welcome" class="close-btn" aria-label="Cerrar">&times;</button>
         </div>
@@ -50,6 +55,35 @@ async function valida_usuario(){
         }
     }catch(e){
         alert("ERROR: " + e)
+    }
+}
+
+async function login_user(){
+    usuario = document.getElementById("email").value;
+    password = document.getElementById("password").value;
+    
+    if(!usuario || !password) {
+        alert("Por favor, completa todos los campos");
+        return;
+    }
+    
+    try {
+        res = await login_usuario(usuario, password);
+        if(res.length > 0){
+            // Guardar los datos del usuario en localStorage
+            const userData = res[0]; // Tomar el primer usuario de la respuesta
+            localStorage.setItem('userId', userData.id || userData.usuario_id || '');
+            localStorage.setItem('userEmail', userData.email || usuario);
+            localStorage.setItem('userName', userData.nombre || '');
+            localStorage.setItem('userPhone', userData.fono || '');
+            localStorage.setItem('userRut', userData.rut || '');
+            
+            abre_pag('home.html');
+        } else {
+            alert("Usuario o contraseña incorrectos");
+        }
+    } catch(e) {
+        alert("Error al iniciar sesión: " + e);
     }
 }
 

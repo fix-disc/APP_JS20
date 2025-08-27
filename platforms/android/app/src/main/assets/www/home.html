@@ -7,24 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/home.css" />
-    <link rel="stylesheet" href="css/login.css" />
-    <link rel="stylesheet" href="css/register.css" />
-    <style>
-    #form-slide-container {
-      position: fixed;
-      top: 100vh;
-      left: 0;
-      width: 100vw;
-      z-index: 20;
-      transition: top 0.6s cubic-bezier(.77,0,.18,1);
-    }
-    #form-slide-container.active {
-      top: 0;
-    }
-    </style>
 </head>
 <body>
-    <div id="form-slide-container"></div>
     <div id="background-carousel">
         <div class="carousel-bg-image" style="background-image: url('img/FondoHome1.jpg');"></div>
         <div class="carousel-bg-image" style="background-image: url('img/FondoHome2.jpg');"></div>
@@ -34,24 +18,48 @@
     </div>
     <div id="content-container">
         <div class="header-logos">
-            <img src="img/LogoRecortadoa.png" alt="Logo Recortadoa" class="header-logo" />
-            <img src="img/LogoMunicipalidadSinFondo.png" alt="Logo Municipalidad" class="header-logo" />
+            <img src="img/LogoRecortadoa.png" alt="Logo Recortadoa" class="header-logo" width="30%"/>
+            <img src="img/LogoMunicipalidadSinFondo.png" alt="Logo Municipalidad" class="header-logo" width="30%"/>
         </div>
         <div class="button-container">
-            <button class="user-button" onclick="loadForm('register.html')">
-                <img src="img/user.png" alt="Perfil" />
-                 MI PERFIL
+            <button class="emergency-button" onclick="location.href='reclamo.html'" width="80%">
+                <img src="img/emergency.png" alt="Reclamos" width="40px"/>
+                RECLAMOS
             </button>
-            <button class="news-button" onclick="loadForm('login.html')">
-                <img src="img/newspaper.png" alt="Noticias" />
+            <button class="news-button" onclick="location.href='avisos.html'" width="40px">
+                <img src="img/newspaper.png" alt="Noticias" width="40px"/>
                 NOTICIAS
             </button>
-            <button class="emergency-button" onclick="location.href='reclamo.html'">
-                <img src="img/emergency.png" alt="Reclamos" />
-                RECLAMOS
+            <button class="user-button" onclick="location.href='perfil.html'" width="40px">
+                <img src="img/user.png" alt="Perfil" width="40px"/>
+                 MI PERFIL
+            </button>
+        </div>
+        
+        <!-- Botón hamburguesa -->
+        <div class="hamburger-container">
+            <button class="hamburger-btn" onclick="toggleMenu()">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
             </button>
         </div>
     </div>
+    
+    <!-- Menú lateral -->
+    <div id="side-menu" class="side-menu">
+        <div class="menu-content">
+            <button class="menu-item" onclick="quienesSomos()">
+                QUIENES SOMOS
+            </button>
+            <button class="menu-item" onclick="cerrarSesion()">
+                CERRAR SESIÓN
+            </button>
+        </div>
+    </div>
+    
+    <!-- Overlay para cerrar el menú -->
+    <div id="menu-overlay" class="menu-overlay" onclick="closeMenu()"></div>
 <script>
     const images = document.querySelectorAll('.carousel-bg-image');
     let current = 0;
@@ -65,23 +73,54 @@
       showImage(current);
     }
     showImage(current);
-    setInterval(nextImage, 8000);
-</script>
-<script>
-function loadForm(formUrl) {
-  fetch(formUrl)
-    .then(res => res.text())
-    .then(html => {
-      const container = document.getElementById('form-slide-container');
-      container.innerHTML = html;
-      setTimeout(() => container.classList.add('active'), 10);
+    setInterval(nextImage, 5000);
+    
+    // Funciones del menú hamburguesa
+    function toggleMenu() {
+        const menu = document.getElementById('side-menu');
+        const overlay = document.getElementById('menu-overlay');
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        
+        menu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        hamburgerBtn.classList.toggle('active');
+    }
+    
+    function closeMenu() {
+        const menu = document.getElementById('side-menu');
+        const overlay = document.getElementById('menu-overlay');
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        
+        menu.classList.remove('active');
+        overlay.classList.remove('active');
+        hamburgerBtn.classList.remove('active');
+    }
+    
+    function quienesSomos() {
+        closeMenu();
+        // Redirigir a la página de Quienes Somos
+        window.location.href = 'quienes-somos.html';
+    }
+    
+    function cerrarSesion() {
+        closeMenu();
+        // Limpiar datos del localStorage
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userPhone');
+        localStorage.removeItem('userRut');
+        
+        // Redirigir a la página index
+        window.location.href = 'index.html';
+    }
+    
+    // Cerrar menú con tecla Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeMenu();
+        }
     });
-}
-function closeForm() {
-  const container = document.getElementById('form-slide-container');
-  container.classList.remove('active');
-  setTimeout(() => { container.innerHTML = ''; }, 600);
-}
 </script>
 </body>
 </html>

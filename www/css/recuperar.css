@@ -3,19 +3,22 @@ body {
     font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 .recuperar-container {
-    max-height: 500px;
+    max-height: 400px;
     max-width: 340px;
     width: 100%;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    padding: 32px 24px 24px 24px;
+    padding: 24px 24px 20px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -58,15 +61,14 @@ body {
 }
 .home-icon {
     position: absolute;
-    top: 24px;
-    left: 24px;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 100;
     display: flex;
     align-items: center;
     text-decoration: none;
     background: none;
-    margin-top: 250px;
-    margin-left: -23px;
 }
 .home-icon svg {
     display: block;
@@ -75,4 +77,22 @@ body {
 }
 .home-icon:hover svg {
     stroke: #0d7bbd;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+    body {
+        height: 100vh;
+        overflow: hidden;
+    }
+    
+    .home-icon {
+        bottom: 0px;
+    }
+    
+    .recuperar-container {
+        margin: 0 15px;
+        max-width: calc(100% - 30px);
+        padding: 20px 20px 16px 20px;
+    }
 } 

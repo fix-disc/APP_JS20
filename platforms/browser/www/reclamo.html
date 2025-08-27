@@ -7,31 +7,139 @@
         <link rel="icon" type="image/png" href="img/JS sin fondo.png">
         <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/reclamo.css">
+        <style>
+            .departamento-row {
+                transition: all 0.3s ease;
+                transform: translateY(0);
+                opacity: 1;
+                overflow: hidden;
+                max-height: 100px;
+            }
+            
+            .departamento-row.slide-in {
+                animation: slideDown 0.4s ease-out forwards;
+            }
+            
+            .departamento-row.slide-out {
+                animation: slideUp 0.3s ease-in forwards;
+            }
+            
+            .radio-container {
+                animation: slideDown 0.4s ease-out forwards;
+            }
+            
+            .radio-container label:hover {
+                background: #f0f8ff !important;
+                border-color: #129be5 !important;
+            }
+            
+            .radio-container input[type="radio"]:checked + span {
+                color: #129be5;
+                font-weight: 600;
+            }
+            
+            .radio-container label:has(input[type="radio"]:checked) {
+                background: #e8f4fd !important;
+                border-color: #129be5 !important;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-20px);
+                    opacity: 0;
+                    max-height: 0;
+                    margin-bottom: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                    max-height: 100px;
+                    margin-bottom: 10px;
+                }
+            }
+            
+            @keyframes slideUp {
+                from {
+                    transform: translateY(0);
+                    opacity: 1;
+                    max-height: 100px;
+                    margin-bottom: 10px;
+                }
+                to {
+                    transform: translateY(-20px);
+                    opacity: 0;
+                    max-height: 0;
+                    margin-bottom: 0;
+                }
+            }
+        </style>
     </head>
     <body onload="buscar_tipo_reclamo()">
         <a href="home.html" class="home-icon" aria-label="Ir al inicio" style="z-index: 10;">
-            <svg height="100" width="100" xmlns="http://www.w3.org/2000/svg"><circle r="25" cx="50" cy="50" fill="white" /></svg>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#129be5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" style="transform: translateX(-69px);"><path d="M3 12L12 3l9 9"/><path d="M9 21V9h6v12"/></svg>
+            <span style="display: inline-block; position: relative; width: 56px; height: 56px;">
+                <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0;"><circle cx="28" cy="28" r="28" fill="white"/></svg>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#129be5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; top: 14px; left: 14px;"><path d="M3 12L12 3l9 9"/><path d="M9 21V9h6v12"/></svg>
+            </span>
         </a>
         <div class="reclamo-container" style="z-index: 1;">
-            <h2>📢 RECLAMOS, 
-            SUGERENCIAS Y FELICITACIONES 📢</h2>
-            <P>Escoja su tipo de reclamo</P> 
-            <select id="reclamo-type" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 20px;">
-            </select>
-            <p>Escriba su reclamo, sugerencia o felicitación:</p>
-            <textarea id="reclamo" type="text" placeholder="Reclamo" autocomplete="reclamo" rows="10" cols="40" required></textarea>
-            <input type="text" id="reclamo2" style="color: #a5a4a4">
+            <div style="margin-top: 40px; padding-bottom: 20px;">
+                <P style="text-align: center;">¿A QUIEN VA DIRIGIDO EL RECLAMO/FELICITACION?</P>
+                <select id="reclamo-type-top" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 20px;" onchange="mostrarInputDepartamento()"></select>
+                <div id="departamento-input" style="display: none; margin-bottom: 20px;">
+                    <P style="text-align: center;">¿QUÉ DEPARTAMENTO/S SE ENCUENTRAN INVOLUCRADO/S?</P>
+                    <div id="departamentos-container">
+                        <div class="departamento-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                            <input type="number" class="numero-departamento" style="flex: 1; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc;" maxlength="2" max="99" min="1" placeholder="Ej: 12">
+                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                <button id="add-depto-btn" onclick="agregarDepartamento()" style="width: 30px; height: 30px; background: #129be5; color: white; border: none; border-radius: 50%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
+                                <div style="text-align: center; font-size: 10px; color: #666; margin-top: 2px;">agregar depto</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="administracion-input" style="display: none; margin-bottom: 20px;">
+                    <P style="text-align: center;">¿A QUÉ ÁREA DE ADMINISTRACIÓN VA DIRIGIDO?</P>
+                    <div id="administracion-container" class="radio-container" style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
+                        <label style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; background: white;">
+                            <input type="radio" name="administracion-tipo" value="conserjeria" style="margin: 0; transform: scale(1.2);" onchange="manejarSeleccionAdministracion(this)">
+                            <span style="font-size: 14px; font-weight: 500;">CONSERJERÍA</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; background: white;">
+                            <input type="radio" name="administracion-tipo" value="mantencion" style="margin: 0; transform: scale(1.2);" onchange="manejarSeleccionAdministracion(this)">
+                            <span style="font-size: 14px; font-weight: 500;">MANTENCIÓN</span>
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; background: white;">
+                            <input type="radio" name="administracion-tipo" value="gestores" style="margin: 0; transform: scale(1.2);" onchange="manejarSeleccionAdministracion(this)">
+                            <span style="font-size: 14px; font-weight: 500;">GESTORES MUNICIPALES</span>
+                        </label>
+                    </div>
+                    <div id="administracion-seleccionada" style="display: none; margin-top: 15px; padding: 10px; background: #e8f4fd; border: 1px solid #129be5; border-radius: 8px; text-align: center;">
+                        <span style="font-size: 14px; font-weight: 600; color: #129be5;">Área seleccionada: </span>
+                        <span id="area-seleccionada-texto" style="font-size: 14px; font-weight: 600; color: #129be5;"></span>
+                        <div style="margin-top: 8px;">
+                            <button onclick="mostrarTodasLasOpciones()" style="background: #129be5; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-size: 12px; cursor: pointer;">Cambiar selección</button>
+                        </div>
+                    </div>
+                </div>
+                <P>¿A quién va dirigido el reclamo?</P> 
+                <select id="reclamo-type" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 10px;">
+                </select>
+                <p style="margin-top: 5px; margin-bottom: 10px;">Describa ABAJO su situación:</p>
+                <textarea id="reclamo" type="text" placeholder="Reclamo" autocomplete="reclamo" rows="8" cols="40" required></textarea>
+                <input type="text" id="reclamo2" style="color: #a5a4a4">
 
-            <button class="reclamo-btn" onclick="envia_reclamo()">ENVIAR</button>
-            <button class="reclamo-btn-can" onclick="cancelar()">CANCELAR</button>
-            <div id="reclamo-confirmation" class="reclamo-confirmation" style="display:none; flex-direction: column; text-align: center;">
-                <span>Su reclamo ha sido enviado</span>
-                <img src="img/aprobado.png" alt="Aprobado" class="aprobado-icon" />
-            </div>
-            <div class="mic-container" id="mic-container" onclick="toggleRecording()" style="width: 100%; cursor: pointer; flex-direction: column; align-items: center;">
-                <img src="img/microphone.png" width="100" id="mic-icon">
-                <span id="recording-text" style="display:none; color: #00cc00; font-weight: bold; margin-top: 8px;">grabando</span>
+                <div style="display: flex; gap: 8px; justify-content: space-between; margin-top: 10px; width: 100%; box-sizing: border-box;">
+                    <div onclick="cancelar()" style="width: 47%; font-size: 10px; padding: 8px 5px; background: #e51212; color: white; border: none; border-radius: 7px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 32px; font-weight: 600;">CANCELAR</div>
+                    <div onclick="envia_reclamo()" style="width: 47%; font-size: 10px; padding: 8px 5px; background: #129be5; color: white; border: none; border-radius: 7px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 32px; font-weight: 600;">ENVIAR</div>
+                </div>
+                <div id="reclamo-confirmation" class="reclamo-confirmation" style="display:hidden; flex-direction: column; text-align: center;">
+                    <span>Su reclamo ha sido enviado</span>
+                    <img src="img/aprobado.png" alt="Aprobado" class="aprobado-icon" />
+                </div>
+                <div class="mic-container" id="mic-container" onclick="toggleRecording()" style="width: 100%; cursor: pointer; flex-direction: column; align-items: center; margin-top: 5px;">
+                    <img src="img/microphone.png" width="100" id="mic-icon">
+                    <span id="recording-text" style="display:none; color: #00cc00; font-weight: bold; margin-top: 8px;">grabando</span>
+                </div>
             </div>
         </div>
         <script src="cordova.js"></script>
@@ -104,8 +212,10 @@
 
             async function envia_reclamo() {
                 try {
-                    tipo = document.getElementById('reclamo-type').value;
-                    reclamo = document.getElementById('reclamo').value;
+                    const tipoTop = document.getElementById('reclamo-type-top').value;
+                    const tipo = document.getElementById('reclamo-type').value;
+                    const reclamo = document.getElementById('reclamo').value;
+                    
                     if (tipo == "") {
                         alert("Debe seleccionar tipo de reclamo");
                         document.getElementById('reclamo-type').focus();
@@ -116,6 +226,27 @@
                         document.getElementById('reclamo').focus();
                         return;
                     }
+                    
+                    // Validar departamentos si se seleccionó "A UN DEPARTAMENTO"
+                    if (tipoTop === 'departamento') {
+                        const numerosDepartamentos = obtenerNumerosDepartamentos();
+                        if (numerosDepartamentos.length === 0) {
+                            alert("Debe ingresar al menos un número de departamento");
+                            return;
+                        }
+                        console.log("Departamentos seleccionados:", numerosDepartamentos);
+                    }
+                    
+                    // Validar administración si se seleccionó "ADMINISTRACIÓN"
+                    if (tipoTop === 'administracion') {
+                        const administracionSeleccionada = obtenerAdministracionSeleccionada();
+                        if (!administracionSeleccionada) {
+                            alert("Debe seleccionar un área de administración");
+                            return;
+                        }
+                        console.log("Área de administración seleccionada:", administracionSeleccionada);
+                    }
+                    
                     res = await post_reclamo(reclamo, tipo);
                     if (res.length == 0) {
                         abre_pag("error_uuid.html");
@@ -142,7 +273,7 @@
 
             function cancelar() {
                 try {
-                    abre_pag("index.html");
+                    abre_pag("home.html");
                 } catch (e) {
                     alert("ERROR: " + e)
                 }
@@ -150,23 +281,241 @@
 
             async function buscar_tipo_reclamo() {
                 try {
-                    res = await get_tipo_reclamo();
-                    if (res.length == 0) {
-                        console.log("error: no hay dato de tipo reclamo");
+                    const select = document.getElementById('reclamo-type');
+                    const selectTop = document.getElementById('reclamo-type-top');
+                    select.innerHTML = '';
+                    selectTop.innerHTML = '';
+                    
+                    // Opciones fijas para el primer combobox
+                    const opcionesTop = [
+                        { id: 'areas_comunes', nombre: 'AREAS COMUNES' },
+                        { id: 'departamento', nombre: 'A UN DEPARTAMENTO' },
+                        { id: 'administracion', nombre: 'ADMINISTRACIÓN' }
+                    ];
+                    opcionesTop.forEach(opcion => {
+                        const option = document.createElement('option');
+                        option.value = opcion.id;
+                        option.textContent = opcion.nombre;
+                        selectTop.appendChild(option);
+                    });
+                    
+                    const res = await get_tipo_reclamo();
+                    if (!res || res.length === 0) {
+                        // fallback: show default options
+                        const fallback = [
+                            { id: 'reclamo', nombre: 'RECLAMO' },
+                            { id: 'comentario', nombre: 'COMENTARIO/FELICITACION' }
+                        ];
+                        fallback.forEach(tipo => {
+                            const option = document.createElement('option');
+                            option.value = tipo.id;
+                            option.textContent = tipo.nombre;
+                            select.appendChild(option);
+                        });
+                        console.log("error: no hay dato de tipo reclamo, usando fallback");
                     } else {
-                        console.log("res: " + JSON.stringify(res));
-                        // Populate the select element with options
-                        const select = document.getElementById('reclamo-type');
                         res.forEach(tipo => {
                             const option = document.createElement('option');
                             option.value = tipo.id;
                             option.textContent = tipo.nombre;
                             select.appendChild(option);
                         });
+                        console.log("res: " + JSON.stringify(res));
                     }
                 } catch (e) {
-                    console("ERROR: " + e)
+                    console.log("ERROR: " + e)
                 }
+            }
+
+            function mostrarInputDepartamento() {
+                const selectTop = document.getElementById('reclamo-type-top');
+                const departamentoInput = document.getElementById('departamento-input');
+                const administracionInput = document.getElementById('administracion-input');
+                
+                // Ocultar ambos primero
+                departamentoInput.style.display = 'none';
+                administracionInput.style.display = 'none';
+                
+                if (selectTop.value === 'departamento') {
+                    departamentoInput.style.display = 'block';
+                    // Reset departamentos when showing
+                    resetDepartamentos();
+                } else if (selectTop.value === 'administracion') {
+                    administracionInput.style.display = 'block';
+                    // Reset radio buttons when showing
+                    resetAdministracion();
+                } else {
+                    // Reset both when hiding
+                    resetDepartamentos();
+                    resetAdministracion();
+                }
+                
+                // Reajustar altura del contenedor
+                reajustarAltura();
+            }
+
+            function agregarDepartamento() {
+                const container = document.getElementById('departamentos-container');
+                const departamentoRows = container.querySelectorAll('.departamento-row');
+                
+                // Máximo 3 departamentos
+                if (departamentoRows.length >= 3) {
+                    alert('Máximo 3 departamentos permitidos');
+                    return;
+                }
+                
+                // Crear nueva fila de departamento
+                const newRow = document.createElement('div');
+                newRow.className = 'departamento-row slide-in';
+                newRow.style.cssText = 'display: flex; align-items: center; gap: 10px; margin-bottom: 10px;';
+                
+                newRow.innerHTML = `
+                    <input type="number" class="numero-departamento" style="flex: 1; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc;" maxlength="2" max="99" min="1" placeholder="Ej: 12">
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <button onclick="eliminarDepartamento(this)" style="width: 30px; height: 30px; background: #e51212; color: white; border: none; border-radius: 50%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
+                        <div style="text-align: center; font-size: 10px; color: #666; margin-top: 2px;">quitar depto</div>
+                    </div>
+                `;
+                
+                
+                container.appendChild(newRow);
+                
+                setTimeout(() => {
+                    newRow.classList.remove('slide-in');
+                }, 400);
+                
+                
+                const addBtn = document.getElementById('add-depto-btn');
+                if (departamentoRows.length >= 2) {
+                    
+                    addBtn.style.display = 'none';
+                }
+            }
+
+            function eliminarDepartamento(button) {
+                const row = button.parentElement.parentElement; // Subir dos niveles: button -> div -> departamento-row
+                const container = document.getElementById('departamentos-container');
+                const departamentoRows = container.querySelectorAll('.departamento-row');
+                
+                // No eliminar si solo hay 1 departamento
+                if (departamentoRows.length <= 1) {
+                    return;
+                }
+                
+                // Aplicar animación de salida
+                row.classList.add('slide-out');
+                
+                // Eliminar después de que termine la animación
+                setTimeout(() => {
+                    row.remove();
+                    
+                    // Mostrar botón + si no estamos en el máximo
+                    const addBtn = document.getElementById('add-depto-btn');
+                    const remainingRows = container.querySelectorAll('.departamento-row');
+                    if (remainingRows.length < 3) {
+                        addBtn.style.display = 'flex';
+                    }
+                }, 300); // Duración de la animación slideUp
+            }
+
+            function resetDepartamentos() {
+                const container = document.getElementById('departamentos-container');
+                const departamentoRows = container.querySelectorAll('.departamento-row');
+                
+                // Eliminar todas las filas excepto la primera
+                for (let i = 1; i < departamentoRows.length; i++) {
+                    departamentoRows[i].remove();
+                }
+                
+                // Limpiar el valor del primer input
+                const firstInput = container.querySelector('.numero-departamento');
+                if (firstInput) {
+                    firstInput.value = '';
+                }
+                
+                // Mostrar botón +
+                const addBtn = document.getElementById('add-depto-btn');
+                if (addBtn) {
+                    addBtn.style.display = 'flex';
+                }
+            }
+
+            function manejarSeleccionAdministracion(radioSeleccionado) {
+                const container = document.getElementById('administracion-container');
+                const seleccionDiv = document.getElementById('administracion-seleccionada');
+                const textoSeleccion = document.getElementById('area-seleccionada-texto');
+                
+                // Obtener el texto de la opción seleccionada
+                const textoOpcion = radioSeleccionado.parentElement.querySelector('span').textContent;
+                textoSeleccion.textContent = textoOpcion;
+                
+                // Ocultar el contenedor de opciones con animación
+                container.style.animation = 'slideUp 0.3s ease-in forwards';
+                
+                setTimeout(() => {
+                    container.style.display = 'none';
+                    seleccionDiv.style.display = 'block';
+                    seleccionDiv.style.animation = 'slideDown 0.3s ease-out forwards';
+                    
+                    // Reajustar altura del contenedor
+                    reajustarAltura();
+                }, 300);
+            }
+            
+            function mostrarTodasLasOpciones() {
+                const container = document.getElementById('administracion-container');
+                const seleccionDiv = document.getElementById('administracion-seleccionada');
+                
+                // Ocultar la selección con animación
+                seleccionDiv.style.animation = 'slideUp 0.3s ease-in forwards';
+                
+                setTimeout(() => {
+                    seleccionDiv.style.display = 'none';
+                    container.style.display = 'flex';
+                    container.style.animation = 'slideDown 0.3s ease-out forwards';
+                    
+                    // Reajustar altura del contenedor
+                    reajustarAltura();
+                }, 300);
+            }
+
+            function resetAdministracion() {
+                const radioButtons = document.querySelectorAll('input[name="administracion-tipo"]');
+                const container = document.getElementById('administracion-container');
+                const seleccionDiv = document.getElementById('administracion-seleccionada');
+                
+                radioButtons.forEach(radio => {
+                    radio.checked = false;
+                });
+                
+                // Mostrar todas las opciones y ocultar la selección
+                container.style.display = 'flex';
+                seleccionDiv.style.display = 'none';
+                container.style.animation = 'none';
+                seleccionDiv.style.animation = 'none';
+            }
+
+            function obtenerAdministracionSeleccionada() {
+                const radioButtons = document.querySelectorAll('input[name="administracion-tipo"]');
+                for (let radio of radioButtons) {
+                    if (radio.checked) {
+                        return radio.value;
+                    }
+                }
+                return null;
+            }
+
+            function obtenerNumerosDepartamentos() {
+                const inputs = document.querySelectorAll('.numero-departamento');
+                const numeros = [];
+                
+                inputs.forEach(input => {
+                    if (input.value && input.value.trim() !== '') {
+                        numeros.push(parseInt(input.value));
+                    }
+                });
+                
+                return numeros;
             }
 
             // New code to dynamically set reclamo-container height
@@ -175,9 +524,17 @@
                 if (container) {
                     const offsetTop = container.getBoundingClientRect().top;
                     const viewportHeight = window.innerHeight;
-                    const newHeight = viewportHeight - offsetTop - 20; // 20px padding bottom
+                    const newHeight = viewportHeight - offsetTop - 10; // Reducido el padding bottom
                     container.style.height = newHeight + 'px';
+                    container.style.overflowY = 'auto'; // Permitir scroll si es necesario
                 }
+            }
+
+            // Función para reajustar cuando cambian los elementos visibles
+            function reajustarAltura() {
+                setTimeout(() => {
+                    adjustReclamoContainerHeight();
+                }, 100); // Pequeño delay para que las animaciones terminen
             }
 
             window.addEventListener('load', adjustReclamoContainerHeight);

@@ -90,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var logoContainer = document.getElementById('logo-container');
     var welcomeModal = document.getElementById('welcome-modal');
     var loginBtn = document.getElementById('login-btn');
-    var registerBtn = document.getElementById('register-btn');
     var closeBtn = document.getElementById('close-welcome');
     var clickHint = document.getElementById('click-hint');
     var ingresaBtn = document.getElementById('ingresa-btn');
@@ -110,11 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginBtn) {
         loginBtn.addEventListener('click', function() {
             window.location.href = 'login.html';
-        });
-    }
-    if (registerBtn) {
-        registerBtn.addEventListener('click', function() {
-            window.location.href = 'register.html';
         });
     }
     if (ingresaBtn) {
