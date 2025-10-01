@@ -1,144 +1,118 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
+        <meta    </head>
+    <body onload="buscar_tipo_reclamo()">
+        <div class="reclamo-container" style="z-index: 1;">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Justicia-Sociapp</title>
         <link rel="icon" type="image/png" href="img/JS sin fondo.png">
         <link rel="stylesheet" href="css/index.css">
         <link rel="stylesheet" href="css/reclamo.css">
         <style>
-            .departamento-row {
+            /* Estilos para la sección de archivos adjuntos */
+            #archivos-section {
                 transition: all 0.3s ease;
-                transform: translateY(0);
-                opacity: 1;
-                overflow: hidden;
-                max-height: 100px;
             }
             
-            .departamento-row.slide-in {
-                animation: slideDown 0.4s ease-out forwards;
+            #archivos-section button {
+                transition: background-color 0.2s ease;
             }
             
-            .departamento-row.slide-out {
-                animation: slideUp 0.3s ease-in forwards;
+            #archivos-section button:hover {
+                opacity: 0.9;
+                transform: translateY(-1px);
             }
             
-            .radio-container {
-                animation: slideDown 0.4s ease-out forwards;
+            .archivo-item {
+                animation: slideInFile 0.3s ease-out;
             }
             
-            .radio-container label:hover {
-                background: #f0f8ff !important;
-                border-color: #129be5 !important;
-            }
-            
-            .radio-container input[type="radio"]:checked + span {
-                color: #129be5;
-                font-weight: 600;
-            }
-            
-            .radio-container label:has(input[type="radio"]:checked) {
-                background: #e8f4fd !important;
-                border-color: #129be5 !important;
-            }
-            
-            @keyframes slideDown {
+            @keyframes slideInFile {
                 from {
-                    transform: translateY(-20px);
                     opacity: 0;
-                    max-height: 0;
-                    margin-bottom: 0;
+                    transform: translateY(-10px);
                 }
                 to {
-                    transform: translateY(0);
                     opacity: 1;
-                    max-height: 100px;
-                    margin-bottom: 10px;
+                    transform: translateY(0);
                 }
             }
             
-            @keyframes slideUp {
-                from {
-                    transform: translateY(0);
-                    opacity: 1;
-                    max-height: 100px;
-                    margin-bottom: 10px;
-                }
-                to {
-                    transform: translateY(-20px);
-                    opacity: 0;
-                    max-height: 0;
-                    margin-bottom: 0;
-                }
+            /* Mejorar la apariencia del input file */
+            #archivos-input {
+                transition: border-color 0.2s ease;
+            }
+            
+            #archivos-input:focus {
+                outline: none;
+                border-color: #129be5;
+                box-shadow: 0 0 0 2px rgba(18, 155, 229, 0.2);
             }
         </style>
     </head>
     <body onload="buscar_tipo_reclamo()">
-        <a href="home.html" class="home-icon" aria-label="Ir al inicio" style="z-index: 10;">
-            <span style="display: inline-block; position: relative; width: 56px; height: 56px;">
-                <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0;"><circle cx="28" cy="28" r="28" fill="white"/></svg>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#129be5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; top: 14px; left: 14px;"><path d="M3 12L12 3l9 9"/><path d="M9 21V9h6v12"/></svg>
-            </span>
-        </a>
         <div class="reclamo-container" style="z-index: 1;">
-            <div style="margin-top: 40px; padding-bottom: 20px;">
-                <P style="text-align: center;">¿A QUIEN VA DIRIGIDO EL RECLAMO/FELICITACION?</P>
-                <select id="reclamo-type-top" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 20px;" onchange="mostrarInputDepartamento()"></select>
-                <div id="departamento-input" style="display: none; margin-bottom: 20px;">
-                    <P style="text-align: center;">¿QUÉ DEPARTAMENTO/S SE ENCUENTRAN INVOLUCRADO/S?</P>
-                    <div id="departamentos-container">
-                        <div class="departamento-row" style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-                            <input type="number" class="numero-departamento" style="flex: 1; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc;" maxlength="2" max="99" min="1" placeholder="Ej: 12">
-                            <div style="display: flex; flex-direction: column; align-items: center;">
-                                <button id="add-depto-btn" onclick="agregarDepartamento()" style="width: 30px; height: 30px; background: #129be5; color: white; border: none; border-radius: 50%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">+</button>
-                                <div style="text-align: center; font-size: 10px; color: #666; margin-top: 2px;">agregar depto</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="administracion-input" style="display: none; margin-bottom: 20px;">
-                    <P style="text-align: center;">¿A QUÉ ÁREA DE ADMINISTRACIÓN VA DIRIGIDO?</P>
-                    <div id="administracion-container" class="radio-container" style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
-                        <label style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; background: white;">
-                            <input type="radio" name="administracion-tipo" value="conserjeria" style="margin: 0; transform: scale(1.2);" onchange="manejarSeleccionAdministracion(this)">
-                            <span style="font-size: 14px; font-weight: 500;">CONSERJERÍA</span>
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; background: white;">
-                            <input type="radio" name="administracion-tipo" value="mantencion" style="margin: 0; transform: scale(1.2);" onchange="manejarSeleccionAdministracion(this)">
-                            <span style="font-size: 14px; font-weight: 500;">MANTENCIÓN</span>
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 10px; padding: 8px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; background: white;">
-                            <input type="radio" name="administracion-tipo" value="gestores" style="margin: 0; transform: scale(1.2);" onchange="manejarSeleccionAdministracion(this)">
-                            <span style="font-size: 14px; font-weight: 500;">GESTORES MUNICIPALES</span>
-                        </label>
-                    </div>
-                    <div id="administracion-seleccionada" style="display: none; margin-top: 15px; padding: 10px; background: #e8f4fd; border: 1px solid #129be5; border-radius: 8px; text-align: center;">
-                        <span style="font-size: 14px; font-weight: 600; color: #129be5;">Área seleccionada: </span>
-                        <span id="area-seleccionada-texto" style="font-size: 14px; font-weight: 600; color: #129be5;"></span>
-                        <div style="margin-top: 8px;">
-                            <button onclick="mostrarTodasLasOpciones()" style="background: #129be5; color: white; border: none; padding: 5px 10px; border-radius: 5px; font-size: 12px; cursor: pointer;">Cambiar selección</button>
-                        </div>
-                    </div>
-                </div>
-                <P>¿A quién va dirigido el reclamo?</P> 
-                <select id="reclamo-type" style="width: 100%; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc; margin-bottom: 10px;">
+            <div style="margin-top: 10px; padding-bottom: 20px;">
+                <P>TIPO DE RECLAMO</P> 
+                <select id="reclamo-type">
                 </select>
                 <p style="margin-top: 5px; margin-bottom: 10px;">Describa ABAJO su situación:</p>
                 <textarea id="reclamo" type="text" placeholder="Reclamo" autocomplete="reclamo" rows="8" cols="40" required></textarea>
                 <input type="text" id="reclamo2" style="color: #a5a4a4">
 
+                <!-- Sección de archivos adjuntos - Dropdown -->
+                <div id="archivos-dropdown" style="margin-top: 15px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9;">
+                    <div id="archivos-header" onclick="toggleArchivosDropdown()" style="padding: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; color: #333;">
+                        <span>ADJUNTAR ARCHIVOS (OPCIONAL)</span>
+                        <svg id="archivos-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s ease;">
+                            <polyline points="6,9 12,15 18,9"></polyline>
+                        </svg>
+                    </div>
+                    <div id="archivos-content" style="display: none; padding: 0 12px 12px 12px; border-top: 1px solid #ddd;">
+                        <input type="file" id="archivos-input" accept="application/pdf,.pdf,image/*" multiple style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; margin-bottom: 8px; margin-top: 8px;">
+                        <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                            <button onclick="adjuntarArchivos()" style="background: #129be5; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">Adjuntar</button>
+                            <button onclick="limpiarArchivos()" style="background: #6c757d; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">Limpiar</button>
+                        </div>
+                        <div style="font-size: 11px; color: #666; margin-bottom: 8px;">Formatos: PDF e Imágenes (máx. 5MB c/u)</div>
+                        <div id="archivos-lista" style="max-height: 120px; overflow-y: auto;">
+                            <!-- Lista de archivos adjuntos -->
+                        </div>
+                    </div>
+                </div>
+
                 <div style="display: flex; gap: 8px; justify-content: space-between; margin-top: 10px; width: 100%; box-sizing: border-box;">
                     <div onclick="cancelar()" style="width: 47%; font-size: 10px; padding: 8px 5px; background: #e51212; color: white; border: none; border-radius: 7px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 32px; font-weight: 600;">CANCELAR</div>
                     <div onclick="envia_reclamo()" style="width: 47%; font-size: 10px; padding: 8px 5px; background: #129be5; color: white; border: none; border-radius: 7px; cursor: pointer; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 32px; font-weight: 600;">ENVIAR</div>
                 </div>
+                
                 <div id="reclamo-confirmation" class="reclamo-confirmation" style="display:hidden; flex-direction: column; text-align: center;">
                     <span>Su reclamo ha sido enviado</span>
                     <img src="img/aprobado.png" alt="Aprobado" class="aprobado-icon" />
                 </div>
-                <div class="mic-container" id="mic-container" onclick="toggleRecording()" style="width: 100%; cursor: pointer; flex-direction: column; align-items: center; margin-top: 5px;">
-                    <img src="img/microphone.png" width="100" id="mic-icon">
-                    <span id="recording-text" style="display:none; color: #00cc00; font-weight: bold; margin-top: 8px;">grabando</span>
+                
+                <!-- Contenedor horizontal para botón home y micrófono -->
+                <div style="display: flex; align-items: center; justify-content: center; gap: 40px; margin-top: 20px; margin-bottom: 20px;">
+                    <!-- Botón home a la izquierda -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <a href="home.html" class="home-icon" aria-label="Ir al inicio" style="z-index: 10; margin-bottom: 8px;">
+                            <span style="display: inline-block; position: relative; width: 56px; height: 56px;">
+                                <svg width="56" height="56" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" style="position: absolute; top: 0; left: 0;"><circle cx="28" cy="28" r="28" fill="white"/></svg>
+                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E3A8A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; top: 14px; left: 14px;"><path d="M3 12L12 3l9 9"/><path d="M9 21V9h6v12"/></svg>
+                            </span>
+                        </a>
+                        <span style="color: #1E3A8A; font-size: 12px; font-weight: bold; text-align: center;">volver al inicio</span>
+                    </div>
+                    
+                    <!-- Micrófono a la derecha -->
+                    <div style="display: flex; flex-direction: column; align-items: center;">
+                        <div class="mic-container" id="mic-container" onclick="toggleRecording()" style="cursor: pointer; margin-bottom: 8px;">
+                            <img src="img/microphone.png" width="60" id="mic-icon">
+                            <span id="recording-text" style="display:none; color: #00cc00; font-weight: bold; margin-top: 4px;">grabando</span>
+                        </div>
+                        <span style="color: #1E3A8A; font-size: 12px; font-weight: bold; text-align: center;">grabar audio</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -147,6 +121,172 @@
         <script src="js/behaviour.js"></script>
         <script>
             let isRecording = false;
+            let archivosAdjuntos = []; // Array para almacenar archivos adjuntos
+
+            // Función para manejar el dropdown de archivos
+            function toggleArchivosDropdown() {
+                const content = document.getElementById('archivos-content');
+                const chevron = document.getElementById('archivos-chevron');
+                
+                if (content.style.display === 'none' || content.style.display === '') {
+                    content.style.display = 'block';
+                    chevron.style.transform = 'rotate(180deg)';
+                } else {
+                    content.style.display = 'none';
+                    chevron.style.transform = 'rotate(0deg)';
+                }
+            }
+
+            // Funciones para manejo de archivos adjuntos
+            function adjuntarArchivos() {
+                const archivosInput = document.getElementById('archivos-input');
+                
+                if (archivosInput.files.length === 0) {
+                    alert('Por favor, selecciona al menos un archivo');
+                    return;
+                }
+                
+                for (const file of archivosInput.files) {
+                    const esPDF = file.type === 'application/pdf';
+                    const esImagen = file.type.startsWith('image/');
+                    
+                    if (esPDF || esImagen) {
+                        // Validar tamaño (máximo 5MB por archivo)
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert(`El archivo ${file.name} es muy grande. Máximo 5MB por archivo`);
+                            continue;
+                        }
+                        
+                        // Verificar si el archivo ya está adjuntado
+                        if (archivosAdjuntos.find(archivo => archivo.nombre === file.name)) {
+                            alert(`El archivo ${file.name} ya está adjuntado`);
+                            continue;
+                        }
+                        
+                        const reader = new FileReader();
+                        reader.onload = function(ev) {
+                            const archivo = {
+                                nombre: file.name,
+                                tipo: esPDF ? 'pdf' : 'imagen',
+                                data: ev.target.result,
+                                size: file.size,
+                                fechaAdjunto: new Date().toISOString()
+                            };
+                            
+                            archivosAdjuntos.push(archivo);
+                            actualizarListaArchivos();
+                            guardarArchivosReclamo();
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert(`El archivo ${file.name} no es un formato válido (PDF o imagen)`);
+                    }
+                }
+                
+                archivosInput.value = ''; // Limpiar input
+            }
+            
+            function actualizarListaArchivos() {
+                const lista = document.getElementById('archivos-lista');
+                lista.innerHTML = '';
+                
+                if (archivosAdjuntos.length === 0) {
+                    lista.innerHTML = '<div style="color: #666; font-size: 12px; font-style: italic;">No hay archivos adjuntos</div>';
+                    return;
+                }
+                
+                archivosAdjuntos.forEach((archivo, index) => {
+                    const icono = archivo.tipo === 'pdf' ? '📄' : '🖼️';
+                    const sizeKB = Math.round(archivo.size / 1024);
+                    
+                    const div = document.createElement('div');
+                    div.className = 'archivo-item';
+                    div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; margin-bottom: 4px; background: white; border-radius: 4px; border: 1px solid #e0e0e0;';
+                    div.innerHTML = `
+                        <div style="flex: 1; font-size: 12px;">
+                            <span>${icono} ${archivo.nombre}</span>
+                            <span style="color: #666; margin-left: 8px;">(${sizeKB}KB)</span>
+                        </div>
+                        <div style="display: flex; gap: 4px;">
+                            <button onclick="verArchivo(${index})" style="background: #17a2b8; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 10px; cursor: pointer;" title="Ver archivo">Ver</button>
+                            <button onclick="eliminarArchivo(${index})" style="background: #dc3545; color: white; border: none; padding: 2px 6px; border-radius: 3px; font-size: 10px; cursor: pointer;" title="Eliminar archivo">×</button>
+                        </div>
+                    `;
+                    lista.appendChild(div);
+                });
+                
+                // Mostrar contador de archivos
+                const contador = archivosAdjuntos.length;
+                const contadorTexto = contador === 1 ? '1 archivo adjunto' : `${contador} archivos adjuntos`;
+                
+                // Actualizar o crear contador
+                let contadorDiv = document.getElementById('contador-archivos');
+                if (!contadorDiv) {
+                    contadorDiv = document.createElement('div');
+                    contadorDiv.id = 'contador-archivos';
+                    contadorDiv.style.cssText = 'font-size: 11px; color: #129be5; font-weight: 600; margin-top: 4px;';
+                    lista.parentNode.appendChild(contadorDiv);
+                }
+                contadorDiv.textContent = contadorTexto;
+            }
+            
+            function verArchivo(index) {
+                if (archivosAdjuntos[index]) {
+                    const archivo = archivosAdjuntos[index];
+                    const ventana = window.open('', '_blank');
+                    if (archivo.tipo === 'pdf') {
+                        ventana.document.write(`<iframe src="${archivo.data}" width="100%" height="100%" style="border: none;"></iframe>`);
+                    } else {
+                        ventana.document.write(`<img src="${archivo.data}" style="max-width: 100%; height: auto;" alt="${archivo.nombre}">`);
+                    }
+                }
+            }
+            
+            function eliminarArchivo(index) {
+                if (confirm('¿Eliminar este archivo adjunto?')) {
+                    archivosAdjuntos.splice(index, 1);
+                    actualizarListaArchivos();
+                    guardarArchivosReclamo();
+                }
+            }
+            
+            function limpiarArchivos() {
+                if (archivosAdjuntos.length === 0) {
+                    alert('No hay archivos para limpiar');
+                    return;
+                }
+                
+                if (confirm('¿Eliminar todos los archivos adjuntos?')) {
+                    archivosAdjuntos = [];
+                    actualizarListaArchivos();
+                    guardarArchivosReclamo();
+                }
+            }
+            
+            function guardarArchivosReclamo() {
+                const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
+                localStorage.setItem(`reclamo_archivos_${userId}`, JSON.stringify(archivosAdjuntos));
+            }
+            
+            function cargarArchivosReclamo() {
+                const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
+                const archivosGuardados = localStorage.getItem(`reclamo_archivos_${userId}`);
+                
+                if (archivosGuardados) {
+                    try {
+                        archivosAdjuntos = JSON.parse(archivosGuardados);
+                        actualizarListaArchivos();
+                    } catch (error) {
+                        console.error('Error al cargar archivos del reclamo:', error);
+                        archivosAdjuntos = [];
+                    }
+                }
+            }
+            
+            // Cargar archivos al iniciar la página
+            window.addEventListener('load', function() {
+                cargarArchivosReclamo();
+            });
 
             function toggleRecording() {
                 const micContainer = document.getElementById('mic-container');
@@ -212,7 +352,6 @@
 
             async function envia_reclamo() {
                 try {
-                    const tipoTop = document.getElementById('reclamo-type-top').value;
                     const tipo = document.getElementById('reclamo-type').value;
                     const reclamo = document.getElementById('reclamo').value;
                     
@@ -227,30 +366,34 @@
                         return;
                     }
                     
-                    // Validar departamentos si se seleccionó "A UN DEPARTAMENTO"
-                    if (tipoTop === 'departamento') {
-                        const numerosDepartamentos = obtenerNumerosDepartamentos();
-                        if (numerosDepartamentos.length === 0) {
-                            alert("Debe ingresar al menos un número de departamento");
-                            return;
-                        }
-                        console.log("Departamentos seleccionados:", numerosDepartamentos);
+                    // Preparar información de archivos adjuntos para envío
+                    let reclamoCompleto = reclamo;
+                    if (archivosAdjuntos.length > 0) {
+                        reclamoCompleto += "\n\n--- ARCHIVOS ADJUNTOS ---\n";
+                        archivosAdjuntos.forEach((archivo, index) => {
+                            const tipoTexto = archivo.tipo === 'pdf' ? 'PDF' : 'Imagen';
+                            const sizeKB = Math.round(archivo.size / 1024);
+                            reclamoCompleto += `${index + 1}. ${archivo.nombre} (${tipoTexto}, ${sizeKB}KB)\n`;
+                        });
+                        
+                        // Guardar archivos específicos de este reclamo
+                        const fechaReclamo = new Date().toISOString();
+                        const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
+                        localStorage.setItem(`reclamo_archivos_enviado_${fechaReclamo}_${userId}`, JSON.stringify(archivosAdjuntos));
                     }
                     
-                    // Validar administración si se seleccionó "ADMINISTRACIÓN"
-                    if (tipoTop === 'administracion') {
-                        const administracionSeleccionada = obtenerAdministracionSeleccionada();
-                        if (!administracionSeleccionada) {
-                            alert("Debe seleccionar un área de administración");
-                            return;
-                        }
-                        console.log("Área de administración seleccionada:", administracionSeleccionada);
-                    }
-                    
-                    res = await post_reclamo(reclamo, tipo);
+                    res = await post_reclamo(reclamoCompleto, tipo);
                     if (res.length == 0) {
                         abre_pag("error_uuid.html");
                     } else {
+                        // Guardar reclamo en historial del usuario
+                        guardarReclamoEnHistorial(tipo, reclamo, archivosAdjuntos);
+                        
+                        // Limpiar archivos adjuntos después del envío exitoso
+                        archivosAdjuntos = [];
+                        actualizarListaArchivos();
+                        guardarArchivosReclamo();
+                        
                         // Show confirmation div
                         const confirmationDiv = document.getElementById('reclamo-confirmation');
                         confirmationDiv.style.display = 'block';
@@ -263,6 +406,9 @@
                             confirmationDiv.style.animation = 'moveUpAndFade 2s forwards';
                             setTimeout(() => {
                                 confirmationDiv.style.display = 'none';
+                                // Limpiar formulario después de animación
+                                document.getElementById('reclamo').value = '';
+                                document.getElementById('reclamo-type').selectedIndex = 0;
                             }, 2000);
                         }, 3000);
                     }
@@ -273,7 +419,16 @@
 
             function cancelar() {
                 try {
-                    abre_pag("home.html");
+                    // Limpiar archivos adjuntos al cancelar
+                    if (archivosAdjuntos.length > 0) {
+                        if (confirm('¿Cancelar reclamo? Se perderán los archivos adjuntos.')) {
+                            archivosAdjuntos = [];
+                            guardarArchivosReclamo();
+                            abre_pag("home.html");
+                        }
+                    } else {
+                        abre_pag("home.html");
+                    }
                 } catch (e) {
                     alert("ERROR: " + e)
                 }
@@ -282,240 +437,98 @@
             async function buscar_tipo_reclamo() {
                 try {
                     const select = document.getElementById('reclamo-type');
-                    const selectTop = document.getElementById('reclamo-type-top');
-                    select.innerHTML = '';
-                    selectTop.innerHTML = '';
+                    if (!select) {
+                        console.error('Select element not found');
+                        return;
+                    }
                     
-                    // Opciones fijas para el primer combobox
-                    const opcionesTop = [
-                        { id: 'areas_comunes', nombre: 'AREAS COMUNES' },
-                        { id: 'departamento', nombre: 'A UN DEPARTAMENTO' },
-                        { id: 'administracion', nombre: 'ADMINISTRACIÓN' }
+                    select.innerHTML = '';
+                    
+                    // Agregar opción por defecto
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = 'Seleccione un tipo de reclamo';
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    select.appendChild(defaultOption);
+                    
+                    // Siempre cargar opciones de fallback primero
+                    const fallbackOptions = [
+                        { id: '1', nombre: 'RECLAMO' },
+                        { id: '2', nombre: 'COMENTARIO/FELICITACION' },
+                        { id: '3', nombre: 'SUGERENCIA' },
+                        { id: '4', nombre: 'CONSULTA' }
                     ];
-                    opcionesTop.forEach(opcion => {
+                    
+                    fallbackOptions.forEach(tipo => {
                         const option = document.createElement('option');
-                        option.value = opcion.id;
-                        option.textContent = opcion.nombre;
-                        selectTop.appendChild(option);
+                        option.value = tipo.id;
+                        option.textContent = tipo.nombre;
+                        select.appendChild(option);
                     });
                     
-                    const res = await get_tipo_reclamo();
-                    if (!res || res.length === 0) {
-                        // fallback: show default options
-                        const fallback = [
-                            { id: 'reclamo', nombre: 'RECLAMO' },
-                            { id: 'comentario', nombre: 'COMENTARIO/FELICITACION' }
-                        ];
-                        fallback.forEach(tipo => {
-                            const option = document.createElement('option');
-                            option.value = tipo.id;
-                            option.textContent = tipo.nombre;
-                            select.appendChild(option);
-                        });
-                        console.log("error: no hay dato de tipo reclamo, usando fallback");
-                    } else {
-                        res.forEach(tipo => {
-                            const option = document.createElement('option');
-                            option.value = tipo.id;
-                            option.textContent = tipo.nombre;
-                            select.appendChild(option);
-                        });
-                        console.log("res: " + JSON.stringify(res));
+                    console.log('Fallback options loaded, total options:', select.options.length);
+                    
+                    // Intentar obtener opciones del servidor
+                    try {
+                        const res = await get_tipo_reclamo();
+                        if (res && res.length > 0) {
+                            // Limpiar y volver a cargar con datos del servidor
+                            select.innerHTML = '';
+                            
+                            // Re-agregar opción por defecto
+                            const serverDefaultOption = document.createElement('option');
+                            serverDefaultOption.value = '';
+                            serverDefaultOption.textContent = 'Seleccione un tipo de reclamo';
+                            serverDefaultOption.disabled = true;
+                            serverDefaultOption.selected = true;
+                            select.appendChild(serverDefaultOption);
+                            
+                            res.forEach(tipo => {
+                                const option = document.createElement('option');
+                                option.value = tipo.id;
+                                option.textContent = tipo.nombre;
+                                select.appendChild(option);
+                            });
+                            console.log("Opciones del servidor cargadas: " + JSON.stringify(res));
+                        }
+                    } catch (serverError) {
+                        console.log("Error al obtener tipos del servidor, usando fallback:", serverError);
                     }
+                    
+                    // Agregar evento de cambio para debugging
+                    select.addEventListener('change', function() {
+                        console.log('Select changed to:', this.value, this.options[this.selectedIndex].text);
+                    });
+                    
+                    // Forzar re-render del select
+                    select.style.display = 'none';
+                    select.offsetHeight; // Trigger reflow
+                    select.style.display = 'block';
+                    
                 } catch (e) {
-                    console.log("ERROR: " + e)
-                }
-            }
-
-            function mostrarInputDepartamento() {
-                const selectTop = document.getElementById('reclamo-type-top');
-                const departamentoInput = document.getElementById('departamento-input');
-                const administracionInput = document.getElementById('administracion-input');
-                
-                // Ocultar ambos primero
-                departamentoInput.style.display = 'none';
-                administracionInput.style.display = 'none';
-                
-                if (selectTop.value === 'departamento') {
-                    departamentoInput.style.display = 'block';
-                    // Reset departamentos when showing
-                    resetDepartamentos();
-                } else if (selectTop.value === 'administracion') {
-                    administracionInput.style.display = 'block';
-                    // Reset radio buttons when showing
-                    resetAdministracion();
-                } else {
-                    // Reset both when hiding
-                    resetDepartamentos();
-                    resetAdministracion();
-                }
-                
-                // Reajustar altura del contenedor
-                reajustarAltura();
-            }
-
-            function agregarDepartamento() {
-                const container = document.getElementById('departamentos-container');
-                const departamentoRows = container.querySelectorAll('.departamento-row');
-                
-                // Máximo 3 departamentos
-                if (departamentoRows.length >= 3) {
-                    alert('Máximo 3 departamentos permitidos');
-                    return;
-                }
-                
-                // Crear nueva fila de departamento
-                const newRow = document.createElement('div');
-                newRow.className = 'departamento-row slide-in';
-                newRow.style.cssText = 'display: flex; align-items: center; gap: 10px; margin-bottom: 10px;';
-                
-                newRow.innerHTML = `
-                    <input type="number" class="numero-departamento" style="flex: 1; padding: 10px; font-size: 16px; border-radius: 4px; border: 1px solid #ccc;" maxlength="2" max="99" min="1" placeholder="Ej: 12">
-                    <div style="display: flex; flex-direction: column; align-items: center;">
-                        <button onclick="eliminarDepartamento(this)" style="width: 30px; height: 30px; background: #e51212; color: white; border: none; border-radius: 50%; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;">-</button>
-                        <div style="text-align: center; font-size: 10px; color: #666; margin-top: 2px;">quitar depto</div>
-                    </div>
-                `;
-                
-                
-                container.appendChild(newRow);
-                
-                setTimeout(() => {
-                    newRow.classList.remove('slide-in');
-                }, 400);
-                
-                
-                const addBtn = document.getElementById('add-depto-btn');
-                if (departamentoRows.length >= 2) {
-                    
-                    addBtn.style.display = 'none';
-                }
-            }
-
-            function eliminarDepartamento(button) {
-                const row = button.parentElement.parentElement; // Subir dos niveles: button -> div -> departamento-row
-                const container = document.getElementById('departamentos-container');
-                const departamentoRows = container.querySelectorAll('.departamento-row');
-                
-                // No eliminar si solo hay 1 departamento
-                if (departamentoRows.length <= 1) {
-                    return;
-                }
-                
-                // Aplicar animación de salida
-                row.classList.add('slide-out');
-                
-                // Eliminar después de que termine la animación
-                setTimeout(() => {
-                    row.remove();
-                    
-                    // Mostrar botón + si no estamos en el máximo
-                    const addBtn = document.getElementById('add-depto-btn');
-                    const remainingRows = container.querySelectorAll('.departamento-row');
-                    if (remainingRows.length < 3) {
-                        addBtn.style.display = 'flex';
-                    }
-                }, 300); // Duración de la animación slideUp
-            }
-
-            function resetDepartamentos() {
-                const container = document.getElementById('departamentos-container');
-                const departamentoRows = container.querySelectorAll('.departamento-row');
-                
-                // Eliminar todas las filas excepto la primera
-                for (let i = 1; i < departamentoRows.length; i++) {
-                    departamentoRows[i].remove();
-                }
-                
-                // Limpiar el valor del primer input
-                const firstInput = container.querySelector('.numero-departamento');
-                if (firstInput) {
-                    firstInput.value = '';
-                }
-                
-                // Mostrar botón +
-                const addBtn = document.getElementById('add-depto-btn');
-                if (addBtn) {
-                    addBtn.style.display = 'flex';
-                }
-            }
-
-            function manejarSeleccionAdministracion(radioSeleccionado) {
-                const container = document.getElementById('administracion-container');
-                const seleccionDiv = document.getElementById('administracion-seleccionada');
-                const textoSeleccion = document.getElementById('area-seleccionada-texto');
-                
-                // Obtener el texto de la opción seleccionada
-                const textoOpcion = radioSeleccionado.parentElement.querySelector('span').textContent;
-                textoSeleccion.textContent = textoOpcion;
-                
-                // Ocultar el contenedor de opciones con animación
-                container.style.animation = 'slideUp 0.3s ease-in forwards';
-                
-                setTimeout(() => {
-                    container.style.display = 'none';
-                    seleccionDiv.style.display = 'block';
-                    seleccionDiv.style.animation = 'slideDown 0.3s ease-out forwards';
-                    
-                    // Reajustar altura del contenedor
-                    reajustarAltura();
-                }, 300);
-            }
-            
-            function mostrarTodasLasOpciones() {
-                const container = document.getElementById('administracion-container');
-                const seleccionDiv = document.getElementById('administracion-seleccionada');
-                
-                // Ocultar la selección con animación
-                seleccionDiv.style.animation = 'slideUp 0.3s ease-in forwards';
-                
-                setTimeout(() => {
-                    seleccionDiv.style.display = 'none';
-                    container.style.display = 'flex';
-                    container.style.animation = 'slideDown 0.3s ease-out forwards';
-                    
-                    // Reajustar altura del contenedor
-                    reajustarAltura();
-                }, 300);
-            }
-
-            function resetAdministracion() {
-                const radioButtons = document.querySelectorAll('input[name="administracion-tipo"]');
-                const container = document.getElementById('administracion-container');
-                const seleccionDiv = document.getElementById('administracion-seleccionada');
-                
-                radioButtons.forEach(radio => {
-                    radio.checked = false;
-                });
-                
-                // Mostrar todas las opciones y ocultar la selección
-                container.style.display = 'flex';
-                seleccionDiv.style.display = 'none';
-                container.style.animation = 'none';
-                seleccionDiv.style.animation = 'none';
-            }
-
-            function obtenerAdministracionSeleccionada() {
-                const radioButtons = document.querySelectorAll('input[name="administracion-tipo"]');
-                for (let radio of radioButtons) {
-                    if (radio.checked) {
-                        return radio.value;
+                    console.log("ERROR en buscar_tipo_reclamo: " + e);
+                    // Último recurso: cargar opciones básicas
+                    const select = document.getElementById('reclamo-type');
+                    if (select && select.options.length <= 1) {
+                        select.innerHTML = '';
+                        const options = [
+                            { value: '', text: 'Seleccione un tipo de reclamo', disabled: true, selected: true },
+                            { value: '1', text: 'RECLAMO' },
+                            { value: '2', text: 'COMENTARIO/FELICITACION' }
+                        ];
+                        
+                        options.forEach(opt => {
+                            const option = document.createElement('option');
+                            option.value = opt.value;
+                            option.textContent = opt.text;
+                            if (opt.disabled) option.disabled = true;
+                            if (opt.selected) option.selected = true;
+                            select.appendChild(option);
+                        });
+                        console.log('Opciones de emergencia cargadas');
                     }
                 }
-                return null;
-            }
-
-            function obtenerNumerosDepartamentos() {
-                const inputs = document.querySelectorAll('.numero-departamento');
-                const numeros = [];
-                
-                inputs.forEach(input => {
-                    if (input.value && input.value.trim() !== '') {
-                        numeros.push(parseInt(input.value));
-                    }
-                });
-                
-                return numeros;
             }
 
             // New code to dynamically set reclamo-container height
@@ -539,6 +552,71 @@
 
             window.addEventListener('load', adjustReclamoContainerHeight);
             window.addEventListener('resize', adjustReclamoContainerHeight);
+            
+            // Función para guardar reclamo en historial del usuario
+            function guardarReclamoEnHistorial(tipoId, descripcion, archivos) {
+                const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
+                const fecha = new Date().toISOString();
+                
+                // Obtener el nombre del tipo de reclamo del select
+                const selectElement = document.getElementById('reclamo-type');
+                const tipoNombre = selectElement.options[selectElement.selectedIndex]?.text || tipoId;
+                
+                const nuevoReclamo = {
+                    id: Date.now(), // ID único basado en timestamp
+                    tipo: tipoNombre, // Guardar el nombre del tipo en lugar del ID
+                    tipoId: tipoId, // Mantener el ID por si se necesita
+                    descripcion: descripcion,
+                    fecha: fecha,
+                    estado: 'En proceso', // Estado inicial
+                    archivos: archivos.map(archivo => ({
+                        nombre: archivo.nombre,
+                        tipo: archivo.tipo,
+                        size: archivo.size
+                    }))
+                };
+                
+                // Obtener reclamos existentes del usuario
+                let reclamosUsuario = [];
+                const reclamosGuardados = localStorage.getItem(`user_reclamos_${userId}`);
+                
+                if (reclamosGuardados) {
+                    try {
+                        reclamosUsuario = JSON.parse(reclamosGuardados);
+                    } catch (error) {
+                        console.error('Error al cargar reclamos existentes:', error);
+                        reclamosUsuario = [];
+                    }
+                }
+                
+                // Agregar nuevo reclamo al inicio de la lista
+                reclamosUsuario.unshift(nuevoReclamo);
+                
+                // Limitar a los últimos 50 reclamos para no sobrecargar localStorage
+                if (reclamosUsuario.length > 50) {
+                    reclamosUsuario = reclamosUsuario.slice(0, 50);
+                }
+                
+                // Guardar lista actualizada
+                localStorage.setItem(`user_reclamos_${userId}`, JSON.stringify(reclamosUsuario));
+                
+                console.log('Reclamo guardado en historial:', nuevoReclamo);
+            }
+            
+            // Asegurar que la función se ejecute cuando el DOM esté listo
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('DOM loaded, executing buscar_tipo_reclamo');
+                buscar_tipo_reclamo();
+            });
+            
+            // También ejecutar después de un breve delay para casos edge
+            setTimeout(function() {
+                const select = document.getElementById('reclamo-type');
+                if (select && select.options.length <= 1) {
+                    console.log('Secondary execution of buscar_tipo_reclamo');
+                    buscar_tipo_reclamo();
+                }
+            }, 1000);
         </script>
     </body>
 </html>

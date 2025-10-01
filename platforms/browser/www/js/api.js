@@ -1,5 +1,5 @@
 // PROD
-base_url = "https://gestor-it.com/libroquejas/api/v1.0/"
+base_url = "https://web.innovarecoleta.cl/IPR_api/api/v1.0/"
 // DEV
 //base_url = "http://localhost/API-RECLAMOS/api/v1.0/"
 
@@ -21,19 +21,57 @@ async function get_tipo_reclamo(){
     return data; 
 }
 
-async function post_reclamo(reclamo, tipo){
-    url = base_url
-    url = base_url + "reclamos.php";
-    var data1 = {reclamo: reclamo, tipo: tipo};
-    options={
-        method:"POST",
-        body: JSON.stringify(data1)
-    };
-    alert("URL: " + url);
-    let response = await fetch(url, options);
-    let data = await response.json();
-    alert(JSON.stringify(data));
-    return data; 
+async function post_reclamo(reclamo, tipo, usuario_id = null){
+    try {
+        url = base_url + "reclamos.php";
+        
+        // Obtener usuario_id si no se proporciona
+        if (!usuario_id) {
+            usuario_id = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'anonymous';
+        }
+        
+        var data1 = {
+            reclamo: reclamo, 
+            tipo: tipo,
+            usuario_id: usuario_id,
+            fecha_creacion: new Date().toISOString()
+        };
+        
+        console.log("Enviando reclamo a:", url);
+        console.log("Datos del reclamo:", data1);
+        
+        // Usar URLSearchParams para mejor compatibilidad CORS
+        const params = new URLSearchParams();
+        params.append('reclamo', reclamo);
+        params.append('tipo', tipo);
+        params.append('usuario_id', usuario_id);
+        params.append('fecha_creacion', new Date().toISOString());
+        
+        options = {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: params
+        };
+        
+        let response = await fetch(url, options);
+        
+        console.log("Respuesta HTTP status:", response.status);
+        console.log("Respuesta HTTP headers:", response.headers);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        let data = await response.json();
+        console.log("Respuesta del servidor:", data);
+        
+        return data; 
+    } catch (error) {
+        console.error('Error al enviar reclamo:', error);
+        throw error;
+    }
 }
 
 async function login_usuario(usuario, password){
@@ -41,4 +79,28 @@ async function login_usuario(usuario, password){
     let response = await fetch(url);
     let data = await response.json();
     return data; 
+}
+
+async function get_avisos(){
+    url = base_url + "avisos.php";
+    try {
+        let response = await fetch(url);
+        let data = await response.json();
+        return data; 
+    } catch (error) {
+        console.error('Error al obtener avisos:', error);
+        return [];
+    }
+}
+
+async function get_reclamos_usuario(usuario_id){
+    url = base_url + "reclamos_usuario.php?usuario_id=" + usuario_id;
+    try {
+        let response = await fetch(url);
+        let data = await response.json();
+        return data; 
+    } catch (error) {
+        console.error('Error al obtener reclamos del usuario:', error);
+        return [];
+    }
 }

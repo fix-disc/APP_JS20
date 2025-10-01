@@ -86,7 +86,9 @@ h1 {
     height: 100vh;
     object-fit: cover;
     z-index: -1;
-    background: url(../img/fondo.gif) no-repeat center center;
+    background: url(../img/FONDOS/fondo.gif) no-repeat center center, 
+                url(../img/fondo.gif) no-repeat center center,
+                linear-gradient(135deg, #1E3A8A, #1E40AF);
     background-size: cover;
     pointer-events: none; 
 }

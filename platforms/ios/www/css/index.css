@@ -100,7 +100,9 @@ h1 {
     width: 100%;
     height: 100%;
     filter: brightness(2.8);
-    background:url(../img/fondo.gif) no-repeat center top;
+    background: url(../img/FONDOS/fondo.gif) no-repeat center top,
+                url(../img/fondo.gif) no-repeat center top,
+                linear-gradient(135deg, #1E3A8A, #1E40AF);
     bottom: 0px;
     background-size: cover;
 }

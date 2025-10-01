@@ -1,5 +1,5 @@
 body {
-    background: #129be5;
+    background: #1E3A8A;
     font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
@@ -32,12 +32,14 @@ body {
     text-decoration: none;
     background: none;
     margin-right: 15px;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.7));
+    transition: all 0.3s ease;
 }
 
 .top-buttons .dropdown-btn {
     background: rgba(255,255,255,0.9);
-    border: 2px solid rgba(18,155,229,0.3);
-    color: #129be5;
+    border: 2px solid rgba(30,58,138,0.3);
+    color: #1E3A8A;
     padding: 8px 16px;
     border-radius: 20px;
     cursor: pointer;
@@ -45,19 +47,20 @@ body {
     font-weight: 600;
     transition: all 0.3s ease;
     position: relative;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.7));
 }
 
 .top-buttons .dropdown-btn:hover {
     background: white;
-    border-color: #129be5;
+    border-color: #1E3A8A;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(18,155,229,0.3);
+    filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.8));
 }
 
 .top-buttons .dropdown-btn.active {
-    background: #129be5;
+    background: #1E3A8A;
     color: white;
-    border-color: #129be5;
+    border-color: #1E3A8A;
 }
 
 .top-buttons .dropdown-content {
@@ -83,7 +86,7 @@ body {
 }
 
 .dropdown-content h3 {
-    color: #129be5;
+    color: #1E3A8A;
     margin: 0 0 15px 0;
     font-size: 18px;
     text-align: center;
@@ -170,8 +173,12 @@ body {
     stroke: white;
 }
 
+.top-buttons .home-icon:hover {
+    filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.8));
+}
+
 h1 {
-    color: #129be5;
+    color: #1E3A8A;
     font-size: 2.2rem;
     margin-bottom: 30px;
     font-weight: 600;
@@ -300,7 +307,7 @@ h1 {
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, #129be5, #0d7bbd);
+    background: linear-gradient(135deg, #1E3A8A, #1E40AF);
     color: white;
     padding: 15px 20px;
     box-shadow: 0 -4px 16px rgba(0,0,0,0.2);
@@ -328,23 +335,44 @@ h1 {
     align-items: center;
     gap: 5px;
     cursor: pointer;
-    transition: transform 0.3s ease;
 }
 
-.footer-item:hover {
-    transform: scale(1.05);
+/* Estilos para los enlaces de redes sociales */
+.footer-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.footer-link:hover {
+    text-decoration: none;
+    color: white;
+}
+
+.footer-link:visited {
+    color: inherit;
+}
+
+.footer-link:active {
+    transform: translateY(0);
 }
 
 .footer-logo {
     width: 25px;
     height: 25px;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+    filter:  drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.7));
 }
 
 .footer-logo:hover {
     transform: scale(1.1);
-    filter: brightness(0) invert(1) drop-shadow(0 0 8px rgba(255,255,255,0.6));
+    filter:  drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.8));
 }
 
 .footer-text {
@@ -406,18 +434,18 @@ h1 {
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #129be5;
+    border: 3px solid #1E3A8A;
 }
 
 .alcalde-placeholder {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: rgba(18, 155, 229, 0.1);
+    background: rgba(30, 58, 138, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 3px solid #129be5;
+    border: 3px solid #1E3A8A;
 }
 
 .person-icon {
@@ -432,7 +460,7 @@ h1 {
 
 .alcalde-nombre {
     margin: 0 0 5px 0;
-    color: #129be5;
+    color: #1E3A8A;
     font-size: 16px;
     font-weight: bold;
 }
@@ -456,7 +484,7 @@ h1 {
     display: flex;
     gap: 12px;
     padding: 15px 0;
-    border-bottom: 1px solid rgba(18, 155, 229, 0.2);
+    border-bottom: 1px solid rgba(30, 58, 138, 0.2);
     align-items: center;
     min-height: 80px;
 }
@@ -475,18 +503,18 @@ h1 {
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #129be5;
+    border: 2px solid #1E3A8A;
 }
 
 .director-placeholder {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: rgba(18, 155, 229, 0.1);
+    background: rgba(30, 58, 138, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #129be5;
+    border: 2px solid #1E3A8A;
 }
 
 .director-placeholder .person-icon {
@@ -501,7 +529,7 @@ h1 {
 
 .director-nombre {
     margin: 0 0 3px 0;
-    color: #129be5;
+    color: #1E3A8A;
     font-size: 14px;
     font-weight: bold;
 }
@@ -518,7 +546,7 @@ h1 {
     display: flex;
     gap: 12px;
     padding: 15px 0;
-    border-bottom: 1px solid rgba(18, 155, 229, 0.2);
+    border-bottom: 1px solid rgba(30, 58, 138, 0.2);
     align-items: flex-start;
     min-height: 100px;
 }
@@ -537,18 +565,18 @@ h1 {
     height: 70px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #129be5;
+    border: 2px solid #1E3A8A;
 }
 
 .equipo-placeholder {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: rgba(18, 155, 229, 0.1);
+    background: rgba(30, 58, 138, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #129be5;
+    border: 2px solid #1E3A8A;
 }
 
 .equipo-placeholder .person-icon {
@@ -563,7 +591,7 @@ h1 {
 
 .equipo-nombre {
     margin: 0 0 4px 0;
-    color: #129be5;
+    color: #1E3A8A;
     font-size: 15px;
     font-weight: bold;
 }
@@ -584,9 +612,72 @@ h1 {
 
 .equipo-email {
     margin: 0;
-    color: #129be5;
+    color: #1E3A8A;
     font-size: 11px;
     text-decoration: underline;
+}
+
+/* Estilos para emails clickeables */
+.clickable-email {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: transparent;
+}
+
+.clickable-email:hover {
+    background: #1E3A8A;
+    color: white !important;
+    text-decoration: none;
+    transform: scale(1.02);
+}
+
+.clickable-email:active {
+    transform: scale(0.98);
+    background: #1E40AF;
+}
+
+/* Estilos para teléfonos clickeables */
+.clickable-phone {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: transparent;
+}
+
+.clickable-phone:hover {
+    background: #2196F3;
+    color: white !important;
+    text-decoration: none;
+    transform: scale(1.02);
+}
+
+.clickable-phone:active {
+    transform: scale(0.98);
+    background: #1976D2;
+}
+
+/* Estilos para direcciones clickeables */
+.clickable-address {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 2px 4px;
+    border-radius: 4px;
+    background: transparent;
+}
+
+.clickable-address:hover {
+    background: #4CAF50;
+    color: white !important;
+    text-decoration: none;
+    transform: scale(1.02);
+}
+
+.clickable-address:active {
+    transform: scale(0.98);
+    background: #45a049;
 }
 
 /* Estilos para los botones de GENTE */
@@ -599,7 +690,7 @@ h1 {
 .gente-btn {
     width: 100%;
     padding: 12px 15px;
-    background: #129be5;
+    background: #1E3A8A;
     color: white;
     border: none;
     border-radius: 8px;
@@ -610,15 +701,17 @@ h1 {
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.7));
 }
 
 .gente-btn:hover {
-    background: #0d7bbd;
+    background: #1E40AF;
     transform: translateY(-1px);
+    filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.8));
 }
 
 .gente-btn.active {
-    background: #0d7bbd;
+    background: #1E40AF;
 }
 
 .dropdown-arrow {
@@ -637,7 +730,7 @@ h1 {
     background: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     margin-top: 5px;
-    border-left: 3px solid #129be5;
+    border-left: 3px solid #1E3A8A;
     max-height: 70vh;
     overflow-y: auto;
     overflow-x: hidden;
@@ -649,17 +742,17 @@ h1 {
 }
 
 .sub-dropdown-content::-webkit-scrollbar-track {
-    background: rgba(18, 155, 229, 0.1);
+    background: rgba(30, 58, 138, 0.1);
     border-radius: 3px;
 }
 
 .sub-dropdown-content::-webkit-scrollbar-thumb {
-    background: #129be5;
+    background: #1E3A8A;
     border-radius: 3px;
 }
 
 .sub-dropdown-content::-webkit-scrollbar-thumb:hover {
-    background: #0d7bbd;
+    background: #1E40AF;
 }
 
 .sub-dropdown-content.show {
@@ -669,7 +762,7 @@ h1 {
 
 .sub-dropdown-content h4 {
     margin: 0 0 10px 0;
-    color: #129be5;
+    color: #1E3A8A;
     font-size: 14px;
 }
 

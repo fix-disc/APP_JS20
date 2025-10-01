@@ -24,11 +24,11 @@ body, html {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-size: auto 100vh;
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     opacity: 0;
-    transition: opacity 1.2s ease-in-out;
+    transition: opacity 1.5s ease-in-out;
     z-index: 0;
 }
 
@@ -100,13 +100,29 @@ body, html {
     object-fit: contain;
 }
 
+.header-subtitle {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    font-size: 18px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    z-index: 2;
+    padding: 5px 0;
+    background: rgba(30, 58, 138, 0.7);
+}
+
 @media (max-width: 480px) {
     .button-container {
         width: 95%;
         padding: 0 5px;
     }
     .emergency-button, .news-button, .user-button {
-        font-size: 1.8rem;
+        font-size: 1.2rem;
         padding: 25px 0;
     }
 }
@@ -116,7 +132,7 @@ body, html {
         width: 80%;
     }
     .emergency-button, .news-button, .user-button {
-        font-size: 2rem;
+        font-size: 1.4rem;
         padding: 30px 0;
     }
 }
@@ -126,13 +142,13 @@ body, html {
         width: 60%;
     }
     .emergency-button, .news-button, .user-button {
-        font-size: 2.2rem;
+        font-size: 1.6rem;
         padding: 35px 0;
     }
 }
 
 .emergency-button {
-    background-color: #50008d;
+    background-color: #1E3A8A;
     color: white;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
@@ -147,22 +163,38 @@ body, html {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     user-select: none;
     transition: background-color 0.3s ease;
+    white-space: normal;
+    padding: 25px 10px;
+    box-sizing: border-box;
 }
 .emergency-button:hover {
-    background-color: #320059;
+    background-color: #1E40AF;
 }
 .emergency-button:active {
-    background-color: #390085;
+    background-color: #1D4ED8;
 }
 .emergency-button img {
     width: 50px;
-    height: 51px;
-    margin-right: 40px;
+    height: 50px;
+    margin-left: 34px;
+    margin-right: 48px;
     align-self: center;
+    flex-shrink: 0;
+}
+
+.emergency-button {
+    text-align: center;
+    line-height: 1.2;
+}
+
+.emergency-button span {
+    flex: 1;
+    text-align: center;
+    line-height: 1.3;
 }
 
 .news-button {
-    background-color: #50008d;
+    background-color: #1E3A8A;
     color: white;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
@@ -172,26 +204,102 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 25px;
-    cursor: pointer;
+    gap: 15px;
+    cursor: not-allowed;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     user-select: none;
     transition: background-color 0.3s ease;
+    white-space: normal;
+    padding: 25px 10px;
+    box-sizing: border-box;
+    opacity: 0.5;
+    position: relative;
+    margin: 25px 0;
 }
 .news-button:hover {
-    background-color: #320059;
+    background-color: #1E3A8A;
+    opacity: 0.5;
 }
 .news-button:active {
-    background-color: #390085;
+    background-color: #1E3A8A;
+    opacity: 0.5;
+}
+
+/* Cinta policial superior */
+.news-button::before {
+    content: "⚠️ MANTENIMIENTO - NO FUNCIONAL ⚠️ MANTENIMIENTO - NO FUNCIONAL ⚠️";
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    right: -10px;
+    background: linear-gradient(45deg, #ffff00 0%, #ffff00 25%, #000000 25%, #000000 50%, #ffff00 50%, #ffff00 75%, #000000 75%, #000000 100%);
+    background-size: 20px 20px;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: police-tape-scroll 3s linear infinite;
+    z-index: 2;
+    border: 2px solid #000000;
+    transform: rotate(-2deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Cinta policial inferior */
+.news-button::after {
+    content: "⚠️ FUERA DE SERVICIO ⚠️ FUERA DE SERVICIO ⚠️ FUERA DE SERVICIO ⚠️";
+    position: absolute;
+    bottom: -20px;
+    left: -10px;
+    right: -10px;
+    background: linear-gradient(45deg, #ffff00 0%, #ffff00 25%, #000000 25%, #000000 50%, #ffff00 50%, #ffff00 75%, #000000 75%, #000000 100%);
+    background-size: 20px 20px;
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px 0;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    animation: police-tape-scroll-reverse 3s linear infinite;
+    z-index: 2;
+    border: 2px solid #000000;
+    transform: rotate(2deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Animaciones para las cintas policiales */
+@keyframes police-tape-scroll {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 40px 0;
+    }
+}
+
+@keyframes police-tape-scroll-reverse {
+    0% {
+        background-position: 40px 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
 }
 .news-button img {
     width: 50px;
-    height: 51px;
-    margin-right: 50px;
+    height: 50px;
+    margin-left: 5px;
+    margin-right: 113px;
+    align-self: center;
+    flex-shrink: 0;
 }
 
 .user-button {
-    background-color: #50008d;
+    background-color: #1E3A8A;
     color: white;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
@@ -206,18 +314,23 @@ body, html {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     user-select: none;
     transition: background-color 0.3s ease;
+    white-space: normal;
+    padding: 25px 10px;
+    box-sizing: border-box;
 }
 .user-button:hover {
-    background-color: #320059;
+    background-color: #1E40AF;
 }
 .user-button:active {
-    background-color: #390085;
+    background-color: #1D4ED8;
 }
 .user-button img {
     width: 50px;
-    height: 51px;
-    margin-right: 60px;
+    height: 50px;
+    margin-left: 18px;
+    margin-right: 104px;
     align-self: center;
+    flex-shrink: 0;
 }
 
 /* Estilos del menú hamburguesa */
@@ -230,7 +343,7 @@ body, html {
 }
 
 .hamburger-btn {
-    background: rgba(80, 0, 141, 0.9);
+    background: rgba(30, 58, 138, 0.9);
     border: none;
     border-radius: 8px;
     padding: 12px 16px;
@@ -245,7 +358,7 @@ body, html {
 }
 
 .hamburger-btn:hover {
-    background: rgba(80, 0, 141, 1);
+    background: rgba(30, 58, 138, 1);
     transform: scale(1.05);
 }
 
@@ -276,7 +389,7 @@ body, html {
     right: -300px;
     width: 280px;
     height: 100vh;
-    background: linear-gradient(135deg, #50008d 0%, #320059 100%);
+    background: linear-gradient(135deg, #1E3A8A 0%, #1E40AF 100%);
     z-index: 1000;
     transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: -5px 0 20px rgba(0,0,0,0.3);
@@ -308,13 +421,14 @@ body, html {
     transition: all 0.3s ease;
     text-align: center;
     backdrop-filter: blur(10px);
+    filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.7));
 }
 
 .menu-item:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    filter: drop-shadow(3px 3px 4px rgba(0, 0, 0, 0.8));
 }
 
 .menu-item:active {

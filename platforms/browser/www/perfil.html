@@ -1,135 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Mi Perfil</title>
     <link rel="stylesheet" href="css/home.css" />
     <link rel="stylesheet" href="css/perfil.css" />
-    <style>
-        .perfil-container {
-            max-width: 340px;
-            margin: 32px auto;
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
-        }
-        .perfil-foto {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #50008d;
-            margin-bottom: 8px;
-        }
-        .perfil-foto-btn {
-            font-size: 13px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            border: none;
-            background: #50008d;
-            color: #fff;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
-        .perfil-info {
-            width: 100%;
-            font-size: 15px;
-            color: #333;
-            background: #f7f7fa;
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-        }
-        .docs-section {
-            width: 100%;
-            margin-top: 18px;
-        }
-        .docs-title {
-            font-size: 1em;
-            color: #50008d;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .docs-upload {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .docs-list {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .doc-item {
-            background: #f7f7fa;
-            border-radius: 6px;
-            padding: 6px 10px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .doc-item a {
-            color: #50008d;
-            text-decoration: underline;
-            font-size: 13px;
-        }
-    </style>
 </head>
 <body>
     <div class="perfil-container">
-        <div class="header-logos" style="width:100%; justify-content:center; margin-bottom:10px;">
-            <img src="img/LogoRecortadoa.png" alt="Logo Innova Blanco" class="header-logo" style="background:none; height:70px; width:auto; margin-right:12px;" />
-            <img src="img/LogoMunicipalidadSinFondo.png" alt="Logo Municipalidad" class="header-logo" style="background:none; height:70px; width:auto;" />
+        <div class="header-logos">
+            <img src="img/logo-innova-blanco.png" alt="Logo Innova Blanco" class="header-logo" />
+            <img src="img/logo-muni-blanco.png" alt="Logo Municipalidad" class="header-logo" />
         </div>
         <h2>Mi Perfil</h2>
         <img src="img/user.png" alt="Foto de perfil" class="perfil-foto" id="perfilFoto" />
-        <input type="file" accept="image/*" id="fotoInput" style="display:none" />
-        <button class="perfil-foto-btn" onclick="document.getElementById('fotoInput').click()">Cambiar foto</button>
+        <input type="file" accept="image/*" id="fotoInput" class="hidden-input" />
+        
+        <!-- Contenedor de botón centrado -->
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 12px;">
+            <button class="perfil-foto-btn" onclick="document.getElementById('fotoInput').click()">CAMBIAR FOTO</button>
+        </div>
+        
         <div class="perfil-info" id="perfilInfo">
             <strong>Nombre:</strong> <span id="nombreUsuario">Cargando...</span><br>
             <strong>Email:</strong> <span id="emailUsuario">Cargando...</span><br>
-            <strong>Teléfono:</strong> <span id="telefonoUsuario">Cargando...</span><br>
             <strong>RUT:</strong> <span id="rutUsuario">Cargando...</span>
         </div>
         <div class="docs-section">
-            <div class="docs-title">MIS DOCUMENTOS</div>
-            <div class="docs-upload">
-                <input type="file" id="docInput" accept="application/pdf" multiple />
-                <button class="perfil-foto-btn" onclick="subirDocumentos()">Subir PDF</button>
-            </div>
-            <div class="docs-list" id="docsList">
-                <!-- Lista de documentos subidos -->
+            <div class="docs-title">DOCUMENTOS</div>
+            <div class="docs-list">
+                <div class="doc-item reglamento-item">
+                    <span class="doc-name">📄 Reglamento de Convivencia</span>
+                    <div class="doc-actions">
+                        <button onclick="abrirReglamento()" class="doc-link reglamento-btn">Ver PDF</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div style="width:100%; display:flex; justify-content:center; position:fixed; left:0; bottom:18px; z-index:100;">
-        <button class="home-btn" onclick="location.href='home.html'">Volver a Inicio</button>
-    </div>
+    
+    <a href="home.html" class="home-icon" aria-label="Ir al inicio">
+        <svg height="100" width="100" xmlns="http://www.w3.org/2000/svg"><circle r="25" cx="50" cy="50" fill="white" /></svg>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#129be5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" style="transform: translateX(-69px);"><path d="M3 12L12 3l9 9"/><path d="M9 21V9h6v12"/></svg>
+    </a>
+
     <script src="js/api.js"></script>
     <script src="js/behaviour.js"></script>
     <script>
         // Cargar datos del usuario al cargar la página
-        window.addEventListener('load', cargarDatosUsuario);
+        window.addEventListener('load', function() {
+            cargarDatosUsuario();
+            cargarFotoPerfil();
+        });
         
         async function cargarDatosUsuario() {
             try {
                 // Primero intentar obtener datos del localStorage
                 const userEmail = localStorage.getItem('userEmail');
                 const userName = localStorage.getItem('userName');
-                const userPhone = localStorage.getItem('userPhone');
                 const userRut = localStorage.getItem('userRut');
                 
                 if (userEmail || userName) {
                     // Si hay datos en localStorage, mostrarlos
                     document.getElementById('nombreUsuario').textContent = userName || 'No disponible';
                     document.getElementById('emailUsuario').textContent = userEmail || 'No disponible';
-                    document.getElementById('telefonoUsuario').textContent = userPhone || 'No disponible';
                     document.getElementById('rutUsuario').textContent = userRut || 'No disponible';
                 } else {
                     // Si no hay datos en localStorage, intentar obtener de la API
@@ -143,7 +77,6 @@
                             
                             document.getElementById('nombreUsuario').textContent = usuario.nombre || 'No disponible';
                             document.getElementById('emailUsuario').textContent = usuario.email || 'No disponible';
-                            document.getElementById('telefonoUsuario').textContent = usuario.telefono || 'No disponible';
                             document.getElementById('rutUsuario').textContent = usuario.rut || 'No disponible';
                         } else {
                             mostrarDatosNoDisponibles();
@@ -161,8 +94,26 @@
         function mostrarDatosNoDisponibles() {
             document.getElementById('nombreUsuario').textContent = 'No disponible';
             document.getElementById('emailUsuario').textContent = 'No disponible';
-            document.getElementById('telefonoUsuario').textContent = 'No disponible';
             document.getElementById('rutUsuario').textContent = 'No disponible';
+        }
+
+        // Función para cargar la foto de perfil guardada
+        function cargarFotoPerfil() {
+            const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
+            const fotoGuardada = localStorage.getItem(`perfil_foto_${userId}`);
+            
+            if (fotoGuardada) {
+                document.getElementById('perfilFoto').src = fotoGuardada;
+            }
+        }
+
+        // Función para guardar la foto de perfil
+        function guardarFotoPerfil(fotoDataURL) {
+            const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
+            localStorage.setItem(`perfil_foto_${userId}`, fotoDataURL);
+            
+            // Mostrar mensaje de confirmación
+            mostrarNotificacion('Foto de perfil guardada correctamente', 'success');
         }
 
         // Foto de perfil modificable
@@ -171,30 +122,78 @@
         fotoInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                // Validar que sea una imagen
+                if (!file.type.startsWith('image/')) {
+                    mostrarNotificacion('Por favor, selecciona un archivo de imagen válido', 'error');
+                    return;
+                }
+                
+                // Validar tamaño (máximo 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    mostrarNotificacion('La imagen es muy grande. Máximo 5MB permitido', 'error');
+                    return;
+                }
+                
                 const reader = new FileReader();
                 reader.onload = function(ev) {
                     perfilFoto.src = ev.target.result;
+                    guardarFotoPerfil(ev.target.result);
                 };
                 reader.readAsDataURL(file);
             }
         });
-        // Documentos PDF
-        function subirDocumentos() {
-            const docInput = document.getElementById('docInput');
-            const docsList = document.getElementById('docsList');
-            for (const file of docInput.files) {
-                if (file.type === 'application/pdf') {
-                    const reader = new FileReader();
-                    reader.onload = function(ev) {
-                        const div = document.createElement('div');
-                        div.className = 'doc-item';
-                        div.innerHTML = `<span>${file.name}</span> <a href='${ev.target.result}' target='_blank'>Ver PDF</a>`;
-                        docsList.appendChild(div);
-                    };
-                    reader.readAsDataURL(file);
-                }
+
+        // Función para abrir el reglamento de convivencia
+        function abrirReglamento() {
+            // Crear un enlace temporal y hacer click para abrir el PDF
+            const enlace = document.createElement('a');
+            enlace.href = 'docs/Reglamento de Convivencia_JS1.pdf';
+            enlace.target = '_blank';
+            enlace.rel = 'noopener noreferrer';
+            
+            // Para dispositivos móviles, intentar abrir directamente
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                // En móviles, abrir en nueva pestaña/ventana
+                window.open(enlace.href, '_blank', 'noopener,noreferrer');
+            } else {
+                // En escritorio, usar el método tradicional
+                document.body.appendChild(enlace);
+                enlace.click();
+                document.body.removeChild(enlace);
             }
-            docInput.value = '';
+            
+            // Mostrar notificación
+            mostrarNotificacion('Abriendo Reglamento de Convivencia...', 'info');
+        }
+
+
+
+
+
+        // Función para mostrar notificaciones
+        function mostrarNotificacion(mensaje, tipo = 'info') {
+            // Remover notificación previa si existe
+            const existingNotification = document.querySelector('.profile-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+
+            // Crear nueva notificación
+            const notification = document.createElement('div');
+            notification.className = `profile-notification notification-${tipo}`;
+            notification.textContent = mensaje;
+            
+            document.body.appendChild(notification);
+
+            // Remover la notificación después de 4 segundos
+            setTimeout(() => {
+                notification.classList.add('notification-exit');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
         }
     </script>
 </body>

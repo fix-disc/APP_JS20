@@ -15,10 +15,90 @@
         </span>
     </a>
     <div class="avisos-container">
-        <h2>Noticias y Avisos</h2>
-        <div class="avisos-box">
-            <p style="color:#888; text-align:center;">Aquí aparecerán las publicaciones de los gestores.</p>
+        <h2>Avisos</h2>
+        <div class="avisos-box" id="avisos-lista">
+            <div id="loading" style="color:#888; text-align:center;">
+                <p>Cargando avisos...</p>
+            </div>
+            <div id="avisos-content" style="display:none;">
+                <!-- Los avisos se cargarán aquí dinámicamente -->
+            </div>
+            <div id="no-avisos" style="color:#888; text-align:center; display:none;">
+                <p>No hay avisos disponibles en este momento.</p>
+            </div>
         </div>
     </div>
+    
+    <script src="js/api.js"></script>
+    <script>
+        async function cargarAvisos() {
+            try {
+                const avisos = await get_avisos();
+                mostrarAvisos(avisos);
+            } catch (error) {
+                console.error('Error al cargar avisos:', error);
+                mostrarError();
+            }
+        }
+        
+        function mostrarAvisos(avisos) {
+            const loadingDiv = document.getElementById('loading');
+            const contentDiv = document.getElementById('avisos-content');
+            const noAvisosDiv = document.getElementById('no-avisos');
+            
+            loadingDiv.style.display = 'none';
+            
+            if (avisos && avisos.length > 0) {
+                let html = '';
+                avisos.forEach(aviso => {
+                    const fecha = new Date(aviso.fecha_hora || aviso.fecha);
+                    const fechaFormateada = formatearFecha(fecha);
+                    
+                    html += `
+                        <div class="aviso-item">
+                            <div class="aviso-descripcion">${aviso.descripcion || aviso.mensaje || aviso.titulo}</div>
+                            <div class="aviso-fecha">${fechaFormateada}</div>
+                        </div>
+                    `;
+                });
+                
+                contentDiv.innerHTML = html;
+                contentDiv.style.display = 'block';
+                noAvisosDiv.style.display = 'none';
+            } else {
+                contentDiv.style.display = 'none';
+                noAvisosDiv.style.display = 'block';
+            }
+        }
+        
+        function formatearFecha(fecha) {
+            const opciones = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return fecha.toLocaleDateString('es-ES', opciones);
+        }
+        
+        function mostrarError() {
+            const loadingDiv = document.getElementById('loading');
+            const contentDiv = document.getElementById('avisos-content');
+            const noAvisosDiv = document.getElementById('no-avisos');
+            
+            loadingDiv.style.display = 'none';
+            contentDiv.style.display = 'none';
+            
+            noAvisosDiv.innerHTML = '<p>Error al cargar los avisos. Intente nuevamente más tarde.</p>';
+            noAvisosDiv.style.display = 'block';
+        }
+        
+        // Cargar avisos al cargar la página
+        document.addEventListener('DOMContentLoaded', cargarAvisos);
+        
+        // Actualizar avisos cada 30 segundos
+        setInterval(cargarAvisos, 30000);
+    </script>
 </body>
 </html>

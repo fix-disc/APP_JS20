@@ -16,19 +16,123 @@ body {
     width: 90vw;
     max-width: 500px;
     min-height: 320px;
-    background: #fff;
+    background: #129be5;
     border-radius: 18px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     padding: 40px 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Estilos para los avisos individuales */
+.aviso-item {
+    width: 100%;
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-left: 4px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.aviso-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.aviso-item:last-child {
+    margin-bottom: 0;
+}
+
+.aviso-descripcion {
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.aviso-fecha {
+    color: #666;
+    font-size: 0.85rem;
+    font-style: italic;
+    text-align: right;
+}
+
+/* Estados de carga */
+#loading {
+    display: flex;
+    align-items: center;
     justify-content: center;
+    min-height: 100px;
+}
+
+#loading p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+#no-avisos p {
+    margin: 0;
+    font-size: 1rem;
+    padding: 20px;
+}
+
+/* Scrollbar personalizado para webkit */
+.avisos-box::-webkit-scrollbar {
+    width: 6px;
+}
+
+.avisos-box::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.avisos-box::-webkit-scrollbar-thumb {
+    background: #129be5;
+    border-radius: 10px;
+}
+
+.avisos-box::-webkit-scrollbar-thumb:hover {
+    background: #0d7bb8;
 }
 .avisos-container h2 {
-    color: #50008d;
+    color: #ffffff;
     margin-bottom: 32px;
     margin-top: 0;
     font-size: 2rem;
     text-align: center;
+}
+
+/* Estilos para el icono de home */
+.home-icon {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background: none;
+}
+.home-icon svg {
+    display: block;
+    stroke: #1E3A8A;
+    transition: stroke 0.2s;
+}
+.home-icon:hover svg {
+    stroke: #1E40AF;
+}
+
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) {
+    .home-icon {
+        bottom: 0px;
+    }
 }

@@ -10,34 +10,33 @@
 </head>
 <body>
     <div id="background-carousel">
-        <div class="carousel-bg-image" style="background-image: url('img/FondoHome1.jpg');"></div>
-        <div class="carousel-bg-image" style="background-image: url('img/FondoHome2.jpg');"></div>
-        <div class="carousel-bg-image" style="background-image: url('img/FondoHome3.jpg');"></div>
-        <div class="carousel-bg-image" style="background-image: url('img/FondoHome4.jpg');"></div>
-        <div class="carousel-bg-image" style="background-image: url('img/FondoHome5.jpeg');"></div>
+        <div class="carousel-bg-image" data-bg-image="fotos JS/037a5f53-da7a-4e4a-bfbc-663b4879ee8b.jpg"></div>
+        <div class="carousel-bg-image" data-bg-image="fotos JS/a7148b93-6535-48e7-a03e-5ce687d2d0f5.jpg"></div>
+        <div class="carousel-bg-image" data-bg-image="fotos JS/e0f2f5d6-7377-4a39-a5be-d52ea62b56b9.jpg"></div>
+        <div class="carousel-bg-image" data-bg-image="fotos JS/e81e022f-1949-4777-a44a-63c5ea14a197.jpg"></div>
+        <div class="carousel-bg-image" data-bg-image="fotos JS/IMG_2023.jpg"></div>
     </div>
     <div id="content-container">
-        <div class="header-logos">
-            <img src="img/LogoRecortadoa.png" alt="Logo Recortadoa" class="header-logo" width="30%"/>
-            <img src="img/LogoMunicipalidadSinFondo.png" alt="Logo Municipalidad" class="header-logo" width="30%"/>
-        </div>
+        
         <div class="button-container">
             <button class="emergency-button" onclick="location.href='reclamo.html'" width="80%">
                 <img src="img/emergency.png" alt="Reclamos" width="40px"/>
-                RECLAMOS
+                <span>RECLAMOS<br>SUGERENCIAS</span>
             </button>
             <button class="news-button" onclick="location.href='avisos.html'" width="40px">
                 <img src="img/newspaper.png" alt="Noticias" width="40px"/>
-                NOTICIAS
-            </button>
-            <button class="user-button" onclick="location.href='perfil.html'" width="40px">
-                <img src="img/user.png" alt="Perfil" width="40px"/>
-                 MI PERFIL
+                AVISOS
             </button>
         </div>
         
-        <!-- Botón hamburguesa -->
-        <div class="hamburger-container">
+        <!-- Logos movidos abajo -->
+        <div class="footer-logos">
+            <img src="img/LogoRecortadoa.png" alt="Logo Recortadoa" class="footer-logo footer-logo-recortado" width="30%"/>
+            <img src="img/logo-muni-gris.png" alt="Logo Municipalidad" class="footer-logo footer-logo-muni" width="30%"/>
+        </div>
+        
+        <!-- Botón hamburguesa movido abajo a la derecha -->
+        <div class="hamburger-container-bottom">
             <button class="hamburger-btn" onclick="toggleMenu()">
                 <span class="hamburger-line"></span>
                 <span class="hamburger-line"></span>
@@ -51,6 +50,9 @@
         <div class="menu-content">
             <button class="menu-item" onclick="quienesSomos()">
                 QUIENES SOMOS
+            </button>
+            <button class="menu-item" onclick="location.href='perfil.html'">
+                MI PERFIL
             </button>
             <button class="menu-item" onclick="cerrarSesion()">
                 CERRAR SESIÓN
@@ -73,7 +75,7 @@
       showImage(current);
     }
     showImage(current);
-    setInterval(nextImage, 5000);
+    setInterval(nextImage, 3000);
     
     // Funciones del menú hamburguesa
     function toggleMenu() {
@@ -121,6 +123,47 @@
             closeMenu();
         }
     });
+
+    // Función para cargar imágenes de fondo con fallback
+    function loadBackgroundImages() {
+        const bgImages = document.querySelectorAll('.carousel-bg-image[data-bg-image]');
+        
+        bgImages.forEach(function(element) {
+            const imageName = element.getAttribute('data-bg-image');
+            const primaryPath = 'img/' + imageName;
+            const fallbackPath = 'img/FONDOS/' + imageName;
+            
+            // Crear una imagen temporal para verificar si existe
+            const testImage = new Image();
+            
+            testImage.onload = function() {
+                // Si la imagen se carga exitosamente, usarla
+                element.style.backgroundImage = 'url("' + primaryPath + '")';
+            };
+            
+            testImage.onerror = function() {
+                // Si falla, intentar con el fallback
+                const fallbackImage = new Image();
+                
+                fallbackImage.onload = function() {
+                    element.style.backgroundImage = 'url("' + fallbackPath + '")';
+                };
+                
+                fallbackImage.onerror = function() {
+                    console.warn('No se pudo cargar la imagen:', imageName);
+                    // Usar un color de fondo por defecto
+                    element.style.background = 'linear-gradient(135deg, #1E3A8A, #1E40AF)';
+                };
+                
+                fallbackImage.src = fallbackPath;
+            };
+            
+            testImage.src = primaryPath;
+        });
+    }
+
+    // Cargar las imágenes cuando la página esté lista
+    document.addEventListener('DOMContentLoaded', loadBackgroundImages);
 </script>
 </body>
 </html>

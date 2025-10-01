@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mis Reclamos</title>
+    <link rel="stylesheet" href="css/home.css" />
+    <link rel="stylesheet" href="css/mis-reclamos.css" />
+</head>
+<body onload="cargarMisReclamos()">
+    <div class="mis-reclamos-container">
+        <div class="header-logos">
+            <img src="img/logo-innova-blanco.png" alt="Logo Innova Blanco" class="header-logo" />
+            <img src="img/logo-muni-blanco.png" alt="Logo Municipalidad" class="header-logo" />
+        </div>
+        
+        <h2>MIS RECLAMOS</h2>
+        
+        <div class="user-info" id="userInfo">
+            <span id="userName">Cargando usuario...</span>
+        </div>
+        
+        <div class="reclamos-list" id="reclamosList">
+            <div class="loading-message">
+                <p>Cargando reclamos...</p>
+            </div>
+        </div>
+        
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">📋</div>
+            <h3>No tienes reclamos registrados</h3>
+            <p>Cuando realices un reclamo, aparecerá aquí con su estado actual.</p>
+            <button onclick="location.href='reclamo.html'" class="new-reclamo-btn">HACER NUEVO RECLAMO</button>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <button onclick="location.href='reclamo.html'" class="nav-btn secondary">NUEVO RECLAMO</button>
+        <button onclick="location.href='home.html'" class="nav-btn primary">VOLVER A INICIO</button>
+    </div>
+    
+    <script src="cordova.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/behaviour.js"></script>
+    <script>
+        let reclamosUsuario = [];
+        
+        function cargarMisReclamos() {
+            // Cargar información del usuario
+            cargarInfoUsuario();
+            
+            // Cargar reclamos del usuario
+            cargarReclamosDelUsuario();
+        }
+        
+        function cargarInfoUsuario() {
+            const userName = localStorage.getItem('userName') || 'Usuario';
+            document.getElementById('userName').textContent = `Usuario: ${userName}`;
+        }
+        
+        function cargarReclamosDelUsuario() {
+            const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
+            
+            // Intentar cargar reclamos del localStorage
+            const reclamosGuardados = localStorage.getItem(`user_reclamos_${userId}`);
+            
+            if (reclamosGuardados) {
+                try {
+                    reclamosUsuario = JSON.parse(reclamosGuardados);
+                    mostrarReclamos();
+                } catch (error) {
+                    console.error('Error al cargar reclamos:', error);
+                    mostrarEstadoVacio();
+                }
+            } else {
+                mostrarEstadoVacio();
+            }
+        }
+        
+        function mostrarReclamos() {
+            const reclamosList = document.getElementById('reclamosList');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (reclamosUsuario.length === 0) {
+                mostrarEstadoVacio();
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            reclamosList.innerHTML = '';
+            
+            reclamosUsuario.forEach((reclamo, index) => {
+                const reclamoCard = crearTarjetaReclamo(reclamo, index);
+                reclamosList.appendChild(reclamoCard);
+            });
+        }
+        
+        function crearTarjetaReclamo(reclamo, index) {
+            const card = document.createElement('div');
+            card.className = 'reclamo-card';
+            
+            const fecha = new Date(reclamo.fecha).toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            const estado = reclamo.estado || 'En proceso';
+            const estadoClass = obtenerClaseEstado(estado);
+            
+            // Obtener nombre del tipo de reclamo (convertir ID a nombre si es necesario)
+            const tipoNombre = obtenerNombreTipo(reclamo.tipo);
+            
+            card.innerHTML = `
+                <div class="reclamo-header">
+                    <div class="reclamo-id">Reclamo #${String(index + 1).padStart(3, '0')}</div>
+                    <div class="reclamo-estado ${estadoClass}">${estado}</div>
+                </div>
+                <div class="reclamo-fecha">${fecha}</div>
+                <div class="reclamo-tipo">
+                    <strong>Tipo:</strong> ${tipoNombre}
+                </div>
+                <div class="reclamo-descripcion">
+                    <strong>Descripción:</strong>
+                    <p>${reclamo.descripcion}</p>
+                </div>
+                ${reclamo.archivos && reclamo.archivos.length > 0 ? `
+                    <div class="reclamo-archivos">
+                        <strong>Archivos adjuntos:</strong> ${reclamo.archivos.length}
+                    </div>
+                ` : ''}
+                <div class="reclamo-actions">
+                    <button onclick="verDetalleReclamo(${index})" class="detail-btn">Ver detalle</button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function obtenerClaseEstado(estado) {
+            switch (estado.toLowerCase()) {
+                case 'resuelto':
+                case 'completado':
+                    return 'estado-resuelto';
+                case 'en proceso':
+                case 'procesando':
+                    return 'estado-proceso';
+                case 'rechazado':
+                case 'cancelado':
+                    return 'estado-rechazado';
+                default:
+                    return 'estado-pendiente';
+            }
+        }
+        
+        function obtenerNombreTipo(tipo) {
+            // Si ya es un nombre (string que no es un número), devolverlo tal como está
+            if (tipo && isNaN(tipo) && tipo.length > 2) {
+                return tipo;
+            }
+            
+            // Mapeo de IDs comunes a nombres de tipos de reclamo
+            const tiposMap = {
+                '1': 'RECLAMO',
+                '2': 'COMENTARIO/FELICITACION',
+                '3': 'SUGERENCIA',
+                '4': 'CONSULTA',
+                '5': 'DENUNCIA',
+                'reclamo': 'RECLAMO',
+                'comentario': 'COMENTARIO/FELICITACION',
+                'sugerencia': 'SUGERENCIA',
+                'consulta': 'CONSULTA',
+                'denuncia': 'DENUNCIA'
+            };
+            
+            return tiposMap[tipo] || tipo || 'No especificado';
+        }
+        
+        function mostrarEstadoVacio() {
+            const reclamosList = document.getElementById('reclamosList');
+            const emptyState = document.getElementById('emptyState');
+            
+            reclamosList.style.display = 'none';
+            emptyState.style.display = 'block';
+        }
+        
+        function verDetalleReclamo(index) {
+            const reclamo = reclamosUsuario[index];
+            
+            if (!reclamo) return;
+            
+            // Obtener nombre del tipo de reclamo
+            const tipoNombre = obtenerNombreTipo(reclamo.tipo);
+            
+            let detalleHTML = `
+                <div class="modal-overlay" onclick="cerrarDetalle()">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <div class="modal-header">
+                            <h3>Detalle del Reclamo #${String(index + 1).padStart(3, '0')}</h3>
+                            <button onclick="cerrarDetalle()" class="close-btn">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="detalle-item">
+                                <strong>Fecha:</strong> ${new Date(reclamo.fecha).toLocaleDateString('es-ES')}
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Tipo:</strong> ${tipoNombre}
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Estado:</strong> 
+                                <span class="estado-badge ${obtenerClaseEstado(reclamo.estado || 'En proceso')}">${reclamo.estado || 'En proceso'}</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Descripción:</strong>
+                                <p>${reclamo.descripcion}</p>
+                            </div>
+                            ${reclamo.archivos && reclamo.archivos.length > 0 ? `
+                                <div class="detalle-item">
+                                    <strong>Archivos adjuntos:</strong>
+                                    <div class="archivos-detalle">
+                                        ${reclamo.archivos.map(archivo => `
+                                            <div class="archivo-detalle">
+                                                📎 ${archivo.nombre}
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', detalleHTML);
+        }
+        
+        function cerrarDetalle() {
+            const modal = document.querySelector('.modal-overlay');
+            if (modal) {
+                modal.remove();
+            }
+        }
+        
+        // Simular actualización de estados (esto normalmente vendría de una API)
+        function actualizarEstadosReclamos() {
+            const estadosPosibles = ['En proceso', 'Resuelto', 'En proceso', 'Completado'];
+            
+            reclamosUsuario.forEach(reclamo => {
+                if (!reclamo.estado || reclamo.estado === 'Pendiente') {
+                    const estadoAleatorio = estadosPosibles[Math.floor(Math.random() * estadosPosibles.length)];
+                    reclamo.estado = estadoAleatorio;
+                }
+            });
+            
+            // Guardar cambios
+            const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
+            localStorage.setItem(`user_reclamos_${userId}`, JSON.stringify(reclamosUsuario));
+        }
+    </script>
+</body>
+</html>

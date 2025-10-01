@@ -1,0 +1,551 @@
+body {
+    min-height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    font-family: 'Raleway', sans-serif;
+    background: #1E3A8A;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 20px;
+    box-sizing: border-box;
+}
+
+.mis-reclamos-container {
+    max-width: 350px;
+    width: 95vw;
+    height: calc(100vh - 120px); /* Altura fija calculada */
+    max-height: 80vh;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    padding: 20px;
+    margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    overflow: hidden; /* Evita que el contenedor principal haga scroll */
+}
+
+.header-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.header-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(30, 58, 138, 0.2));
+}
+
+.mis-reclamos-container h2 {
+    color: #1E3A8A;
+    font-size: 1.4em;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+    text-align: center;
+}
+
+.user-info {
+    background: #f8f9fa;
+    color: #1E3A8A;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border: 1px solid rgba(30, 58, 138, 0.2);
+}
+
+.reclamos-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex-grow: 1;
+    overflow-y: auto; /* Permite scroll vertical */
+    overflow-x: hidden; /* Evita scroll horizontal */
+    max-height: calc(100% - 120px); /* Deja espacio para header y user-info */
+    padding-right: 5px; /* Espacio para la scrollbar */
+    margin-right: -5px; /* Compensa el padding para mantener alineación */
+}
+
+/* Scrollbar personalizado para la lista de reclamos */
+.reclamos-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.reclamos-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
+.reclamos-list::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #1E3A8A, #129be5);
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.reclamos-list::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #1E40AF, #0d7bb8);
+}
+
+/* Para Firefox */
+.reclamos-list {
+    scrollbar-width: thin;
+    scrollbar-color: #1E3A8A #f1f1f1;
+}
+
+.loading-message {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 40px 20px;
+}
+
+.reclamo-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    flex-shrink: 0; /* Evita que las tarjetas se compriman */
+}
+
+.reclamo-card:hover {
+    box-shadow: 0 4px 16px rgba(30, 58, 138, 0.12);
+    border-color: #1E3A8A;
+    transform: translateY(-2px);
+}
+
+/* Indicador visual de scroll disponible */
+.reclamos-list::before {
+    content: "";
+    position: sticky;
+    top: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #1E3A8A, transparent);
+    margin-bottom: 10px;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.reclamos-list:hover::before {
+    opacity: 0.7;
+}
+
+/* Efecto fade en los bordes para indicar scroll */
+.reclamos-list::after {
+    content: "";
+    position: sticky;
+    bottom: 0;
+    height: 20px;
+    background: linear-gradient(transparent, rgba(255,255,255,0.9));
+    margin-top: -20px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.reclamo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.reclamo-id {
+    font-weight: 700;
+    color: #1E3A8A;
+    font-size: 14px;
+}
+
+.reclamo-estado {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+.estado-pendiente {
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+.estado-proceso {
+    background: linear-gradient(135deg, #d4edda, #a3d977);
+    color: #155724;
+    border: 1px solid #a3d977;
+}
+
+.estado-resuelto {
+    background: linear-gradient(135deg, #d1ecf1, #7cc8d4);
+    color: #0c5460;
+    border: 1px solid #7cc8d4;
+}
+
+.estado-rechazado {
+    background: linear-gradient(135deg, #f8d7da, #f1a3a8);
+    color: #721c24;
+    border: 1px solid #f1a3a8;
+}
+
+.reclamo-card:hover .reclamo-estado {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.reclamo-fecha {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.reclamo-tipo {
+    font-size: 13px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.reclamo-descripcion {
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.reclamo-descripcion p {
+    margin: 4px 0 0 0;
+    color: #555;
+    line-height: 1.4;
+    max-height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.reclamo-archivos {
+    font-size: 12px;
+    color: #1E3A8A;
+    margin-bottom: 12px;
+}
+
+.reclamo-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    align-items: center;
+}
+
+.detail-btn {
+    background: #1E3A8A;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.detail-btn:hover {
+    background: #1E40AF;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(30, 58, 138, 0.3);
+}
+
+.refresh-btn {
+    background: #f8f9fa;
+    color: #1E3A8A;
+    border: 2px solid #1E3A8A;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+}
+
+.refresh-btn:hover {
+    background: #1E3A8A;
+    color: white;
+    transform: rotate(180deg);
+}
+
+.refresh-btn:active {
+    transform: rotate(360deg);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    color: #1E3A8A;
+    margin: 0 0 12px 0;
+    font-size: 1.2em;
+}
+
+.empty-state p {
+    margin: 0 0 24px 0;
+    line-height: 1.5;
+}
+
+.new-reclamo-btn {
+    background: #1E3A8A;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.new-reclamo-btn:hover {
+    background: #1E40AF;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(30, 58, 138, 0.3);
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 15px 20px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    z-index: 100;
+}
+
+.nav-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    max-width: 160px;
+}
+
+.nav-btn.primary {
+    background: #1E3A8A;
+    color: white;
+}
+
+.nav-btn.primary:hover {
+    background: #1E40AF;
+    transform: translateY(-1px);
+}
+
+.nav-btn.secondary {
+    background: #f8f9fa;
+    color: #1E3A8A;
+    border: 2px solid #1E3A8A;
+}
+
+.nav-btn.secondary:hover {
+    background: #1E3A8A;
+    color: white;
+}
+
+/* Modal styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #1E3A8A;
+    font-size: 1.1em;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.detalle-item {
+    margin-bottom: 16px;
+}
+
+.detalle-item strong {
+    color: #1E3A8A;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.detalle-item p {
+    margin: 0;
+    color: #555;
+    line-height: 1.5;
+}
+
+.estado-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.archivos-detalle {
+    margin-top: 8px;
+}
+
+.archivo-detalle {
+    background: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 380px) {
+    .mis-reclamos-container {
+        padding: 15px;
+        max-width: 100%;
+        width: 100%;
+        border-radius: 0;
+        margin-bottom: 70px;
+        height: calc(100vh - 90px); /* Ajustar altura en móviles */
+    }
+    
+    .reclamos-list {
+        max-height: calc(100% - 100px); /* Menos espacio en móviles */
+        gap: 12px; /* Reducir espacio entre tarjetas */
+    }
+    
+    .reclamo-card {
+        padding: 12px;
+    }
+    
+    .bottom-nav {
+        padding: 12px 15px;
+    }
+    
+    .nav-btn {
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+    
+    /* Scrollbar más pequeño en móviles */
+    .reclamos-list::-webkit-scrollbar {
+        width: 4px;
+    }
+}
+
+/* Estilos adicionales para indicar que hay más contenido */
+.scroll-indicator {
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(30, 58, 138, 0.9);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.scroll-indicator.visible {
+    opacity: 1;
+}
+
+/* Animación suave para el scroll */
+.reclamos-list {
+    scroll-behavior: smooth;
+}
