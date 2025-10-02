@@ -21,48 +21,31 @@ async function get_tipo_reclamo(){
     return data; 
 }
 
-async function post_reclamo(reclamo, tipo, usuario_id = null){
+async function post_reclamo(reclamo, tipo){
     try {
         url = base_url + "reclamos.php";
         
         // Obtener usuario_id si no se proporciona
-        if (!usuario_id) {
-            usuario_id = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'anonymous';
-        }
+        usuario_id = localStorage.getItem('userId') || '';
+        usuario_depa = localStorage.getItem('userDepa') || '';
+
+        console.log("USUARIO: "  + localStorage.getItem('userId'));
         
-        var data1 = {
-            reclamo: reclamo, 
-            tipo: tipo,
-            usuario_id: usuario_id,
-            fecha_creacion: new Date().toISOString()
-        };
+        var data1 = {tipo: tipo, reclamo: reclamo, usuario_id: usuario_id, usuario_depa: usuario_depa};
         
         console.log("Enviando reclamo a:", url);
         console.log("Datos del reclamo:", data1);
         
-        // Usar URLSearchParams para mejor compatibilidad CORS
-        const params = new URLSearchParams();
-        params.append('reclamo', reclamo);
-        params.append('tipo', tipo);
-        params.append('usuario_id', usuario_id);
-        params.append('fecha_creacion', new Date().toISOString());
-        
         options = {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: params
+            body: JSON.stringify(data1)
         };
         
         let response = await fetch(url, options);
         
+        console.log("response:", JSON.stringify(response));
         console.log("Respuesta HTTP status:", response.status);
-        console.log("Respuesta HTTP headers:", response.headers);
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+
         
         let data = await response.json();
         console.log("Respuesta del servidor:", data);
