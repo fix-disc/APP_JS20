@@ -5,10 +5,12 @@
     <body onload="buscar_tipo_reclamo()">
         <div class="reclamo-container" style="z-index: 1;">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Justicia-Sociapp</title>
-        <link rel="icon" type="image/png" href="img/JS sin fondo.png">
-        <link rel="stylesheet" href="css/index.css">
-        <link rel="stylesheet" href="css/reclamo.css">
+            <title>Justicia-Sociapp</title>
+            <link rel="icon" type="image/png" href="img/JS sin fondo.png">
+            <!-- Load Raleway (same as home.html) for consistent titles -->
+            <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet" />
+            <link rel="stylesheet" href="css/index.css">
+            <link rel="stylesheet" href="css/reclamo.css">
         <style>
             /* Mejorar la apariencia del input file */
             #reclamo-input {
@@ -23,8 +25,10 @@
         </style>
     </head>
     <body onload="buscar_tipo_reclamo()">
-        <div class="reclamo-container" style="z-index: 1;">
+    <h1 class="reclamo-title">RECLAMOS, SUGERENCIAS Y ENCOMIENDAS</h1>
+    <div class="reclamo-container" style="z-index: 1; background-color:white;">
             <div style="margin-top: 10px; padding-bottom: 20px;">
+                
                 <P>TIPO DE RECLAMO</P> 
                 <select id="reclamo-type">
                 </select>
@@ -44,41 +48,53 @@
             </div>
         </div>
         
-        <!-- Contenedor horizontal para los 3 botones: home, mis reclamos y micrófono -->
-        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 20px; margin-bottom: 20px; padding: 0 5px;">
-            <!-- Botón home a la izquierda -->
-            <div style="display: flex; flex-direction: column; align-items: center; width: 33.33%; text-align: center; padding: 10px; border-radius: 10px; background-color: rgba(18, 155, 229, 0.05);">
+        <!-- Barra inferior con 3 acciones ordenadas -->
+        <div class="reclamo-actions">
+            <!-- Volver al inicio -->
+            <div class="reclamo-action">
                 <a href="home.html" class="home-icon" aria-label="Ir al inicio">
-                    <svg height="80" width="80" xmlns="http://www.w3.org/2000/svg"><circle r="20" cx="40" cy="40" fill="white" /></svg>
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#129be5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" style="transform: translateX(-55px);"><path d="M3 12L12 3l9 9"/><path d="M9 21V9h6v12"/></svg>
+                    <div class="reclamo-action-icon">
+                        <svg class="icon-bg" height="80" width="80" xmlns="http://www.w3.org/2000/svg"><circle r="28" cx="40" cy="40" fill="white" /></svg>
+                        <img class="icon-fg" src="img/home-icon.svg" alt="Inicio">
+                    </div>
                 </a>
-                <span style="color: #1E3A8A; font-size: 11px; font-weight: bold; text-align: center; margin-top: 5px;">volver al inicio</span>
+                <span class="reclamo-action-label">VOLVER AL INICIO</span>
             </div>
-            
-            <!-- Botón Mis Reclamos en el centro -->
-            <div style="display: flex; flex-direction: column; align-items: center; width: 33.33%; text-align: center; padding: 10px; border-radius: 10px; background-color: rgba(18, 155, 229, 0.05); margin: 0 5px;">
-                <a href="mis-reclamos.html" aria-label="Ver mis reclamos" style="cursor: pointer;">
-                    <svg height="80" width="80" xmlns="http://www.w3.org/2000/svg"><circle r="20" cx="40" cy="40" fill="white" /></svg>
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#129be5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" style="transform: translateX(-55px);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+
+            <!-- Mis Reclamos -->
+            <div class="reclamo-action">
+                <a href="mis-reclamos.html" aria-label="Ver mis reclamos" class="mis-reclamos-btn-link">
+                    <div class="reclamo-action-icon">
+                        <svg class="icon-bg" height="80" width="80" xmlns="http://www.w3.org/2000/svg"><circle r="28" cx="40" cy="40" fill="white" /></svg>
+                        <img class="icon-fg" src="img/mis-reclamos.svg" alt="Mis reclamos">
+                    </div>
                 </a>
-                <span style="color: #1E3A8A; font-size: 11px; font-weight: bold; text-align: center; margin-top: 5px;">mis reclamos</span>
+                <span class="reclamo-action-label">MIS RECLAMOS</span>
             </div>
-            
-            <!-- Micrófono a la derecha -->
-            <div style="display: flex; flex-direction: column; align-items: center; width: 33.33%; text-align: center; padding: 10px; border-radius: 10px; background-color: rgba(18, 155, 229, 0.05);">
-                <div class="mic-container" id="mic-container" onclick="toggleRecording()" style="cursor: pointer;">
-                    <svg height="80" width="80" xmlns="http://www.w3.org/2000/svg"><circle r="20" cx="40" cy="40" fill="white" /></svg>
-                    <img src="img/microphone.png" width="48" id="mic-icon" style="transform: translateX(-16px);">
-                    <span id="recording-text" style="display:none; color: #00cc00; font-weight: bold; margin-top: 4px;">grabando</span>
+
+            <!-- Grabar audio -->
+            <div class="reclamo-action">
+                <div class="mic-container" id="mic-container" onclick="toggleRecording()" aria-label="Grabar audio">
+                    <div class="reclamo-action-icon">
+                        <svg class="icon-bg" height="80" width="80" xmlns="http://www.w3.org/2000/svg"><circle r="28" cx="40" cy="40" fill="white" /></svg>
+                        <img class="icon-fg" src="img/microfono.svg" id="mic-icon" alt="Micrófono">
+                    </div>
+                    <span id="recording-text" class="recording-text" aria-live="polite">GRABANDO</span>
                 </div>
-                <span style="color: #1E3A8A; font-size: 11px; font-weight: bold; text-align: center; margin-top: 5px;">grabar audio</span>
+                <span class="reclamo-action-label">GRABAR AUDIO</span>
             </div>
+        </div>
+        
+        <!-- Visualizador de audio (onda) debajo de los 3 botones -->
+        <div id="audio-visualizer" class="audio-visualizer" style="display:none;">
+            <canvas id="audio-visualizer-canvas"></canvas>
         </div>
         <script src="cordova.js"></script>
         <script src="js/api.js"></script>
         <script src="js/behaviour.js"></script>
         <script>
             let isRecording = false;
+            let audioCtx = null, analyser = null, mediaStream = null, rafId = null, sourceNode = null;
 
             function toggleRecording() {
                 const micContainer = document.getElementById('mic-container');
@@ -120,6 +136,8 @@
                         micContainer.classList.add('recording');
                         recordingText.style.display = 'block';
                         isRecording = true;
+                        // iniciar visualizador de audio
+                        startVisualizer();
                     }
                 } else {
                     window.plugins.speechRecognition.stopListening(function () {
@@ -136,10 +154,122 @@
                             reclamo.value = reclamo2.value;
                         }
                         reclamo2.value = "";
+                        // detener visualizador de audio
+                        stopVisualizer();
                     }, function (err) {
                         console.error("Error stopping speech recognition: ", err);
                     });
                 }
+            }
+
+            function startVisualizer() {
+                const container = document.getElementById('audio-visualizer');
+                const canvas = document.getElementById('audio-visualizer-canvas');
+                if (!container || !canvas) return;
+                container.style.display = 'block';
+
+                // Ajustar canvas al ancho del contenedor
+                const dpr = window.devicePixelRatio || 1;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.floor(rect.width * dpr);
+                canvas.height = Math.floor(60 * dpr);
+                const ctx = canvas.getContext('2d');
+                ctx.scale(dpr, dpr);
+
+                // Intentar usar Web Audio API
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    navigator.mediaDevices.getUserMedia({ audio: true })
+                        .then(stream => {
+                            mediaStream = stream;
+                            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                            sourceNode = audioCtx.createMediaStreamSource(stream);
+                            analyser = audioCtx.createAnalyser();
+                            analyser.fftSize = 256;
+                            sourceNode.connect(analyser);
+                            drawBars(ctx, canvas, analyser);
+                        })
+                        .catch(err => {
+                            console.warn('No se pudo acceder al micrófono para el visualizador, uso animación simulada:', err);
+                            simulateBars(ctx, canvas);
+                        });
+                } else {
+                    // Fallback: animación simulada
+                    simulateBars(ctx, canvas);
+                }
+            }
+
+            function drawBars(ctx, canvas, analyser) {
+                const w = canvas.clientWidth;
+                const h = canvas.clientHeight;
+                const bufferLength = analyser.fftSize; // for time domain we use fftSize length
+                const dataArray = new Uint8Array(bufferLength);
+
+                function render() {
+                    rafId = requestAnimationFrame(render);
+                    analyser.getByteTimeDomainData(dataArray);
+                    ctx.clearRect(0, 0, w, h);
+
+                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = '#1E3A8A';
+                    ctx.beginPath();
+                    const sliceWidth = w / bufferLength;
+                    let x = 0;
+                    for (let i = 0; i < bufferLength; i++) {
+                        const v = dataArray[i] / 128.0; // 0..2
+                        const y = (v * h) / 2; // center around h/2
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                        x += sliceWidth;
+                    }
+                    ctx.lineTo(w, h / 2);
+                    ctx.stroke();
+                }
+                render();
+            }
+
+            function simulateBars(ctx, canvas) {
+                const w = canvas.clientWidth;
+                const h = canvas.clientHeight;
+                const bars = 24;
+                let t = 0;
+                function render() {
+                    rafId = requestAnimationFrame(render);
+                    ctx.clearRect(0, 0, w, h);
+                    const barWidth = w / bars;
+                    for (let i = 0; i < bars; i++) {
+                        const v = (Math.sin((i + t) * 0.3) + 1) / 2; // 0..1
+                        const noise = Math.random() * 0.15;
+                        const barHeight = Math.max(4, (v * 0.8 + noise) * (h - 6));
+                        const x = i * barWidth + 2;
+                        const y = h - barHeight - 2;
+                        ctx.fillStyle = '#1E3A8A';
+                        ctx.fillRect(x, y, Math.max(2, barWidth - 4), barHeight);
+                    }
+                    t += 0.5;
+                }
+                render();
+            }
+
+            function stopVisualizer() {
+                const container = document.getElementById('audio-visualizer');
+                if (rafId) {
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+                if (analyser && sourceNode) {
+                    try { sourceNode.disconnect(); } catch {}
+                }
+                if (audioCtx) {
+                    try { audioCtx.close(); } catch {}
+                    audioCtx = null;
+                    analyser = null;
+                    sourceNode = null;
+                }
+                if (mediaStream) {
+                    mediaStream.getTracks().forEach(tr => tr.stop());
+                    mediaStream = null;
+                }
+                if (container) container.style.display = 'none';
             }
 
             async function envia_reclamo() {

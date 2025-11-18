@@ -57,6 +57,7 @@ body, html {
 }
 
 #content-container {
+    background: #1E3A8A;
     position: relative;
     z-index: 1;
     display: flex;
@@ -114,9 +115,20 @@ body, html {
 }
 
 .header-logo {
-    height: 70px;
+    height: 60px;
     width: auto;
     object-fit: contain;
+}
+
+/* Ensure white variant of the Innova logo is visible on light/white containers
+   across pages by adding a subtle dark background when necessary. Targets by
+   alt text to avoid unintended side effects. */
+.header-logos img[alt="Logo Innova Blanco"],
+.header-logos img[alt="Logo Innova Blanco "] {
+    background: #1E3A8A;
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: inline-block;
 }
 
 /* Nuevos estilos para logos en la parte inferior */
@@ -198,7 +210,7 @@ body, html {
 }
 
 .emergency-button {
-    background-color: #1E3A8A;
+    background-color: #2a4fb7;
     color: white;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
@@ -225,10 +237,10 @@ body, html {
     background-color: #1D4ED8;
 }
 .emergency-button img {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     margin-left: 34px;
-    margin-right: 48px;
+    margin-right: 12px;
     align-self: center;
     flex-shrink: 0;
 }
@@ -241,11 +253,14 @@ body, html {
 .emergency-button span {
     flex: 1;
     text-align: center;
-    line-height: 1.3;
+    line-height: 1.25;
+    font-size: 1.3rem; /* reducido 0.2 adicional */
+    font-weight: 400;
+    letter-spacing: 1.5px;
 }
 
 .news-button {
-    background-color: #1E3A8A;
+    background-color: #2a4fb7;
     color: white;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
@@ -267,6 +282,9 @@ body, html {
     position: relative;
     margin: 25px 0;
     animation: float-delayed 3s ease-in-out infinite 1.5s;
+    font-size: 2.1rem; /* reducido 0.2 */
+    font-weight: 400; /* peso regular */
+    letter-spacing: 2px; /* ancho extra */
 }
 .news-button:hover {
     background-color: #1E40AF;
@@ -284,10 +302,10 @@ body, html {
 
 
 .news-button img {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     margin-left: 5px;
-    margin-right: 113px;
+    margin-right: 41px;
     align-self: center;
     flex-shrink: 0;
 }
@@ -350,10 +368,11 @@ body, html {
     bottom: 30px;
     right: 20px;
     z-index: 10;
+    margin-bottom: 90px;
 }
 
 .hamburger-btn {
-    background: rgba(30, 58, 138, 0.9);
+    background: #2a4fb7;
     border: none;
     border-radius: 8px;
     padding: 12px 16px;

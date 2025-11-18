@@ -45,7 +45,7 @@ body {
 }
 
 .header-logo {
-    height: 50px;
+    height: 44px;
     width: auto;
     object-fit: contain;
     filter: drop-shadow(0 2px 4px rgba(30, 58, 138, 0.2));
@@ -55,6 +55,16 @@ body {
 .header-logo:hover {
     transform: scale(1.05);
     filter: drop-shadow(0 4px 8px rgba(30, 58, 138, 0.3));
+}
+
+/* Make the white 'Logo Innova' visible on white profile card by adding a
+   subtle dark background and padding for that specific image. We target by
+   alt text to avoid changing other pages. */
+.header-logos img[alt="Logo Innova Blanco"] {
+    background: #1E3A8A;
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: inline-block;
 }
 
 .perfil-foto {
@@ -303,4 +313,47 @@ body {
 @keyframes slideOutProfile {
     from { transform: translateX(0); opacity: 1; }
     to { transform: translateX(100%); opacity: 0; }
+}
+
+/* Estilos del botón home */
+.home-icon {
+    height: 56px;
+    width: 56px;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background: none;
+}
+.home-icon svg {
+    display: block;
+    stroke: #1E3A8A;
+    transition: stroke 0.2s;
+}
+.home-icon:hover svg {
+    stroke: #1E40AF;
+}
+/* Contenedor y etiqueta debajo del icono */
+.home-icon-wrap {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+}
+.home-label {
+    margin-top: 6px;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
 }

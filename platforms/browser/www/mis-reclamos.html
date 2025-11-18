@@ -24,6 +24,8 @@
                 <p>Cargando reclamos...</p>
             </div>
         </div>
+        <!-- Debug area: muestra la respuesta cruda de la API cuando se necesita -->
+        <pre id="debugReclamos" style="display:none; white-space:pre-wrap; background:#fff; color:#000; padding:10px; border-radius:8px; max-height:240px; overflow:auto; margin-top:12px;"></pre>
         
         <!-- Indicador de scroll -->
         <div class="scroll-indicator" id="scrollIndicator">
@@ -64,39 +66,48 @@
         
         function cargarReclamosDelUsuario() {
             const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
-            
-            if (!userId) {
-                console.log('No se encontró ID de usuario');
-                mostrarEstadoVacio();
-                return;
-            }
-            
-            // Cargar reclamos desde la API únicamente
-            cargarReclamosDesdeAPI(userId);
+                // Try to load reclamos even if userId is not present: filter will attempt to match by email or rut
+                if (!userId) {
+                    console.log('No se encontró ID de usuario en localStorage/sessionStorage, intentando cargar reclamos y filtrar por email/rut');
+                }
+
+                // Cargar reclamos desde la API (will fetch by depa if available, otherwise fetch all and client will filter)
+                cargarReclamosDesdeAPI(userId);
         }
         
         async function cargarReclamosDesdeAPI(userId) {
+            var depa = localStorage.getItem('userDepa');
             try {
                 // Mostrar estado de carga
                 const reclamosList = document.getElementById('reclamosList');
                 reclamosList.innerHTML = '<div class="loading-message"><p>Cargando reclamos desde la base de datos...</p></div>';
                 
-                // Obtener reclamos desde la API
-                const reclamosAPI = await get_reclamos_usuario(userId);
-                
-                if (reclamosAPI && reclamosAPI.length > 0) {
-                    reclamosUsuario = reclamosAPI;
+                // Obtener reclamos desde la API (la API devuelve reclamos del depto o todos si depa no está)
+                const reclamosAPI = await get_reclamos_usuario(depa);
+
+                // Mostrar en consola la cantidad que devuelve la API y usarla directamente (bypass filter)
+                console.log('reclamosAPI.length =', Array.isArray(reclamosAPI) ? reclamosAPI.length : typeof reclamosAPI, reclamosAPI);
+                try { localStorage.setItem('last_reclamos_api', JSON.stringify(reclamosAPI || [])); } catch(e) {}
+
+                // Mostrar todos los reclamos tal como vienen de la API (sin filtrar)
+                const listaAPI = Array.isArray(reclamosAPI) ? reclamosAPI : [];
+                reclamosUsuario = listaAPI;
+                if (reclamosUsuario.length > 0) {
                     mostrarReclamos();
                 } else {
-                    // No hay reclamos en la base de datos
-                    console.log('No se encontraron reclamos en la base de datos');
+                    console.log('No hay reclamos devueltos por la API');
                     mostrarEstadoVacio();
                 }
+                // También actualizar indicador cuando hay resultados (no debug UI present)
             } catch (error) {
                 console.error('Error al cargar reclamos desde la API:', error);
                 mostrarError();
             }
         }
+
+        // Banner/filter UI removed — we now show API results directly without offering debug controls
+
+        // Debug toggle removed
         
         function mostrarError() {
             const reclamosList = document.getElementById('reclamosList');
@@ -138,46 +149,84 @@
         function crearTarjetaReclamo(reclamo, index) {
             const card = document.createElement('div');
             card.className = 'reclamo-card';
-            
-            const fecha = new Date(reclamo.fecha_creacion || reclamo.fecha).toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
-            // Obtener estado de la base de datos o usar valor por defecto
-            const estado = reclamo.estado || 'Pendiente';
-            const estadoClass = obtenerClaseEstado(estado);
-            
-            // Obtener nombre del tipo de reclamo
-            const tipoNombre = obtenerNombreTipo(reclamo.tipo_reclamo || reclamo.tipo);
-            
-            // ID del reclamo de la base de datos o número secuencial local
-            const reclamoId = reclamo.id || String(index + 1).padStart(3, '0');
-            
+            // Mostrar campos tal cual vienen de la base de datos — soportando mayúsculas/minúsculas y variantes
+            const field = (obj, keys) => {
+                for (const k of keys) {
+                    if (obj == null) continue;
+                    if (obj[k] !== undefined && obj[k] !== null) return obj[k];
+                }
+                return '';
+            };
+
+            // Helper para evitar inyección en el HTML (escape básico)
+            function escapeHtml(str) {
+                if (str === null || str === undefined) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            // Buscar los campos según las claves que indicaste (ID/DEPARTAMENTO/TIPO/TEXTO/FECHAHORA/OBSERVACIONES)
+            const idVal = field(reclamo, ['ID', 'Id', 'id', 'id_reclamo', 'reclamo_id', 'identificador']);
+            const depaVal = field(reclamo, ['DEPARTAMENTO', 'departamento', 'depa', 'depto', 'department']);
+            const tipoVal = field(reclamo, ['TIPO', 'tipo', 'type']);
+            const textoVal = field(reclamo, ['TEXTO', 'texto', 'descripcion', 'descripcion_reclamo', 'detalle']);
+            const fechahoraVal = field(reclamo, ['FECHAHORA', 'fechahora', 'fecha', 'fecha_hora', 'created_at']);
+            const observacionesVal = field(reclamo, ['OBSERVACIONES', 'observaciones', 'observacion', 'obs', 'remarks']);
+
+            // Si observaciones contiene información estructurada (objeto) intentar mostrar autor si existe
+            let observacionesHTML = '';
+            if (observacionesVal && typeof observacionesVal === 'object') {
+                // posibles campos de autor
+                const autor = observacionesVal.autor || observacionesVal.usuario || observacionesVal.quien || observacionesVal.emisor || observacionesVal.by;
+                const textoObs = observacionesVal.texto || observacionesVal.mensaje || observacionesVal.descripcion || JSON.stringify(observacionesVal);
+                observacionesHTML = `<div class="obs-text">${escapeHtml(textoObs)}</div>` + (autor ? `<div class="obs-autor">Emitido por: ${escapeHtml(autor)}</div>` : '');
+            } else {
+                observacionesHTML = `<div class="obs-text">${escapeHtml(observacionesVal)}</div>`;
+            }
+
             card.innerHTML = `
-                <div class="reclamo-header">
-                    <div class="reclamo-id">Reclamo #${reclamoId}</div>
-                    <div class="reclamo-estado ${estadoClass}">${estado}</div>
-                </div>
-                <div class="reclamo-fecha">${fecha}</div>
-                <div class="reclamo-tipo">
-                    <strong>Tipo:</strong> ${tipoNombre}
-                </div>
-                <div class="reclamo-descripcion">
-                    <strong>Descripción:</strong>
-                    <p>${reclamo.descripcion || reclamo.reclamo}</p>
+                <div class="reclamo-db-fields">
+                    <div><strong>ID:</strong> ${escapeHtml(idVal)}</div>
+                    <div><strong>DEPARTAMENTO:</strong> ${escapeHtml(depaVal)}</div>
+                    <div><strong>TIPO:</strong> ${escapeHtml(tipoVal)}</div>
+                    <div><strong>TEXTO:</strong> <div class="texto-db">${escapeHtml(textoVal)}</div></div>
+                    <div><strong>FECHAHORA:</strong> ${escapeHtml(fechahoraVal)}</div>
+                    <div><strong>OBSERVACIONES:</strong> ${observacionesHTML}</div>
                 </div>
                 <div class="reclamo-actions">
                     <button onclick="verDetalleReclamo(${index})" class="detail-btn">Ver detalle</button>
-                    <button onclick="actualizarEstadoReclamo(${index})" class="refresh-btn" title="Actualizar estado">
-                        🔄
-                    </button>
+                    <button onclick="actualizarEstadoReclamo(${index})" class="refresh-btn" title="Actualizar estado">🔄</button>
                 </div>
             `;
             
+            // Hacer la tarjeta accesible y clicable en cualquier parte
+            try {
+                card.setAttribute('role', 'button');
+                card.tabIndex = 0;
+
+                // Click/touch en la tarjeta abre el detalle
+                card.addEventListener('click', function (ev) {
+                    // Evitar doble acción si el click proviene de un botón interno
+                    verDetalleReclamo(index);
+                });
+
+                // Soporte teclado (Enter / Space)
+                card.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        verDetalleReclamo(index);
+                    }
+                });
+
+                // Evitar que los botones internos propaguen el click a la tarjeta
+                const innerButtons = card.querySelectorAll('button');
+                innerButtons.forEach(b => b.addEventListener('click', function (ev) { ev.stopPropagation(); }));
+            } catch (e) { /* ignore in old browsers */ }
+
             return card;
         }
         
@@ -216,11 +265,11 @@
             
             // Mapeo de IDs comunes a nombres de tipos de reclamo
             const tiposMap = {
-                '1': 'RECLAMO',
-                '2': 'COMENTARIO/FELICITACION',
-                '3': 'SUGERENCIA',
-                '4': 'CONSULTA',
-                '5': 'DENUNCIA',
+                '1': 'Tenencia responsable de mascotas',
+                '2': 'Ruidos molestos',
+                '3': 'Corresponsabilidad parental',
+                '4': 'Riesgo de incendio',
+                '5': 'Riesgo Sanitario',
                 'reclamo': 'RECLAMO',
                 'comentario': 'COMENTARIO/FELICITACION',
                 'sugerencia': 'SUGERENCIA',
@@ -243,37 +292,60 @@
             const reclamo = reclamosUsuario[index];
             
             if (!reclamo) return;
-            
-            // Obtener nombre del tipo de reclamo
-            const tipoNombre = obtenerNombreTipo(reclamo.tipo);
-            
+            // Mostrar todos los campos tal cual vienen de la BDD en el modal de detalle
+            const field = (obj, keys) => {
+                for (const k of keys) {
+                    if (obj == null) continue;
+                    if (obj[k] !== undefined && obj[k] !== null) return obj[k];
+                }
+                return '';
+            };
+
+            function escapeHtml(str) {
+                if (str === null || str === undefined) return '';
+                return String(str)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#039;');
+            }
+
+            const idVal = field(reclamo, ['ID', 'Id', 'id', 'id_reclamo', 'reclamo_id', 'identificador']);
+            const depaVal = field(reclamo, ['DEPARTAMENTO', 'departamento', 'depa', 'depto']);
+            const tipoVal = field(reclamo, ['TIPO', 'tipo']);
+            const textoVal = field(reclamo, ['TEXTO', 'texto', 'descripcion']);
+            const fechahoraVal = field(reclamo, ['FECHAHORA', 'fechahora', 'fecha', 'fecha_hora']);
+            const observacionesVal = field(reclamo, ['OBSERVACIONES', 'observaciones', 'obs', 'remarks']);
+
+            let observacionesHTML = '';
+            if (observacionesVal && typeof observacionesVal === 'object') {
+                const autor = observacionesVal.autor || observacionesVal.usuario || observacionesVal.quien || observacionesVal.emisor || observacionesVal.by;
+                const textoObs = observacionesVal.texto || observacionesVal.mensaje || observacionesVal.descripcion || JSON.stringify(observacionesVal);
+                observacionesHTML = `<div>${escapeHtml(textoObs)}</div>` + (autor ? `<div><em>Emitido por: ${escapeHtml(autor)}</em></div>` : '');
+            } else {
+                observacionesHTML = `<div>${escapeHtml(observacionesVal)}</div>`;
+            }
+
             let detalleHTML = `
                 <div class="modal-overlay" onclick="cerrarDetalle()">
                     <div class="modal-content" onclick="event.stopPropagation()">
                         <div class="modal-header">
-                            <h3>Detalle del Reclamo #${String(index + 1).padStart(3, '0')}</h3>
+                            <h3>Detalle del Reclamo ID ${escapeHtml(idVal)}</h3>
                             <button onclick="cerrarDetalle()" class="close-btn">×</button>
                         </div>
                         <div class="modal-body">
-                            <div class="detalle-item">
-                                <strong>Fecha:</strong> ${new Date(reclamo.fecha).toLocaleDateString('es-ES')}
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Tipo:</strong> ${tipoNombre}
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Estado:</strong> 
-                                <span class="estado-badge ${obtenerClaseEstado(reclamo.estado || 'En proceso')}">${reclamo.estado || 'En proceso'}</span>
-                            </div>
-                            <div class="detalle-item">
-                                <strong>Descripción:</strong>
-                                <p>${reclamo.descripcion}</p>
-                            </div>
+                            <div class="detalle-item"><strong>ID:</strong> ${escapeHtml(idVal)}</div>
+                            <div class="detalle-item"><strong>DEPARTAMENTO:</strong> ${escapeHtml(depaVal)}</div>
+                            <div class="detalle-item"><strong>TIPO:</strong> ${escapeHtml(tipoVal)}</div>
+                            <div class="detalle-item"><strong>TEXTO:</strong><div>${escapeHtml(textoVal)}</div></div>
+                            <div class="detalle-item"><strong>FECHAHORA:</strong> ${escapeHtml(fechahoraVal)}</div>
+                            <div class="detalle-item"><strong>OBSERVACIONES:</strong> ${observacionesHTML}</div>
                         </div>
                     </div>
                 </div>
             `;
-            
+
             document.body.insertAdjacentHTML('beforeend', detalleHTML);
         }
         
@@ -302,6 +374,8 @@
         
         // Función para actualizar estado de un reclamo específico
         async function actualizarEstadoReclamo(index) {
+            var depa = localStorage.getItem('userDepa');
+            
             const reclamo = reclamosUsuario[index];
             if (!reclamo) return;
             
@@ -309,7 +383,7 @@
                 const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
                 if (userId) {
                     // Actualizar desde la API
-                    const reclamosActualizados = await get_reclamos_usuario(userId);
+                    const reclamosActualizados = await get_reclamos_usuario(depa);
                     
                     if (reclamosActualizados && reclamosActualizados.length > 0) {
                         // Buscar el reclamo específico y actualizar su estado
@@ -341,12 +415,13 @@
         
         // Función para actualizar todos los reclamos automáticamente
         async function actualizarTodosLosReclamos() {
+            var depa = localStorage.getItem('userDepa');
             const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
             
             if (!userId) return;
             
             try {
-                const reclamosActualizados = await get_reclamos_usuario(userId);
+                const reclamosActualizados = await get_reclamos_usuario(depa);
                 
                 if (reclamosActualizados && reclamosActualizados.length > 0) {
                     // Verificar si hay cambios en los estados

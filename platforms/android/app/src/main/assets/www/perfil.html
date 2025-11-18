@@ -9,23 +9,21 @@
 <body>
     <div class="perfil-container">
         <div class="header-logos">
-            <img src="img/logo-innova-blanco.png" alt="Logo Innova Blanco" class="header-logo" />
+            <img src="img/Logo-innova-blanco.png" alt="Logo Innova Blanco" class="header-logo" />
             <img src="img/logo-muni-blanco.png" alt="Logo Municipalidad" class="header-logo" />
         </div>
         <h2>Mi Perfil</h2>
         <img src="img/user.png" alt="Foto de perfil" class="perfil-foto" id="perfilFoto" />
         <input type="file" accept="image/*" id="fotoInput" class="hidden-input" />
         
-        <!-- Contenedor de botones lado a lado -->
-        <div style="display: flex; gap: 10px; justify-content: center; align-items: center; width: 100%; margin-bottom: 12px;">
+        <!-- Contenedor de botón centrado -->
+        <div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 12px;">
             <button class="perfil-foto-btn" onclick="document.getElementById('fotoInput').click()">CAMBIAR FOTO</button>
-            <button class="perfil-foto-btn mis-reclamos-btn" onclick="location.href='mis-reclamos.html'">MIS RECLAMOS</button>
         </div>
         
         <div class="perfil-info" id="perfilInfo">
             <strong>Nombre:</strong> <span id="nombreUsuario">Cargando...</span><br>
             <strong>Email:</strong> <span id="emailUsuario">Cargando...</span><br>
-            <strong>RUT:</strong> <span id="rutUsuario">Cargando...</span>
         </div>
         <div class="docs-section">
             <div class="docs-title">DOCUMENTOS</div>
@@ -39,9 +37,14 @@
             </div>
         </div>
     </div>
-    <div class="home-btn-container">
-        <button class="home-btn" onclick="location.href='home.html'">Volver a Inicio</button>
+    
+    <div class="home-icon-wrap">
+        <a href="home.html" class="home-icon" aria-label="Ir al inicio">
+            <img src="img/home-icon.svg" alt="Inicio" class="home-icon-img" style="height:56px">
+        </a>
+        <span class="home-label">IR A INICIO</span>
     </div>
+
     <script src="js/api.js"></script>
     <script src="js/behaviour.js"></script>
     <script>

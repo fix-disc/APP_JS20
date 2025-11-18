@@ -7,6 +7,25 @@ body, html {
     background: #f5f5f5;
 }
 
+/* Animación flotante */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes float-delayed {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
 #background-carousel {
     position: fixed;
     top: 0;
@@ -38,6 +57,7 @@ body, html {
 }
 
 #content-container {
+    background: #1E3A8A;
     position: relative;
     z-index: 1;
     display: flex;
@@ -95,14 +115,56 @@ body, html {
 }
 
 .header-logo {
-    height: 70px;
+    height: 60px;
     width: auto;
     object-fit: contain;
 }
 
+/* Ensure white variant of the Innova logo is visible on light/white containers
+   across pages by adding a subtle dark background when necessary. Targets by
+   alt text to avoid unintended side effects. */
+.header-logos img[alt="Logo Innova Blanco"],
+.header-logos img[alt="Logo Innova Blanco "] {
+    background: #1E3A8A;
+    padding: 6px 10px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+/* Nuevos estilos para logos en la parte inferior */
+.footer-logos {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 0;
+    box-sizing: border-box;
+    margin-top: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
+
+.footer-logo {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Logo recortado con tamaño específico */
+.footer-logo-recortado {
+    height: 68px !important;
+}
+
+/* Logo de municipalidad más grande */
+.footer-logo-muni {
+    height: 80px !important;
+}
+
 .header-subtitle {
     position: fixed;
-    top: 80px;
+    top: 25px;
     left: 0;
     width: 100%;
     text-align: center;
@@ -148,7 +210,7 @@ body, html {
 }
 
 .emergency-button {
-    background-color: #1E3A8A;
+    background-color: #2a4fb7;
     color: white;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
@@ -166,6 +228,7 @@ body, html {
     white-space: normal;
     padding: 25px 10px;
     box-sizing: border-box;
+    animation: float 3s ease-in-out infinite;
 }
 .emergency-button:hover {
     background-color: #1E40AF;
@@ -174,10 +237,10 @@ body, html {
     background-color: #1D4ED8;
 }
 .emergency-button img {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     margin-left: 34px;
-    margin-right: 48px;
+    margin-right: 12px;
     align-self: center;
     flex-shrink: 0;
 }
@@ -190,11 +253,14 @@ body, html {
 .emergency-button span {
     flex: 1;
     text-align: center;
-    line-height: 1.3;
+    line-height: 1.25;
+    font-size: 1.3rem; /* reducido 0.2 adicional */
+    font-weight: 400;
+    letter-spacing: 1.5px;
 }
 
 .news-button {
-    background-color: #1E3A8A;
+    background-color: #2a4fb7;
     color: white;
     font-family: 'Raleway', sans-serif;
     font-weight: 100;
@@ -205,95 +271,41 @@ body, html {
     align-items: center;
     justify-content: center;
     gap: 15px;
-    cursor: not-allowed;
+    cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     user-select: none;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     white-space: normal;
     padding: 25px 10px;
     box-sizing: border-box;
-    opacity: 0.5;
+    opacity: 1;
     position: relative;
     margin: 25px 0;
+    animation: float-delayed 3s ease-in-out infinite 1.5s;
+    font-size: 2.1rem; /* reducido 0.2 */
+    font-weight: 400; /* peso regular */
+    letter-spacing: 2px; /* ancho extra */
 }
 .news-button:hover {
-    background-color: #1E3A8A;
-    opacity: 0.5;
+    background-color: #1E40AF;
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
 }
 .news-button:active {
-    background-color: #1E3A8A;
+    background-color: #1D4ED8;
+    transform: translateY(0);
     opacity: 0.5;
 }
 
-/* Cinta policial superior */
-.news-button::before {
-    content: "⚠️ MANTENIMIENTO - NO FUNCIONAL ⚠️ MANTENIMIENTO - NO FUNCIONAL ⚠️";
-    position: absolute;
-    top: -20px;
-    left: -10px;
-    right: -10px;
-    background: linear-gradient(45deg, #ffff00 0%, #ffff00 25%, #000000 25%, #000000 50%, #ffff00 50%, #ffff00 75%, #000000 75%, #000000 100%);
-    background-size: 20px 20px;
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 5px 0;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    animation: police-tape-scroll 3s linear infinite;
-    z-index: 2;
-    border: 2px solid #000000;
-    transform: rotate(-2deg);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
+/* Botón de avisos habilitado - sin cintas de mantenimiento */
 
-/* Cinta policial inferior */
-.news-button::after {
-    content: "⚠️ FUERA DE SERVICIO ⚠️ FUERA DE SERVICIO ⚠️ FUERA DE SERVICIO ⚠️";
-    position: absolute;
-    bottom: -20px;
-    left: -10px;
-    right: -10px;
-    background: linear-gradient(45deg, #ffff00 0%, #ffff00 25%, #000000 25%, #000000 50%, #ffff00 50%, #ffff00 75%, #000000 75%, #000000 100%);
-    background-size: 20px 20px;
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 5px 0;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    animation: police-tape-scroll-reverse 3s linear infinite;
-    z-index: 2;
-    border: 2px solid #000000;
-    transform: rotate(2deg);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
 
-/* Animaciones para las cintas policiales */
-@keyframes police-tape-scroll {
-    0% {
-        background-position: 0 0;
-    }
-    100% {
-        background-position: 40px 0;
-    }
-}
-
-@keyframes police-tape-scroll-reverse {
-    0% {
-        background-position: 40px 0;
-    }
-    100% {
-        background-position: 0 0;
-    }
-}
 .news-button img {
-    width: 50px;
-    height: 50px;
+    width: 100px;
+    height: 100px;
     margin-left: 5px;
-    margin-right: 113px;
+    margin-right: 41px;
     align-self: center;
     flex-shrink: 0;
 }
@@ -342,8 +354,25 @@ body, html {
     z-index: 10;
 }
 
+/* Nuevo contenedor para hamburguesa arriba del header-subtitle */
+.hamburger-container-top {
+    position: fixed;
+    top: 105px;
+    right: 15px;
+    z-index: 10;
+}
+
+/* Nuevo contenedor para hamburguesa abajo a la derecha */
+.hamburger-container-bottom {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 10;
+    margin-bottom: 90px;
+}
+
 .hamburger-btn {
-    background: rgba(30, 58, 138, 0.9);
+    background: #2a4fb7;
     border: none;
     border-radius: 8px;
     padding: 12px 16px;

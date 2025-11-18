@@ -1,44 +1,64 @@
-body {
-    background: #129be5;
+html, body {
+    background: #1E3A8A;
     font-family: 'Raleway', sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    height: 100%;
+    overflow: hidden; /* prevent page-level scrolling; internal areas will scroll */
+}
+/* Wrapper del texto de inicio (sin icono) */
+.home-icon-wrap {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
 }
 .avisos-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: 100vh; /* fill viewport so we can control internal scrolling */
+    box-sizing: border-box;
+    overflow: hidden; /* keep logos/title fixed; list will scroll internally */
 }
 .avisos-box {
-    width: 90vw;
-    max-width: 500px;
-    min-height: 320px;
+    width: 100%;
+    max-width: 630px; /* fixed max width requested */
+    margin: 0 auto;
+    /* Limit height to a percentage of the viewport so descriptive text can fit
+       inside the list and the box will scroll if needed. */
+    max-height: 76vh;
     background: #129be5;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    padding: 40px 32px;
+    border-radius: 7px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    padding: 18px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
-    max-height: 70vh;
-    overflow-y: auto;
+    overflow-y: auto; /* internal scroll only */
 }
 
 /* Estilos para los avisos individuales */
 .aviso-item {
     width: 100%;
-    background: #f8f9fa;
+    background: #434343;
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 16px;
-    border-left: 4px solid #ffffff;
+    border-left: 0px solid #686868;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
 }
+
+/* Prevent individual cards from expanding layout — clamp content */
+.aviso-descripcion p { margin: 0; }
 
 .aviso-item:hover {
     transform: translateY(-2px);
@@ -50,19 +70,41 @@ body {
 }
 
 .aviso-descripcion {
-    color: #333;
+    color: #414141;
     font-size: 1rem;
     line-height: 1.5;
     margin-bottom: 8px;
-    font-weight: 500;
+    /* Make description text match the fecha: white and subtle text-shadow */
+    text-shadow: 0 1px 2px rgb(255, 255, 255);
+}
+
+.aviso-descripcion.bordered {
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    background: transparent;
+    box-shadow: none;
+    color: #ffffff;
 }
 
 .aviso-fecha {
-    color: #666;
+    color: #ffffff;
     font-size: 0.85rem;
     font-style: italic;
     text-align: right;
+    text-shadow:  0 1px 2px rgb(255, 255, 255);
 }
+
+.aviso-imagen {
+    margin: 8px 0;
+    text-align: center;
+}
+.aviso-imagen img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+/* estado badge removed per UI change */
 
 /* Estados de carga */
 #loading {
@@ -103,36 +145,103 @@ body {
 }
 .avisos-container h2 {
     color: #ffffff;
-    margin-bottom: 32px;
+    margin: 8px 0 12px 0;
     margin-top: 0;
-    font-size: 2rem;
+    font-size: 1.6rem;
     text-align: center;
 }
 
-/* Estilos para el icono de home */
-.home-icon {
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 100;
+/* small header logos variant used in avisos page */
+.header-logos.small { display:flex; justify-content:center; gap:10px; padding: 12px 0 6px 0; }
+.header-logos.small .header-logo { height: 32px; }
+
+/* bottom-fixed home button: ensure it doesn't overlap content by reserving space */
+.home-icon-wrap.bottom-fixed { position: fixed; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 1000; display:flex; flex-direction:column; align-items:center; }
+.avisos-container { padding: 18px 12px 80px 12px; } /* bottom padding to avoid overlap with home button */
+
+/* Modal de aviso */
+.aviso-modal {
+    position: fixed;
+    inset: 0;
     display: flex;
     align-items: center;
-    text-decoration: none;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    transform: scale(0.98);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.aviso-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+}
+.aviso-modal-content {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    max-width: 720px;
+    width: calc(100% - 40px);
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    z-index: 1001;
+}
+.aviso-modal.show { opacity: 1; transform: scale(1); }
+.aviso-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: none;
     background: none;
+    font-size: 28px;
+    cursor: pointer;
 }
-.home-icon svg {
-    display: block;
-    stroke: #1E3A8A;
-    transition: stroke 0.2s;
+.aviso-modal-text {
+    color: #222;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 12px;
 }
-.home-icon:hover svg {
-    stroke: #1E40AF;
+.aviso-modal-imagen img { max-width: 100%; border-radius: 8px; margin-bottom: 12px; }
+.aviso-modal-estado { text-align: right; }
+.aviso-modal-estado .aviso-modal-estado {
+    display: inline-block;
+    background: #129be5;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+.aviso-modal-fecha {
+    color: #666;
+    font-size: 0.9rem;
+    text-align: right;
 }
 
-/* Media query para dispositivos móviles */
-@media (max-width: 768px) {
-    .home-icon {
-        bottom: 0px;
-    }
+.home-label {
+    margin-top: 6px;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-align: center;
+    text-transform: uppercase;
 }
+/* Botón de home reinstalado */
+.home-icon {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    padding: 0;
+}
+.home-icon span svg:first-child circle { transition: fill 0.25s; }
+.home-icon:hover span svg:first-child circle { fill: #f2f2f2; }
+.home-icon:hover span svg:nth-child(2) { stroke: #0d7bb8; }
+
+/* Media query para dispositivos móviles */
+@media (max-width: 768px) { }

@@ -324,6 +324,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-tts": "0.2.3",
     "cordova-plugin-speechrecognition": "1.1.2",
     "cordova-plugin-file": "8.1.3",
-    "cordova-plugin-media-capture": "6.0.0"
+    "cordova-plugin-media-capture": "6.0.0",
+    "cordova-plugin-whitelist": "1.3.4"
   };
 });

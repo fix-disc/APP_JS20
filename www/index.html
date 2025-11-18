@@ -7,13 +7,13 @@
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <meta name="color-scheme" content="light dark">
         <link rel="stylesheet" href="css/index.css">
-        <title>Justicia-Sociapp</title>
-        <link rel="icon" type="image/png" href="img/JS.png">
+        <title>IPRAPP</title>
+        <link rel="icon" type="image/png" href="img/logo (2).jpeg">
     </head>
     <body>
         <div class="body_vid"></div>
         <div id="logo-container">
-            <img id="main-logo" src="img/JS.png" width="150px" alt="Logo">
+            <img id="main-logo" src="img/logo (2).jpeg" width="150px" alt="Logo">
             <div id="click-hint">CLICKEAME! :D</div>
         </div>
         <div id="welcome-modal" class="hidden">
@@ -22,7 +22,8 @@
                 <p>Inicia sesión para continuar:</p>
                 
                 <div class="login-form">
-                    <input id="email" type="email" placeholder="Correo electrónico" autocomplete="username" required>
+                    <!-- Usamos RUT en vez de email -->
+                    <input id="email" type="text" placeholder="Usuario" autocomplete="username" required>
                     <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password" required>
                     <a href="recuperar.html" class="forgot-link">¿SE TE OLVIDO TU CONTRASEÑA?</a>
                     <button class="ingresa-btn" onclick="login_user()">INGRESAR</button>
@@ -44,17 +45,43 @@ var fabrica = "";
 var modelo = "";
 var platform = "";
 
+// Al cargar la página: si existe un RUT guardado, intentamos auto-login (se requiere contraseña manualmente)
+document.addEventListener('DOMContentLoaded', async function() {
+    try {
+        const savedRut = localStorage.getItem('savedRut') || '';
+        if (savedRut) {
+            // Rellenar el campo RUT en el formulario
+            const input = document.getElementById('email');
+            if (input) input.value = savedRut;
+
+            // Intentamos hacer login automáticamente sólo si el usuario ya puso su contraseña antes
+            // No guardamos contraseñas en el dispositivo por seguridad.
+            const password = document.getElementById('password').value;
+            if (password && password.length > 0) {
+                // Si el campo password ya tiene algo (usuario pegó la contraseña), hacemos login
+                await login_user();
+            } else {
+                // Dejamos al usuario introducir la contraseña manualmente
+                console.log('Auto-login: RUT encontrado, esperando contraseña del usuario.');
+            }
+        }
+    } catch (e) {
+        console.error('Error en auto-login:', e);
+    }
+});
+
 async function valida_usuario(){
     try{
-        alert(uuid);
-        if(uuid == ""){uuid = "25"}
+        // remove debug alerts shown during first-run; keep behavior intact
+        if (uuid == "") { uuid = "25"; }
         res = await get_users(uuid);
-        alert("RES: " + JSON.stringify(res))
-        if (res.length == 0){
+        // keep a non-intrusive log for developers
+        console.debug('valida_usuario result:', res);
+        if (res && res.length == 0) {
             abre_pag("error_uuid.html");
         }
     }catch(e){
-        alert("ERROR: " + e)
+        console.error('valida_usuario error:', e);
     }
 }
 
@@ -78,7 +105,17 @@ async function login_user(){
             localStorage.setItem('userPhone', userData.fono || '');
             localStorage.setItem('userRut', userData.rut || '');
             localStorage.setItem('userDepa', userData.departamento || '');
-            
+
+            // Guardar el RUT usado por primera vez para futuros auto-logins
+            try {
+                const existing = localStorage.getItem('savedRut');
+                if (!existing) {
+                    localStorage.setItem('savedRut', usuario);
+                }
+            } catch (e) {
+                console.warn('No se pudo guardar savedRut:', e);
+            }
+
             abre_pag('home.html');
         } else {
             alert("Usuario o contraseña incorrectos");

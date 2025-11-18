@@ -89,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var logo = document.getElementById('main-logo');
     var logoContainer = document.getElementById('logo-container');
     var welcomeModal = document.getElementById('welcome-modal');
-    var loginBtn = document.getElementById('login-btn');
     var closeBtn = document.getElementById('close-welcome');
     var clickHint = document.getElementById('click-hint');
     var ingresaBtn = document.getElementById('ingresa-btn');
@@ -98,17 +97,13 @@ document.addEventListener('DOMContentLoaded', function() {
         logo.addEventListener('click', function() {
             logoContainer.classList.add('moved');
             if (clickHint) clickHint.style.display = 'none';
+            logo.classList.add('blurred');  // Añadido para difuminar el logo
             setTimeout(function() {
                 welcomeModal.classList.remove('hidden');
                 setTimeout(function() {
                     welcomeModal.classList.add('show');
                 }, 10);
             }, 600);
-        });
-    }
-    if (loginBtn) {
-        loginBtn.addEventListener('click', function() {
-            window.location.href = 'login.html';
         });
     }
     if (ingresaBtn) {
@@ -120,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetToInitialState() {
         logoContainer.classList.remove('moved');
         welcomeModal.classList.remove('show');
+        logo.classList.remove('blurred');  // Añadido para quitar el difuminado del logo
         setTimeout(function() {
             welcomeModal.classList.add('hidden');
             if (clickHint) clickHint.style.display = '';
@@ -137,6 +133,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+
 });
 
 

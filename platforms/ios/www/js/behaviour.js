@@ -1,6 +1,7 @@
 function abre_pag(pag){
     hide_all();
-    document.getElementById("contenedor").innerHTML = '<object id="htmldiv" type="text/html" data="' + pag + '" style="width:100%; height:100%; display:block;"></object>';
+    window.location.href = pag;
+    //document.getElementById("contenedor").innerHTML = '<object id="htmldiv" type="text/html" data="' + pag + '" style="width:100%; height:100%; display:block;"></object>';
 }
 
 function hide_all(){

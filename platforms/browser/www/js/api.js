@@ -76,8 +76,14 @@ async function get_avisos(){
     }
 }
 
-async function get_reclamos_usuario(usuario_id){
-    url = base_url + "reclamos_usuario.php?usuario_id=" + usuario_id;
+async function get_reclamos_usuario(depa){
+    // If a department (depa) is provided, request filtered by depa.
+    // If not provided, request all reclamos (no depa query) so the client can filter by user id/email/rut.
+    let url = base_url + "reclamos.php";
+    if (depa) {
+        url += "?depa=" + encodeURIComponent(depa);
+    }
+    console.log("URL de reclamos_usuario:", url);
     try {
         let response = await fetch(url);
         let data = await response.json();

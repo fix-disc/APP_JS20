@@ -7,8 +7,9 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(to bottom, #A7A7A7 0%, #E4E4E4 51%);
+    background: #1E3A8A;
+    background-color: #1E3A8A; /* solid background as requested */
+    background-image: none;
     font-family: system-ui, -apple-system, -apple-system-font, 'Segoe UI', 'Roboto', sans-serif;
     font-size:12px;
     height:100vh;
@@ -86,9 +87,8 @@ h1 {
     height: 100vh;
     object-fit: cover;
     z-index: -1;
-    background: url(../img/FONDOS/fondo.gif) no-repeat center center, 
-                url(../img/fondo.gif) no-repeat center center,
-                linear-gradient(135deg, #1E3A8A, #1E40AF);
+    /* Use a flat solid color background instead of images */
+    background: #1E3A8A;
     background-size: cover;
     pointer-events: none; 
 }
@@ -109,6 +109,7 @@ h1 {
     transform: translate(-50%, -50%);
     transition: all 0.7s cubic-bezier(0.77,0,0.175,1);
     z-index: 10;
+    box-shadow: #000(0 8px 32px rgba(0,0,0,0.99));
 }
 #logo-container.moved {
     left: 50%;
@@ -121,6 +122,7 @@ h1 {
     box-shadow: 0 4px 24px rgba(0,0,0,0.15);
     /* background: white; */ /* Comentado para eliminar fondo blanco */
     transition: filter 0.5s ease-out;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.99);
 }
 
 #main-logo.blurred {
@@ -278,4 +280,55 @@ h1 {
 .forgot-link:hover {
     color: #0d7bbd;
     text-decoration: underline;
+}
+
+/* Standardized home icon image used across pages */
+.home-icon-img {
+    width: 80px;
+    height: 80px;
+    display: block;
+    object-fit: contain;
+}
+
+/* Ensure action icons (background circle + foreground mark) fit an 80x80 box */
+.reclamo-action .reclamo-action-icon {
+    width: 80px;
+    height: 80px;
+    position: relative;
+}
+
+.reclamo-action .reclamo-action-icon .icon-bg {
+    width: 80px;
+    height: 80px;
+    display: block;
+}
+
+/* Foreground icon centered inside the 80px circle */
+.reclamo-action .reclamo-action-icon .icon-fg,
+.reclamo-action .reclamo-action-icon img.icon-fg,
+.reclamo-action .reclamo-action-icon img {
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Make foreground icons pop above the white circle */
+.reclamo-action .reclamo-action-icon .icon-fg,
+.reclamo-action .reclamo-action-icon img.icon-fg {
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.12));
+    display: block;
+}
+
+/* Ensure home-icon images also use the 80x80 box when present */
+.home-icon {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+.home-icon .home-icon-img {
+    width: 80px;
+    height: 80px;
 }

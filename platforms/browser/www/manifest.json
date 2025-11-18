@@ -7,5 +7,6 @@
   "description": "Recoleta Apache Cordova App",
   "author": "Apache Cordova Team",
   "icons": [],
+  "orientation": "portrait",
   "start_url": "index.html"
 }

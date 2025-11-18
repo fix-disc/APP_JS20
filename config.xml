@@ -8,4 +8,6 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <!-- Lock orientation to portrait so the app is never rotatable -->
+    <preference name="Orientation" value="portrait" />
 </widget>
