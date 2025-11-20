@@ -65,10 +65,10 @@ function onDeviceReady() {
     }
 
     function success() {
-        alert("Permission granted");
-        alert("MODELO " + device.model);
-        alert("Phone UUID: " + device.uuid);
-        alert("Phone Num: " + device.getLine1Number);
+        //alert("Permission granted");
+        //alert("MODELO " + device.model);
+        //alert("Phone UUID: " + device.uuid);
+        //alert("Phone Num: " + device.getLine1Number);
         try{
            var plataforma = device.platform;
             if(plataforma != "browser"){

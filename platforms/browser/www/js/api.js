@@ -59,9 +59,15 @@ async function post_reclamo(reclamo, tipo){
 
 async function login_usuario(usuario, password){
     url = base_url + "usuarios.php?usuario=" + usuario + "&password=" + password;
-    let response = await fetch(url);
-    let data = await response.json();
-    return data; 
+    try {
+        let response = await fetch(url);
+        let data = await response.json();
+        alert('DATA:' + JSON.stringify(data));
+        return data; 
+    } catch (error) {
+        alert('Error fetch login:', error);
+        return [];
+    }
 }
 
 async function get_avisos(){

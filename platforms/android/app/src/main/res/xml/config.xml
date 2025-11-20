@@ -23,15 +23,11 @@
     <feature name="Capture">
         <param name="android-package" value="org.apache.cordova.mediacapture.Capture" />
     </feature>
-    <feature name="Whitelist">
-        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
-        <param name="onload" value="true" />
-    </feature>
     <feature name="TTS">
         <param name="android-package" value="com.wordsbaking.cordova.tts.TTS" />
         <param name="onload" value="true" />
     </feature>
-    <name>APP_JS</name>
+    <name>IPRApp</name>
     <description>Recoleta Apache Cordova App</description>
     <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
         Apache Cordova Team
