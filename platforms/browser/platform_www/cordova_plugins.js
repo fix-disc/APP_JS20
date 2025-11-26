@@ -322,6 +322,34 @@ module.exports = [
         "id": "cordova-plugin-media-capture.CaptureProxy",
         "pluginId": "cordova-plugin-media-capture",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
+        "id": "cordova-plugin-file-opener2.FileOpener2",
+        "pluginId": "cordova-plugin-file-opener2",
+        "clobbers": [
+            "cordova.plugins.fileOpener2"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-file-opener2/www/browser/isChrome.js",
+        "id": "cordova-plugin-file-opener2.isChrome",
+        "pluginId": "cordova-plugin-file-opener2",
+        "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-file-opener2/src/browser/FileSaver.min.js",
+        "id": "cordova-plugin-file-opener2.FileSaver",
+        "pluginId": "cordova-plugin-file-opener2",
+        "clobbers": [
+            "FileSaver"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-file-opener2/src/browser/FileOpener2.js",
+        "id": "cordova-plugin-file-opener2.FileOpener2Proxy",
+        "pluginId": "cordova-plugin-file-opener2",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -334,7 +362,8 @@ module.exports.metadata =
     "cordova-plugin-tts": "0.2.3",
     "cordova-plugin-speechrecognition": "1.1.2",
     "cordova-plugin-file": "8.1.3",
-    "cordova-plugin-media-capture": "6.0.0"
+    "cordova-plugin-media-capture": "6.0.0",
+    "cordova-plugin-file-opener2": "4.0.0"
 }
 // BOTTOM OF METADATA
 });

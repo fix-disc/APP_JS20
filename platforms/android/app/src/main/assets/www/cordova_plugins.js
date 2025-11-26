@@ -328,6 +328,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "file": "plugins/cordova-plugin-media-capture/www/android/init.js",
       "pluginId": "cordova-plugin-media-capture",
       "runs": true
+    },
+    {
+      "id": "cordova-plugin-file-opener2.FileOpener2",
+      "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
+      "pluginId": "cordova-plugin-file-opener2",
+      "clobbers": [
+        "cordova.plugins.fileOpener2"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -339,6 +347,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-tts": "0.2.3",
     "cordova-plugin-speechrecognition": "1.1.2",
     "cordova-plugin-media-capture": "6.0.0",
-    "cordova-plugin-whitelist": "1.3.4"
+    "cordova-plugin-file-opener2": "4.0.0"
   };
 });

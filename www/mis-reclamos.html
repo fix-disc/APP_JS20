@@ -9,7 +9,8 @@
 <body onload="cargarMisReclamos()">
     <div class="mis-reclamos-container">
         <div class="header-logos">
-            <img src="img/logo-innova-blanco.png" alt="Logo Innova Blanco" class="header-logo" />
+            <!-- Use the exact filename present in the repo and provide a safe onerror fallback -->
+            <img src="img/Logo-innova-blanco.png" alt="Logo Innova Blanco" class="header-logo" onerror="this.onerror=null; this.src='img/home-icon.svg';" />
             <img src="img/logo-muni-blanco.png" alt="Logo Municipalidad" class="header-logo" />
         </div>
         
@@ -68,7 +69,7 @@
             const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
                 // Try to load reclamos even if userId is not present: filter will attempt to match by email or rut
                 if (!userId) {
-                    console.log('No se encontró ID de usuario en localStorage/sessionStorage, intentando cargar reclamos y filtrar por email/rut');
+                    console.log('No se encontró ID de usuario, intentando cargar reclamos y filtrar por email/rut');
                 }
 
                 // Cargar reclamos desde la API (will fetch by depa if available, otherwise fetch all and client will filter)

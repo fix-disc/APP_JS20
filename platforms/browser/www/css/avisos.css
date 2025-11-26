@@ -32,7 +32,7 @@ html, body {
     margin: 0 auto;
     /* Limit height to a percentage of the viewport so descriptive text can fit
        inside the list and the box will scroll if needed. */
-    max-height: 76vh;
+    max-height: 71vh;
     background: #129be5;
     border-radius: 7px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);

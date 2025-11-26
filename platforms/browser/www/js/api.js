@@ -5,13 +5,38 @@ base_url = "https://web.innovarecoleta.cl/IPR_api/api/v1.0/"
 
 
 async function get_users(id){
-    url = base_url
-    if(uuid != undefined){
-        url = base_url + "api.php?uuid=" + id;
+    if (!id) return [];
+
+    const candidates = [
+        base_url + "usuarios.php?id=" + encodeURIComponent(id),
+        base_url + "usuarios.php?usuario=" + encodeURIComponent(id),
+        base_url + "usuarios.php?uuid=" + encodeURIComponent(id),
+        base_url + "api.php?uuid=" + encodeURIComponent(id)
+    ];
+
+    for (const url of candidates) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) continue;
+            const text = await response.text();
+            try {
+                const data = JSON.parse(text);
+                // If response looks like a user or array, return it
+                if (data && (Array.isArray(data) ? data.length > 0 : Object.keys(data).length > 0)) {
+                    return data;
+                }
+            } catch (e) {
+                // ignore JSON parse errors and try next candidate
+                continue;
+            }
+        } catch (err) {
+            // network error for this candidate - try next
+            console.warn('get_users candidate failed:', url, err);
+            continue;
+        }
     }
-    let response = await fetch(url);
-    let data = await response.json();
-    return data; 
+
+    return [];
 }
 
 async function get_tipo_reclamo(){
@@ -62,10 +87,10 @@ async function login_usuario(usuario, password){
     try {
         let response = await fetch(url);
         let data = await response.json();
-        alert('DATA:' + JSON.stringify(data));
+        //alert('DATA:' + JSON.stringify(data));
         return data; 
     } catch (error) {
-        alert('Error fetch login:', error);
+        //alert('Error fetch login:', error);
         return [];
     }
 }

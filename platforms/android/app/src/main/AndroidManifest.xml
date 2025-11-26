@@ -18,6 +18,9 @@
         <provider android:authorities="${applicationId}.cordova.plugin.mediacapture.provider" android:exported="false" android:grantUriPermissions="true" android:name="org.apache.cordova.mediacapture.FileProvider">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/mediacapture_provider_paths" />
         </provider>
+        <provider android:authorities="${applicationId}.fileOpener2.provider" android:exported="false" android:grantUriPermissions="true" android:name="io.github.pwlin.cordova.plugins.fileopener2.FileProvider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/opener_paths" />
+        </provider>
     </application>
     <queries>
         <intent>
@@ -36,4 +39,5 @@
     </queries>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 </manifest>

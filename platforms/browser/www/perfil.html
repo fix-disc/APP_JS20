@@ -1,46 +1,100 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
     <title>Mi Perfil</title>
     <link rel="stylesheet" href="css/home.css" />
     <link rel="stylesheet" href="css/perfil.css" />
+    <style>
+        /* notifications: small non-blocking boxes */
+        .profile-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 14px;
+            border-radius: 8px;
+            color: #fff;
+            z-index: 2500;
+            font-weight: 600;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+            max-width: 92%;
+            display: inline-block;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .notification-info { background:#2196F3 }
+        .notification-success { background:#16a34a }
+        .notification-error { background:#dc2626 }
+        .notification-exit { opacity:0; transition: opacity 0.3s }
+
+        /* PDF modal (tarjeta) */
+        .pdf-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.55); z-index: 2200; }
+        .pdf-modal[aria-hidden="false"] { display: flex; }
+        .pdf-card { background: #fff; border-radius: 10px; width: 92%; max-width: 980px; height: 82vh; display:flex; flex-direction:column; overflow:hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+        .pdf-card-header { display:flex; align-items:center; gap:12px; padding:12px 16px; border-bottom:1px solid #eee; }
+        .pdf-card-header h3 { margin:0; font-size:16px; color:#0f172a; }
+        .pdf-close { margin-left:auto; background:transparent; border:0; font-size:24px; line-height:1; cursor:pointer; padding:6px; }
+        .pdf-body { flex:1; background:#f6f6f7; display:flex; }
+        .pdf-body iframe, .pdf-body object { width:100%; height:100%; border:0; }
+        .pdf-card-footer { padding:10px 14px; border-top:1px solid #eee; display:flex; gap:8px; justify-content:flex-end; }
+        .pdf-action-btn { background:#1e40af; color:#fff; border:0; padding:8px 12px; border-radius:8px; cursor:pointer }
+        @media (max-width:480px){ .pdf-card{ height:88vh; } .pdf-card-header h3{ font-size:14px } }
+    </style>
 </head>
 <body>
     <div class="perfil-container">
         <div class="header-logos">
-            <img src="img/Logo-innova-blanco.png" alt="Logo Innova Blanco" class="header-logo" />
+            <img src="img/Logo-innova-blanco.png" alt="Logo Innova Blanco" class="header-logo" onerror="this.onerror=null; this.src='img/home-icon.svg'" />
             <img src="img/logo-muni-blanco.png" alt="Logo Municipalidad" class="header-logo" />
         </div>
         <h2>Mi Perfil</h2>
         <img src="img/user.png" alt="Foto de perfil" class="perfil-foto" id="perfilFoto" />
         <input type="file" accept="image/*" id="fotoInput" class="hidden-input" />
-        
-        <!-- Contenedor de botón centrado -->
-        <div style="display: flex; justify-content: center; align-items: center; width: 100%; margin-bottom: 12px;">
+
+        <div style="display:flex; justify-content:center; align-items:center; width:100%; margin-bottom:12px;">
             <button class="perfil-foto-btn" onclick="document.getElementById('fotoInput').click()">CAMBIAR FOTO</button>
         </div>
-        
+
         <div class="perfil-info" id="perfilInfo">
             <strong>Nombre:</strong> <span id="nombreUsuario">Cargando...</span><br>
             <strong>Email:</strong> <span id="emailUsuario">Cargando...</span><br>
+            <strong>RUT:</strong> <span id="rutUsuario">Cargando...</span><br>
         </div>
+
         <div class="docs-section">
             <div class="docs-title">DOCUMENTOS</div>
             <div class="docs-list">
                 <div class="doc-item reglamento-item">
                     <span class="doc-name">📄 Reglamento de Convivencia</span>
                     <div class="doc-actions">
-                        <button onclick="abrirReglamento()" class="doc-link reglamento-btn">Ver PDF</button>
+                        <button id="verPdfBtn" type="button" class="doc-link reglamento-btn">Ver PDF</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- PDF modal (tarjeta) -->
+        <div id="pdfModal" class="pdf-modal" aria-hidden="true" role="dialog" aria-label="Visor de PDF">
+            <div class="pdf-card" role="document">
+                <div class="pdf-card-header">
+                    <h3 id="pdfTitle">Reglamento de Convivencia</h3>
+                    <button id="pdfCloseBtn" class="pdf-close" onclick="cerrarReglamento()" aria-label="Cerrar tarjeta">&times;</button>
+                </div>
+                <div class="pdf-body">
+                    <iframe id="pdfIframe" title="Visor PDF" src="" frameborder="0" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+                </div>
+                <div class="pdf-card-footer">
+                    <button class="pdf-action-btn" id="pdfDownloadBtn">Descargar</button>
+                    <button class="pdf-action-btn" id="pdfCloseFooterBtn">Cerrar</button>
+                </div>
+            </div>
+        </div>
     </div>
-    
+
     <div class="home-icon-wrap">
         <a href="home.html" class="home-icon" aria-label="Ir al inicio">
-            <img src="img/home-icon.svg" alt="Inicio" class="home-icon-img" style="height:56px">
+            <img src="img/home-icon.svg" alt="Inicio" class="home-icon-img" style="height:56px" />
         </a>
         <span class="home-label">IR A INICIO</span>
     </div>
@@ -48,153 +102,161 @@
     <script src="js/api.js"></script>
     <script src="js/behaviour.js"></script>
     <script>
-        // Cargar datos del usuario al cargar la página
-        window.addEventListener('load', function() {
-            cargarDatosUsuario();
-            cargarFotoPerfil();
-        });
-        
-        async function cargarDatosUsuario() {
-            try {
-                // Primero intentar obtener datos del localStorage
+        // page init
+        window.addEventListener('load', function(){ cargarDatosUsuario(); cargarFotoPerfil(); });
+
+        async function cargarDatosUsuario(){
+            try{
                 const userEmail = localStorage.getItem('userEmail');
                 const userName = localStorage.getItem('userName');
                 const userRut = localStorage.getItem('userRut');
-                
+
                 if (userEmail || userName) {
-                    // Si hay datos en localStorage, mostrarlos
                     document.getElementById('nombreUsuario').textContent = userName || 'No disponible';
                     document.getElementById('emailUsuario').textContent = userEmail || 'No disponible';
                     document.getElementById('rutUsuario').textContent = userRut || 'No disponible';
-                } else {
-                    // Si no hay datos en localStorage, intentar obtener de la API
-                    const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
-                    
-                    if (userId) {
-                        const userData = await get_users(userId);
-                        
-                        if (userData && userData.length > 0) {
-                            const usuario = userData[0];
-                            
-                            document.getElementById('nombreUsuario').textContent = usuario.nombre || 'No disponible';
-                            document.getElementById('emailUsuario').textContent = usuario.email || 'No disponible';
-                            document.getElementById('rutUsuario').textContent = usuario.rut || 'No disponible';
-                        } else {
-                            mostrarDatosNoDisponibles();
-                        }
-                    } else {
-                        mostrarDatosNoDisponibles();
-                    }
+                    return;
                 }
-            } catch (error) {
-                console.error('Error al cargar datos del usuario:', error);
-                mostrarDatosNoDisponibles();
-            }
+
+                const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId');
+                if (!userId) { mostrarDatosNoDisponibles(); return; }
+
+                const userData = await get_users(userId);
+                const usuario = Array.isArray(userData) ? (userData[0] || null) : (userData || null);
+                if (usuario && Object.keys(usuario).length>0) {
+                    document.getElementById('nombreUsuario').textContent = usuario.nombre || 'No disponible';
+                    document.getElementById('emailUsuario').textContent = usuario.email || 'No disponible';
+                    document.getElementById('rutUsuario').textContent = usuario.rut || 'No disponible';
+                } else {
+                    mostrarDatosNoDisponibles();
+                }
+            } catch(e){ console.error('Error al cargar datos del usuario:', e); mostrarDatosNoDisponibles(); }
         }
-        
-        function mostrarDatosNoDisponibles() {
+
+        function mostrarDatosNoDisponibles(){
             document.getElementById('nombreUsuario').textContent = 'No disponible';
             document.getElementById('emailUsuario').textContent = 'No disponible';
             document.getElementById('rutUsuario').textContent = 'No disponible';
         }
 
-        // Función para cargar la foto de perfil guardada
-        function cargarFotoPerfil() {
+        function cargarFotoPerfil(){
             const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
             const fotoGuardada = localStorage.getItem(`perfil_foto_${userId}`);
-            
-            if (fotoGuardada) {
-                document.getElementById('perfilFoto').src = fotoGuardada;
-            }
+            if (fotoGuardada) document.getElementById('perfilFoto').src = fotoGuardada;
         }
 
-        // Función para guardar la foto de perfil
-        function guardarFotoPerfil(fotoDataURL) {
+        function guardarFotoPerfil(fotoDataURL){
             const userId = localStorage.getItem('userId') || sessionStorage.getItem('userId') || 'default';
             localStorage.setItem(`perfil_foto_${userId}`, fotoDataURL);
-            
-            // Mostrar mensaje de confirmación
-            mostrarNotificacion('Foto de perfil guardada correctamente', 'success');
+            mostrarNotificacion('Foto de perfil guardada correctamente','success');
         }
 
-        // Foto de perfil modificable
-        const fotoInput = document.getElementById('fotoInput');
-        const perfilFoto = document.getElementById('perfilFoto');
-        fotoInput.addEventListener('change', function(e) {
+        document.getElementById('fotoInput').addEventListener('change', function(e){
             const file = e.target.files[0];
-            if (file) {
-                // Validar que sea una imagen
-                if (!file.type.startsWith('image/')) {
-                    mostrarNotificacion('Por favor, selecciona un archivo de imagen válido', 'error');
-                    return;
-                }
-                
-                // Validar tamaño (máximo 5MB)
-                if (file.size > 5 * 1024 * 1024) {
-                    mostrarNotificacion('La imagen es muy grande. Máximo 5MB permitido', 'error');
-                    return;
-                }
-                
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    perfilFoto.src = ev.target.result;
-                    guardarFotoPerfil(ev.target.result);
-                };
-                reader.readAsDataURL(file);
-            }
+            if (!file) return;
+            if (!file.type.startsWith('image/')) { mostrarNotificacion('Por favor, selecciona un archivo de imagen válido','error'); return; }
+            if (file.size > 5*1024*1024) { mostrarNotificacion('La imagen es muy grande. Máximo 5MB permitido','error'); return; }
+            const reader = new FileReader();
+            reader.onload = function(ev){ document.getElementById('perfilFoto').src = ev.target.result; guardarFotoPerfil(ev.target.result); };
+            reader.readAsDataURL(file);
         });
 
-        // Función para abrir el reglamento de convivencia
-        function abrirReglamento() {
-            // Crear un enlace temporal y hacer click para abrir el PDF
-            const enlace = document.createElement('a');
-            enlace.href = 'docs/Reglamento de Convivencia_JS1.pdf';
-            enlace.target = '_blank';
-            enlace.rel = 'noopener noreferrer';
-            
-            // Para dispositivos móviles, intentar abrir directamente
-            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                // En móviles, abrir en nueva pestaña/ventana
-                window.open(enlace.href, '_blank', 'noopener,noreferrer');
-            } else {
-                // En escritorio, usar el método tradicional
-                document.body.appendChild(enlace);
-                enlace.click();
-                document.body.removeChild(enlace);
-            }
-            
-            // Mostrar notificación
-            mostrarNotificacion('Abriendo Reglamento de Convivencia...', 'info');
+        // abrir reglamento: mostrar PDF dentro de una tarjeta-modal en la misma página (iframe)
+        function abrirReglamento(){
+            const assetPath = 'docs/Reglamento de Convivencia_JS1.pdf';
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfIframe');
+            // set src and show modal
+            iframe.src = assetPath;
+            modal.setAttribute('aria-hidden','false');
+            document.body.style.overflow = 'hidden';
+            // focus en boton de cerrar
+            setTimeout(()=>{ const c = document.getElementById('pdfCloseBtn'); if(c) c.focus(); }, 80);
         }
 
+        // bind button after DOM ready
+        document.addEventListener('DOMContentLoaded', function(){
+            const btn = document.getElementById('verPdfBtn');
+            if (btn) btn.addEventListener('click', abrirReglamento);
+        });
 
+        // modal close
+        function cerrarReglamento(){
+            const modal = document.getElementById('pdfModal');
+            const iframe = document.getElementById('pdfIframe');
+            try{ iframe.src = ''; }catch(e){}
+            modal.setAttribute('aria-hidden','true');
+            document.documentElement.style.overflow = '';
+            document.body.style.overflow = '';
+        }
 
+        // footer/close button behavior for modal
+        document.addEventListener('DOMContentLoaded', function(){
+            const closeBtn = document.getElementById('pdfCloseBtn');
+            const closeFooter = document.getElementById('pdfCloseFooterBtn');
+            const downloadBtn = document.getElementById('pdfDownloadBtn');
+            if (closeBtn) closeBtn.addEventListener('click', cerrarReglamento);
+            if (closeFooter) closeFooter.addEventListener('click', cerrarReglamento);
+            if (downloadBtn) downloadBtn.addEventListener('click', function(){
+                // If running inside Cordova and fileOpener2 is available, use native flow
+                if (window.cordova && cordova.plugins && cordova.plugins.fileOpener2) {
+                    abrirReglamentoNativo();
+                    return;
+                }
+                const pdf = document.getElementById('pdfIframe').src || 'docs/Reglamento de Convivencia_JS1.pdf';
+                const a = document.createElement('a'); a.href = pdf; a.download = ''; a.target = '_blank'; document.body.appendChild(a); a.click(); a.remove();
+            });
+            // close on ESC
+            document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ const modal = document.getElementById('pdfModal'); if(modal && modal.getAttribute('aria-hidden') === 'false'){ cerrarReglamento(); } } });
+        });
 
+        function mostrarNotificacion(mensaje,tipo='info'){
+            const existing = document.querySelector('.profile-notification'); if (existing) existing.remove();
+            const n = document.createElement('div'); n.className = `profile-notification notification-${tipo}`; n.textContent = mensaje; document.body.appendChild(n);
+            setTimeout(()=>{ n.classList.add('notification-exit'); setTimeout(()=>n.remove(),300); }, 3000);
+        }
 
-        // Función para mostrar notificaciones
-        function mostrarNotificacion(mensaje, tipo = 'info') {
-            // Remover notificación previa si existe
-            const existingNotification = document.querySelector('.profile-notification');
-            if (existingNotification) {
-                existingNotification.remove();
+        /* --- Native open flow: request permission, write file to Download/ (or cache) and open with fileOpener2 --- */
+        function abrirReglamentoNativo(){
+            const filename = 'Reglamento de Convivencia_JS1.pdf';
+            const assetUrl = 'docs/' + filename;
+            const permissions = window.cordova && cordova.plugins && cordova.plugins.permissions;
+
+            function ensureAndProceed(){
+                // Choose base dir: prefer external Download, fallback to cacheDirectory
+                const baseDir = (window.cordova && cordova.file && cordova.file.externalRootDirectory) ? cordova.file.externalRootDirectory + 'Download/' : (cordova.file && cordova.file.cacheDirectory) ? cordova.file.cacheDirectory : null;
+                if (!baseDir) { mostrarNotificacion('No se pudo determinar ruta de almacenamiento nativa','error'); window.open(assetUrl, '_blank'); return; }
+
+                // fetch asset as blob and write
+                fetch(assetUrl).then(function(resp){ if(!resp.ok) throw new Error('HTTP '+resp.status); return resp.blob(); })
+                .then(function(blob){
+                    window.resolveLocalFileSystemURL(baseDir, function(dirEntry){
+                        dirEntry.getFile(filename, {create:true, exclusive:false}, function(fileEntry){
+                            fileEntry.createWriter(function(fileWriter){
+                                fileWriter.onwriteend = function(){
+                                    // Open with fileOpener2
+                                    try{
+                                        const fileUrl = fileEntry.toURL();
+                                        cordova.plugins.fileOpener2.open(fileUrl, 'application/pdf', { showOpenWithDialog:true }, function(){ /* success */ }, function(err){ console.error('open error',err); mostrarNotificacion('Error abriendo PDF nativamente','error'); });
+                                    }catch(e){ console.error(e); mostrarNotificacion('Error abriendo PDF','error'); }
+                                };
+                                fileWriter.onerror = function(e){ console.error('write error',e); mostrarNotificacion('Error escribiendo el PDF','error'); };
+                                fileWriter.write(blob);
+                            }, function(err){ console.error('createWriter',err); mostrarNotificacion('Error al crear escritor de archivo','error'); });
+                        }, function(err){ console.error('getFile',err); mostrarNotificacion('Error creando archivo en dispositivo','error'); });
+                    }, function(err){ console.error('resolveLocalFileSystemURL',err); mostrarNotificacion('Error acceso al sistema de archivos','error'); });
+                }).catch(function(err){ console.error('fetch asset',err); mostrarNotificacion('Error descargando el PDF','error'); });
             }
 
-            // Crear nueva notificación
-            const notification = document.createElement('div');
-            notification.className = `profile-notification notification-${tipo}`;
-            notification.textContent = mensaje;
-            
-            document.body.appendChild(notification);
-
-            // Remover la notificación después de 4 segundos
-            setTimeout(() => {
-                notification.classList.add('notification-exit');
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 4000);
+            if (permissions && permissions.requestPermission){
+                // request WRITE_EXTERNAL_STORAGE (older Android) — if denied, fallback to opening in browser
+                permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE, function(status){
+                    if (status && status.hasPermission) { ensureAndProceed(); }
+                    else { mostrarNotificacion('Permiso de almacenamiento denegado, abriendo en navegador','info'); window.open(assetUrl, '_blank'); }
+                }, function(err){ console.error('perm request',err); mostrarNotificacion('No se pudo solicitar permiso','error'); window.open(assetUrl, '_blank'); });
+            } else {
+                ensureAndProceed();
+            }
         }
     </script>
 </body>
