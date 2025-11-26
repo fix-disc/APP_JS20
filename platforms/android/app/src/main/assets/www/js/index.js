@@ -7,6 +7,7 @@ function onDeviceReady() {
     console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
     document.getElementById('deviceready').classList.add('ready');
     console.log("UUID: " + uuid)
+    var fileTransfer = new FileTransfer();
 
     //window.plugins.phonenumber.get(success, failed);
     //console.log("My number is " + phonenumber);

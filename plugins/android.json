@@ -35,6 +35,9 @@
     "cordova-plugin-file": {
       "ANDROIDX_WEBKIT_VERSION": "1.4.0",
       "PACKAGE_NAME": "io.cordova.hellocordova"
+    },
+    "cordova-plugin-file-transfer": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {}

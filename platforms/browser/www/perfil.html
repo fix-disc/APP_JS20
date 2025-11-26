@@ -163,15 +163,38 @@
 
         // abrir reglamento: mostrar PDF dentro de una tarjeta-modal en la misma página (iframe)
         function abrirReglamento(){
-            const assetPath = 'docs/Reglamento de Convivencia_JS1.pdf';
-            const modal = document.getElementById('pdfModal');
-            const iframe = document.getElementById('pdfIframe');
-            // set src and show modal
-            iframe.src = assetPath;
-            modal.setAttribute('aria-hidden','false');
-            document.body.style.overflow = 'hidden';
-            // focus en boton de cerrar
-            setTimeout(()=>{ const c = document.getElementById('pdfCloseBtn'); if(c) c.focus(); }, 80);
+            window.location = "https://web.innovarecoleta.cl/IPRapp/archivos/Reglamento%20de%20Convivencia_JS1.pdf";
+            //var fileTransfer = new FileTransfer();
+            //var uri = encodeURI("https://web.innovarecoleta.cl/IPRapp/archivos/Reglamento%20de%20Convivencia_JS1.pdf");
+
+            //fileTransfer.download(
+            //    uri,
+            //    fileURL,
+            //    function(entry) {
+            //        console.log("download complete: " + entry.toURL());
+            //    },
+            //    function(error) {
+            //        console.log("download error source " + error.source);
+            //        console.log("download error target " + error.target);
+            //        console.log("download error code" + error.code);
+            //    },
+            //    false,
+            //    {
+            //        headers: {
+            //            "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+            //        }
+            //    }
+            //);
+
+            //const assetPath = 'docs/Reglamento de Convivencia_JS1.pdf';
+            //const modal = document.getElementById('pdfModal');
+            //const iframe = document.getElementById('pdfIframe');
+            //// set src and show modal
+            //iframe.src = assetPath;
+            //modal.setAttribute('aria-hidden','false');
+            //document.body.style.overflow = 'hidden';
+            //// focus en boton de cerrar
+            //setTimeout(()=>{ const c = document.getElementById('pdfCloseBtn'); if(c) c.focus(); }, 80);
         }
 
         // bind button after DOM ready
@@ -218,45 +241,47 @@
 
         /* --- Native open flow: request permission, write file to Download/ (or cache) and open with fileOpener2 --- */
         function abrirReglamentoNativo(){
-            const filename = 'Reglamento de Convivencia_JS1.pdf';
-            const assetUrl = 'docs/' + filename;
-            const permissions = window.cordova && cordova.plugins && cordova.plugins.permissions;
+            
 
-            function ensureAndProceed(){
-                // Choose base dir: prefer external Download, fallback to cacheDirectory
-                const baseDir = (window.cordova && cordova.file && cordova.file.externalRootDirectory) ? cordova.file.externalRootDirectory + 'Download/' : (cordova.file && cordova.file.cacheDirectory) ? cordova.file.cacheDirectory : null;
-                if (!baseDir) { mostrarNotificacion('No se pudo determinar ruta de almacenamiento nativa','error'); window.open(assetUrl, '_blank'); return; }
+            //const filename = 'Reglamento de Convivencia_JS1.pdf';
+            //const assetUrl = 'docs/' + filename;
+            //const permissions = window.cordova && cordova.plugins && cordova.plugins.permissions;
 
-                // fetch asset as blob and write
-                fetch(assetUrl).then(function(resp){ if(!resp.ok) throw new Error('HTTP '+resp.status); return resp.blob(); })
-                .then(function(blob){
-                    window.resolveLocalFileSystemURL(baseDir, function(dirEntry){
-                        dirEntry.getFile(filename, {create:true, exclusive:false}, function(fileEntry){
-                            fileEntry.createWriter(function(fileWriter){
-                                fileWriter.onwriteend = function(){
-                                    // Open with fileOpener2
-                                    try{
-                                        const fileUrl = fileEntry.toURL();
-                                        cordova.plugins.fileOpener2.open(fileUrl, 'application/pdf', { showOpenWithDialog:true }, function(){ /* success */ }, function(err){ console.error('open error',err); mostrarNotificacion('Error abriendo PDF nativamente','error'); });
-                                    }catch(e){ console.error(e); mostrarNotificacion('Error abriendo PDF','error'); }
-                                };
-                                fileWriter.onerror = function(e){ console.error('write error',e); mostrarNotificacion('Error escribiendo el PDF','error'); };
-                                fileWriter.write(blob);
-                            }, function(err){ console.error('createWriter',err); mostrarNotificacion('Error al crear escritor de archivo','error'); });
-                        }, function(err){ console.error('getFile',err); mostrarNotificacion('Error creando archivo en dispositivo','error'); });
-                    }, function(err){ console.error('resolveLocalFileSystemURL',err); mostrarNotificacion('Error acceso al sistema de archivos','error'); });
-                }).catch(function(err){ console.error('fetch asset',err); mostrarNotificacion('Error descargando el PDF','error'); });
-            }
-
-            if (permissions && permissions.requestPermission){
-                // request WRITE_EXTERNAL_STORAGE (older Android) — if denied, fallback to opening in browser
-                permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE, function(status){
-                    if (status && status.hasPermission) { ensureAndProceed(); }
-                    else { mostrarNotificacion('Permiso de almacenamiento denegado, abriendo en navegador','info'); window.open(assetUrl, '_blank'); }
-                }, function(err){ console.error('perm request',err); mostrarNotificacion('No se pudo solicitar permiso','error'); window.open(assetUrl, '_blank'); });
-            } else {
-                ensureAndProceed();
-            }
+            //function ensureAndProceed(){
+            //    // Choose base dir: prefer external Download, fallback to cacheDirectory
+            //    const baseDir = (window.cordova && cordova.file && cordova.file.externalRootDirectory) ? cordova.file.externalRootDirectory + 'Download/' : (cordova.file && cordova.file.cacheDirectory) ? cordova.file.cacheDirectory : null;
+            //    if (!baseDir) { mostrarNotificacion('No se pudo determinar ruta de almacenamiento nativa','error'); window.open(assetUrl, '_blank'); return; }
+//
+            //    // fetch asset as blob and write
+            //    fetch(assetUrl).then(function(resp){ if(!resp.ok) throw new Error('HTTP '+resp.status); return resp.blob(); })
+            //    .then(function(blob){
+            //        window.resolveLocalFileSystemURL(baseDir, function(dirEntry){
+            //            dirEntry.getFile(filename, {create:true, exclusive:false}, function(fileEntry){
+            //                fileEntry.createWriter(function(fileWriter){
+            //                    fileWriter.onwriteend = function(){
+            //                        // Open with fileOpener2
+            //                        try{
+            //                            const fileUrl = fileEntry.toURL();
+            //                            cordova.plugins.fileOpener2.open(fileUrl, 'application/pdf', { showOpenWithDialog:true }, function(){ /* success */ }, function(err){ console.error('open error',err); mostrarNotificacion('Error abriendo PDF nativamente','error'); });
+            //                        }catch(e){ console.error(e); mostrarNotificacion('Error abriendo PDF','error'); }
+            //                    };
+            //                    fileWriter.onerror = function(e){ console.error('write error',e); mostrarNotificacion('Error escribiendo el PDF','error'); };
+            //                    fileWriter.write(blob);
+            //                }, function(err){ console.error('createWriter',err); mostrarNotificacion('Error al crear escritor de archivo','error'); });
+            //            }, function(err){ console.error('getFile',err); mostrarNotificacion('Error creando archivo en dispositivo','error'); });
+            //        }, function(err){ console.error('resolveLocalFileSystemURL',err); mostrarNotificacion('Error acceso al sistema de archivos','error'); });
+            //    }).catch(function(err){ console.error('fetch asset',err); mostrarNotificacion('Error descargando el PDF','error'); });
+            //}
+//
+            //if (permissions && permissions.requestPermission){
+            //    // request WRITE_EXTERNAL_STORAGE (older Android) — if denied, fallback to opening in browser
+            //    permissions.requestPermission(permissions.WRITE_EXTERNAL_STORAGE, function(status){
+            //        if (status && status.hasPermission) { ensureAndProceed(); }
+            //        else { mostrarNotificacion('Permiso de almacenamiento denegado, abriendo en navegador','info'); window.open(assetUrl, '_blank'); }
+            //    }, function(err){ console.error('perm request',err); mostrarNotificacion('No se pudo solicitar permiso','error'); window.open(assetUrl, '_blank'); });
+            //} else {
+            //    ensureAndProceed();
+            //}
         }
     </script>
 </body>
